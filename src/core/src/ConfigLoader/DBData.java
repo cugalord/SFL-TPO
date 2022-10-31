@@ -5,11 +5,11 @@ package ConfigLoader;
  */
 public class DBData {
     /** The database name. */
-    private String name;
+    private final String name;
     /** The database location. */
-    private String ip;
+    private final String ip;
     /** The database port. */
-    private String port;
+    private final String port;
 
     /**
      * Constructs a new DBData instance with default values.
@@ -37,7 +37,7 @@ public class DBData {
      * @return String - The String representation of the object.
      */
     public String toString() {
-        return "[Name = " + this.name + ", ip = " + this.ip + "]";
+        return "[Name = " + this.name + ", ip = " + this.ip + ", port = " + this.port + "]";
     }
 
     /**

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <db_settings>
-    <schema id="test">
-        <ip>127.0.0.2</ip>
-        <port>3336</port>
+    <schema id="test_tpo">
+        <ip>127.0.0.1</ip>
+        <port>3306</port>
     </schema>
 </db_settings>

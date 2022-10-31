@@ -1,8 +1,6 @@
 import DBCore.DBAPI;
 import ConfigLoader.*;
 
-import java.util.Vector;
-
 /**
  * Class containing test cases.
  */
@@ -31,9 +29,9 @@ public class Test {
             System.out.println("Test 1.1 passed.");
         }
 
-        if (!data.toString().equals("[Name = test, ip = 127.0.0.2]")) {
+        if (!data.toString().equals("[Name = test_tpo, ip = 127.0.0.1, port = 3306]")) {
             System.out.println("Test 1.2 not passed.");
-            System.out.println("Expected: " + "[Name = test, ip = 127.0.0.2]" + " || Result: " + data);
+            System.out.println("Expected: " + "[Name = test_tpo, ip = 127.0.0.1, port = 3306]" + " || Result: " + data);
         }
         else {
             System.out.println("Test 1.2 passed.");
