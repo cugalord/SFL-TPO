@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<db_settings>
+    <schema id="test">
+        <ip>127.0.0.2</ip>
+    </schema>
+</db_settings>
