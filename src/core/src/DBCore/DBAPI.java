@@ -10,8 +10,4 @@ public class DBAPI {
         core = new DBCore();
     }
 
-    public void printHey() {
-        System.out.println("Hey!");
-        core.printHey();
-    }
 }

@@ -2,5 +2,6 @@
 <db_settings>
     <schema id="test">
         <ip>127.0.0.2</ip>
+        <port>3336</port>
     </schema>
 </db_settings>

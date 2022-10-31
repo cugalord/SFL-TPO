@@ -10,22 +10,21 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.util.Vector;
 
 /**
  * A config file loader.
  */
 public class ConfigLoader {
-    /** The different configurations. */
-    private final Vector<DBData> data;
-    /** The config path. */
+    /** The database configuration. */
+    private DBData data;
+    /** The configuration path. */
     private final String configPath = "config.xml";
 
     /**
      * Constructs a ConfigLoader instance.
      */
     public ConfigLoader() {
-        this.data = new Vector<>();
+        this.data = null;
     }
 
     /**
@@ -47,10 +46,14 @@ public class ConfigLoader {
 
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element)node;
-                    this.data.addElement(new DBData(
+                    this.data = new DBData(
                             element.getAttribute("id"),
-                            element.getElementsByTagName("ip").item(0).getTextContent()
-                    ));
+                            element.getElementsByTagName("ip").item(0).getTextContent(),
+                            element.getElementsByTagName("port").item(0).getTextContent()
+                    );
+
+                    // The config should always contain only 1 database connection data.
+                    break;
                 }
             }
         } catch (Exception e) {
@@ -60,9 +63,9 @@ public class ConfigLoader {
 
     /**
      * Fetches the config data.
-     * @return Vector\<DBData\> the config data stored internally.
+     * @return Vector\<DBData\> - The config data stored internally.
      */
-    public Vector<DBData> fetchData() {
+    public DBData fetchData() {
         return this.data;
     }
 

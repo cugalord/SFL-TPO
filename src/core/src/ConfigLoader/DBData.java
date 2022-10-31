@@ -8,6 +8,8 @@ public class DBData {
     private String name;
     /** The database location. */
     private String ip;
+    /** The database port. */
+    private String port;
 
     /**
      * Constructs a new DBData instance with default values.
@@ -15,21 +17,24 @@ public class DBData {
     protected DBData() {
         this.name = "default";
         this.ip = "127.0.0.1";
+        this.port = "3331";
     }
 
     /**
      * Constructs a new DBData instance with given values.
-     * @param name The database name.
-     * @param ip The database ip.
+     * @param name String - The database name.
+     * @param ip String - The database ip.
+     * @param port String - The database port.
      */
-    protected DBData(String name, String ip) {
+    protected DBData(String name, String ip, String port) {
         this.name = name;
         this.ip = ip;
+        this.port = port;
     }
 
     /**
      * Converts object to String.
-     * @return the String representation of the object.
+     * @return String - The String representation of the object.
      */
     public String toString() {
         return "[Name = " + this.name + ", ip = " + this.ip + "]";
@@ -37,7 +42,7 @@ public class DBData {
 
     /**
      * The database name getter.
-     * @return The database name.
+     * @return String - The database name.
      */
     public String getName() {
         return this.name;
@@ -45,9 +50,18 @@ public class DBData {
 
     /**
      * The database ip getter.
-     * @return The database ip.
+     * @return String - The database ip.
      */
     public String getIP () {
         return this.ip;
     }
+
+    /**
+     * The database port getter.
+     * @return String - The database port.
+     */
+    public String getPort() {
+        return this.port;
+    }
+
 }

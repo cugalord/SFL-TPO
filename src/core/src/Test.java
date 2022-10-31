@@ -11,15 +11,6 @@ public class Test {
         System.out.println("Hello world!");
 
         DBAPI api = new DBAPI();
-        api.printHey();
-
-        /*ConfigLoader cfgldr = new ConfigLoader();
-        cfgldr.load();
-        Vector<DBData> data = cfgldr.fetchData();
-
-        for (DBData d : data) {
-            System.out.println(d);
-        }*/
 
         configLoaderTests();
     }
@@ -27,22 +18,22 @@ public class Test {
     static void configLoaderTests() {
         ConfigLoader cfgldr = new ConfigLoader();
         cfgldr.load();
-        Vector<DBData> data = cfgldr.fetchData();
+        DBData data = cfgldr.fetchData();
 
 
         System.out.println("ConfigLoader tests:");
 
-        if (data.size() != 1) {
+        if (data == null) {
             System.out.println("Test 1.1 not passed.");
-            System.out.println("Expected: " + 1 + " || Result: " + data.size());
+            System.out.println("Data is null.");
         }
         else {
             System.out.println("Test 1.1 passed.");
         }
 
-        if (!data.get(0).toString().equals("[Name = test, ip = 127.0.0.2]")) {
+        if (!data.toString().equals("[Name = test, ip = 127.0.0.2]")) {
             System.out.println("Test 1.2 not passed.");
-            System.out.println("Expected: " + "[Name = test, ip = 127.0.0.2]" + " || Result: " + data.get(0));
+            System.out.println("Expected: " + "[Name = test, ip = 127.0.0.2]" + " || Result: " + data);
         }
         else {
             System.out.println("Test 1.2 passed.");
