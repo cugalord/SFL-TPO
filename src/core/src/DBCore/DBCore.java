@@ -100,7 +100,7 @@ class DBCore {
             this.connectionEstablished = false;
 
             this.dbConnection.close();
-        } catch (java.sql.SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
