@@ -23,7 +23,7 @@ public class Logger {
     /**
      * Constructs a new default Logger instance.
      */
-    protected Logger() {
+    public Logger() {
 
     }
 

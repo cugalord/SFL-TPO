@@ -23,8 +23,12 @@ The module structure is as follows:
     connection manager.
   - The `DBAPI.java` file contains the public facing API of a database 
     manipulation tool.
+- The `Logger` directory contains the implementation of the logging package, 
+  which can be used in multiple parts of the project:
+  - The `Logger.java` file contains the implementation of the Logger.
 - The `config.xml` file contains the database url parameters, such as ip, 
   port and schema name.
+- The `system.log` file contains the log of messages from the SFL-Core module.
 
 ## 3. Building
 

@@ -2,6 +2,7 @@ package DBCore;
 
 import ConfigLoader.ConfigLoader;
 import ConfigLoader.DBData;
+import Logger.Logger;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,6 +14,8 @@ import java.sql.SQLException;
 class DBCore {
     /** The database config loader. */
     private final ConfigLoader cfgLoader;
+    /** The logger. */
+    private final Logger logger;
     /** The database connection. */
     private Connection dbConnection;
     /** The MySQL connection string. */
@@ -29,6 +32,7 @@ class DBCore {
      */
     protected DBCore() {
         this.cfgLoader = new ConfigLoader();
+        this.logger = new Logger();
         this.connectionEstablished = true;
     }
 
@@ -41,6 +45,7 @@ class DBCore {
         DBData data = cfgLoader.fetchData();
 
         if (data == null) {
+            this.logger.log("DBCore:setUrlParameters: Database data is null.", Logger.MessageType.ERROR);
             throw new Exception("DBCore:setUrlParameters: Database data is null.");
         }
 
@@ -68,6 +73,7 @@ class DBCore {
             this.dbConnection = DriverManager.getConnection(this.url, this.username, this.password);
             this.connectionEstablished = true;
         } catch (SQLException e) {
+            this.logger.log("DBCore:init: " + e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
         }
     }
@@ -82,10 +88,13 @@ class DBCore {
             this.setUrlParameters();
             this.setLoginParameters(username, password);
         } catch (Exception e) {
+            this.logger.log("DBCore:login: " + e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
         }
 
         this.init();
+        this.logger.log("DBCore:login: User " + username + " succesfully logged into the database at url" +
+                this.url, Logger.MessageType.LOG);
     }
 
     /**
@@ -93,6 +102,7 @@ class DBCore {
      * @throws java.sql.SQLException
      */
     void logout() {
+        String tmpUsername = this.username;
         try {
             this.url = "jdbc:mysql://<ip>:<port>/<dbname>";
             this.username = "";
@@ -101,8 +111,11 @@ class DBCore {
 
             this.dbConnection.close();
         } catch (SQLException e) {
+            this.logger.log("DBCore:logout: " + e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
         }
+
+        this.logger.log("DBCore:logout: User " + tmpUsername + " logged out.", Logger.MessageType.LOG);
     }
 
     /**

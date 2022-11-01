@@ -1,5 +1,7 @@
 package ConfigLoader;
 
+import Logger.Logger;
+
 import java.io.File;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -18,12 +20,15 @@ public class ConfigLoader {
     private DBData data;
     /** The configuration path. */
     private final String configPath = "config.xml";
+    /** The logger. */
+    private final Logger logger;
 
     /**
      * Constructs a ConfigLoader instance.
      */
     public ConfigLoader() {
         this.data = null;
+        this.logger = new Logger();
     }
 
     /**
@@ -56,6 +61,7 @@ public class ConfigLoader {
                 }
             }
         } catch (Exception e) {
+            this.logger.log("ConfigLoader:load: " + e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
         }
     }

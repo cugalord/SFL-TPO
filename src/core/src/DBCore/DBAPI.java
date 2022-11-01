@@ -5,7 +5,7 @@ package DBCore;
  */
 public class DBAPI {
     /** The database connection management core functionality. */
-    private DBCore core;
+    private final DBCore core;
 
     /**
      * Constructs a new database API instance.
