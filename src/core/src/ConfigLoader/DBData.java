@@ -1,7 +1,7 @@
 package ConfigLoader;
 
 /**
- * A database configuration object.
+ * A database configuration data object.
  */
 public class DBData {
     /** The database name. */
@@ -52,7 +52,7 @@ public class DBData {
      * The database ip getter.
      * @return String - The database ip.
      */
-    public String getIP () {
+    public String getIP() {
         return this.ip;
     }
 

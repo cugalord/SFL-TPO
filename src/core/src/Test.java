@@ -1,5 +1,6 @@
 import DBCore.DBAPI;
 import ConfigLoader.*;
+import Logger.Logger;
 
 /**
  * Class containing test cases.
@@ -9,6 +10,12 @@ public class Test {
         System.out.println("Hello world!");
 
         DBAPI api = new DBAPI();
+
+        Logger log = new Logger("system.log");
+
+        log.log("Test message!", Logger.MessageType.LOG);
+        log.log("Test warning!", Logger.MessageType.WARNING);
+        log.log("Test error!", Logger.MessageType.ERROR);
 
         configLoaderTests();
     }

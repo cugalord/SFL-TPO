@@ -27,7 +27,7 @@ class DBCore {
     /**
      * Constructs a new database core instance.
      */
-    DBCore() {
+    protected DBCore() {
         this.cfgLoader = new ConfigLoader();
         this.connectionEstablished = true;
     }

@@ -25,3 +25,11 @@ The module structure is as follows:
     manipulation tool.
 - The `config.xml` file contains the database url parameters, such as ip, 
   port and schema name.
+
+## 3. Building
+
+The module SFL-Core should be pre-built into a .jar file, to ensure 
+better portability. The .jar is created using the IntelliJ artifact creator,
+and can be included into other projects either via GUI or manually via commands
+`javac -cp .;core.jar <.java-files>` and run with 
+`java -cp .;core.jar main.java`.
