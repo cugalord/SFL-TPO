@@ -17,9 +17,20 @@ public class Test {
         log.log("Test warning!", Logger.MessageType.WARNING);
         log.log("Test error!", Logger.MessageType.ERROR);
 
+        api.login("tpo-tester", "password");
+        api.testPreparedStmtUpdate();
+        api.testPreparedStmtSelect();
+        api.testPreparedStmtUpdate2();
+        api.testPreparedStmtSelect2();
+        api.logout();
+
         configLoaderTests();
+        DBAPITests();
     }
 
+    /**
+     * Tests for the configuration loader.
+     */
     static void configLoaderTests() {
         ConfigLoader cfgldr = new ConfigLoader();
         cfgldr.load();
@@ -42,6 +53,35 @@ public class Test {
         }
         else {
             System.out.println("Test 1.2 passed.");
+        }
+    }
+
+    /**
+     * Test for the database api.
+     */
+    static void DBAPITests() {
+        DBAPI dbapi = new DBAPI();
+
+        System.out.println("DBAPI tests:");
+
+        dbapi.login("tpo-tester", "password");
+
+        if (!dbapi.isConnectionEstablished()) {
+            System.out.println("Test 2.1 not passed.");
+            System.out.println("Connection is not established.");
+        }
+        else {
+            System.out.println("Test 2.1 passed.");
+        }
+
+        dbapi.logout();
+
+        if (dbapi.isConnectionEstablished()) {
+            System.out.println("Test 2.2 not passed.");
+            System.out.println("Connection is established.");
+        }
+        else {
+            System.out.println("Test 2.2 passed.");
         }
     }
 }

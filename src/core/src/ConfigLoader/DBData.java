@@ -63,5 +63,4 @@ public class DBData {
     public String getPort() {
         return this.port;
     }
-
 }

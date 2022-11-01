@@ -33,7 +33,6 @@ public class ConfigLoader {
 
     /**
      * Loads the data from the config xml file.
-     * @throws javax.xml.parsers.ParserConfigurationException
      */
     public void load() {
         try {
@@ -68,10 +67,9 @@ public class ConfigLoader {
 
     /**
      * Fetches the config data.
-     * @return Vector\<DBData\> - The config data stored internally.
+     * @return DBData - The config data stored internally.
      */
     public DBData fetchData() {
         return this.data;
     }
-
 }

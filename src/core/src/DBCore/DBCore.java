@@ -66,7 +66,6 @@ class DBCore {
 
     /**
      * Initializes the database connection.
-     * @throws java.sql.SQLException
      */
     private void init() {
         try {
@@ -81,7 +80,6 @@ class DBCore {
     /**
      * Logs into the database with the login parameters and url. This method encapsulates setting of parameters
      * and initialization.
-     * @throws Exception If setUrlParameters fails.
      */
     void login(String username, String password) {
         try {
@@ -93,13 +91,12 @@ class DBCore {
         }
 
         this.init();
-        this.logger.log("DBCore:login: User " + username + " succesfully logged into the database at url" +
-                this.url, Logger.MessageType.LOG);
+        this.logger.log("DBCore:login: User " + username + " successfully logged into the database at url" +
+                this.url + ".", Logger.MessageType.LOG);
     }
 
     /**
      * Closes the current database connection.
-     * @throws java.sql.SQLException
      */
     void logout() {
         String tmpUsername = this.username;
@@ -115,7 +112,8 @@ class DBCore {
             e.printStackTrace();
         }
 
-        this.logger.log("DBCore:logout: User " + tmpUsername + " logged out.", Logger.MessageType.LOG);
+        this.logger.log("DBCore:logout: User " + tmpUsername + " successfully logged out.",
+                Logger.MessageType.LOG);
     }
 
     /**
@@ -133,5 +131,4 @@ class DBCore {
     boolean isConnectionEstablished() {
         return this.connectionEstablished;
     }
-
 }

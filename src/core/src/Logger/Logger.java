@@ -36,7 +36,7 @@ public class Logger {
     }
 
     /**
-     * Logs the message.
+     * Logs the message in format date time type: message.
      * @param message String - The message to log.
      */
     public void log(String message, MessageType type) {
@@ -66,11 +66,11 @@ public class Logger {
             e.printStackTrace();
         } finally {
             try {
+                // Try to close writer no matter what happens.
                 writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-
 }
