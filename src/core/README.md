@@ -1,12 +1,21 @@
 # SFL-Core
 
+## Table of contents:
+1. [Description](#1-description)
+2. [Structure](#2-structure)
+3. [Building](#3-building)
+4. [Extending](#4-extending)
+5. [Public facing APIs](#5-public-facing-apis)
+   1. [DBAPI](#51-dbapi)
+   2. [Utils](#52-utils)
+
 ## 1. Description
 
 The module SFL-Core contains the implementation of the lowest level
 core functionality of the SFL project. It contains classes that are 
-used to fetch data from configs, connecting to the database and a 
-public facing API that contains the functions used in other sections 
-of the project.
+used to fetch data from configs, logging, utilities, connecting to 
+the database and a public facing API that contains the methods used 
+in other sections of the project.
 
 ## 2. Structure
 
@@ -39,3 +48,35 @@ better portability. The .jar is created using the IntelliJ artifact creator,
 and can be included into other projects either via GUI or manually via commands
 `javac -cp .;core.jar <.java-files>` and run with 
 `java -cp .;core.jar main.java`.
+
+## 4. Extending
+
+To extend the functionality of this module modify only the DBAPI.java or 
+Utils.java files. Modify the DBAPI.java file by adding new methods under 
+the `// PREPARED STATEMENTS` comment and recompile the jar.
+
+## 5. Public facing APIs
+
+### 5.1 DBAPI
+
+The DBAPI class methods are split into 2 sections, the connection management 
+methods and the database "manipulation" methods. 
+
+The connection management methods are:
+- `login(String username, String password)`
+- `logout()`
+
+Before using any of the database manipulation methods, the user must first
+call the login() method to create connection to the database (for which the
+parameters are stored in the config.xml file). When the user wants to stop
+the connection, the logout() method must be called.
+
+The database manipulation methods are:
+- `getCountOfIdenticalParcelIDs(String ParcelID)`
+- `getCountOfIdenticalUsernames(String username)`
+
+### 5.2 Utils
+
+The Utils class contains the following methods:
+- `generateParcelID(DBAPI dbapi, String country)`
+- `generateUsername(DBAPI dbapi, String name, String surname)`
