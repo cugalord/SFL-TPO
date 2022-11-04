@@ -1,4 +1,5 @@
-src/core/out
+src/core/out/production
 src/core/.idea
-src/database/.idea
 src/core/core.iml
+
+src/database/.idea

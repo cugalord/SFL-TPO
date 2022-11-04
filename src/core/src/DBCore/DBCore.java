@@ -104,20 +104,27 @@ class DBCore {
      */
     void logout() {
         String tmpUsername = this.username;
-        try {
-            this.url = "jdbc:mysql://<ip>:<port>/<dbname>";
-            this.username = "";
-            this.password = "";
-            this.connectionEstablished = false;
+        this.url = "jdbc:mysql://<ip>:<port>/<dbname>";
+        this.username = "";
+        this.password = "";
 
+        // If the connection is not established, skip the logout process.
+        if (!this.connectionEstablished) {
+            return;
+        }
+
+        try {
+            this.connectionEstablished = false;
             this.dbConnection.close();
         } catch (SQLException e) {
             this.logger.log("DBCore:logout: " + e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
         }
 
-        this.logger.log("DBCore:logout: User " + tmpUsername + " successfully logged out.",
-                Logger.MessageType.LOG);
+        if (!this.connectionEstablished) {
+            this.logger.log("DBCore:logout: User " + tmpUsername + " successfully logged out.",
+                    Logger.MessageType.LOG);
+        }
     }
 
     /**

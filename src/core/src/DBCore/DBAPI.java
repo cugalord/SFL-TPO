@@ -26,7 +26,6 @@ public class DBAPI {
         this.core = new DBCore();
         this.logger = new Logger();
         this.statements = new PreparedStatement[10];
-        this.precompileStatements();
     }
 
     /**
@@ -55,6 +54,7 @@ public class DBAPI {
         this.logger.log("DBAPI:login: The user " + username + " is trying to log in.", Logger.MessageType.LOG);
         this.currentUser = username;
         this.core.login(username, password);
+        this.precompileStatements();
     }
 
     /**

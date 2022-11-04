@@ -27,6 +27,8 @@ public class Test {
         System.out.println("Password: ");
         String password = scan.nextLine();
 
+        api.login(username, password);
+
         if (args[0].equals("--tests-run=true")) {
             configLoaderTests();
             DBAPITests();
