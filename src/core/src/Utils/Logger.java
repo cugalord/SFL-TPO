@@ -1,4 +1,4 @@
-package Logger;
+package Utils;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

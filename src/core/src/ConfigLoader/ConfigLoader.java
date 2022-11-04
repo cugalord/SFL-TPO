@@ -1,6 +1,6 @@
 package ConfigLoader;
 
-import Logger.Logger;
+import Utils.Logger;
 
 import java.io.File;
 

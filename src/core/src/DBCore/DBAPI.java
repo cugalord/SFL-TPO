@@ -1,6 +1,6 @@
 package DBCore;
 
-import Logger.Logger;
+import Utils.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +16,8 @@ public class DBAPI {
     private final Logger logger;
     /** The current username. */
     private String currentUser;
+    /** The list of precompiled prepared statements. */
+    private final PreparedStatement [] statements;
 
     /**
      * Constructs a new database API instance.
@@ -23,6 +25,25 @@ public class DBAPI {
     public DBAPI() {
         this.core = new DBCore();
         this.logger = new Logger();
+        this.statements = new PreparedStatement[10];
+        this.precompileStatements();
+    }
+
+    /**
+     * Pre-compiles the prepared statements to be used later. This is to increase performance, as the statements
+     * need to be compiled only once.
+     */
+    private void precompileStatements() {
+        try {
+            this.statements[0] = this.core.getDbConnection()
+                    .prepareStatement("SELECT COUNT(id) AS idcount FROM parcel WHERE id = ?");
+            this.statements[1] = this.core.getDbConnection()
+                    .prepareStatement("SELECT COUNT(username) AS uscount FROM customer WHERE username = ?");
+            // ... more statements.
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -55,6 +76,44 @@ public class DBAPI {
     }
 
     // PREPARED STATEMENTS
+
+    /**
+     * Gets the number of identical parcel IDs from database.
+     * @param parcelID String - The parcel ID to check.
+     * @return int - The number of identical IDs.
+     */
+    public int getCountOfIdenticalParcelIDs(String parcelID) {
+        int count = -1;
+        try {
+            this.statements[0].setString(0, parcelID);
+            ResultSet rs = this.statements[0].executeQuery();
+            count = rs.getInt("idcount");
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    /**
+     * Gets the number of identical usernames from database.
+     * @param userID String - The username to check.
+     * @return int - The number of identical usernames.
+     */
+    public int getCountOfIdenticalUsernames(String userID) {
+        int count = -1;
+        try {
+            this.statements[1].setString(0, userID);
+            ResultSet rs = this.statements[1].executeQuery();
+            count = rs.getInt("uscount");
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    // TODO: Remove following methods.
 
     public void testPreparedStmtUpdate() {
         try {

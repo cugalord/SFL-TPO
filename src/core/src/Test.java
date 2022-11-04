@@ -1,6 +1,8 @@
 import DBCore.DBAPI;
 import ConfigLoader.*;
-import Logger.Logger;
+import Utils.Logger;
+
+import java.util.Scanner;
 
 /**
  * Class containing test cases.
@@ -17,15 +19,26 @@ public class Test {
         log.log("Test warning!", Logger.MessageType.WARNING);
         log.log("Test error!", Logger.MessageType.ERROR);
 
-        api.login("tpo-tester", "password");
-        api.testPreparedStmtUpdate();
-        api.testPreparedStmtSelect();
-        api.testPreparedStmtUpdate2();
-        api.testPreparedStmtSelect2();
-        api.logout();
+        System.out.println("Is connection established: " + api.isConnectionEstablished());
 
-        configLoaderTests();
-        DBAPITests();
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Username: ");
+        String username = scan.nextLine();
+        System.out.println("Password: ");
+        String password = scan.nextLine();
+
+        if (args[0].equals("--tests-run=true")) {
+            configLoaderTests();
+            DBAPITests();
+        }
+
+        try {
+            Thread.sleep(5000);
+        } catch (Exception e) {
+
+        }
+
+        api.logout();
     }
 
     /**
@@ -35,7 +48,6 @@ public class Test {
         ConfigLoader cfgldr = new ConfigLoader();
         cfgldr.load();
         DBData data = cfgldr.fetchData();
-
 
         System.out.println("ConfigLoader tests:");
 

@@ -2,7 +2,7 @@ package DBCore;
 
 import ConfigLoader.ConfigLoader;
 import ConfigLoader.DBData;
-import Logger.Logger;
+import Utils.Logger;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -38,15 +38,15 @@ class DBCore {
 
     /**
      * Sets the database url parameters.
-     * @throws Exception If database info could not be retrieved.
+     * @throws NullPointerException If database info could not be retrieved.
      */
-    private void setUrlParameters() throws Exception {
+    private void setUrlParameters() throws NullPointerException {
         cfgLoader.load();
         DBData data = cfgLoader.fetchData();
 
         if (data == null) {
             this.logger.log("DBCore:setUrlParameters: Database data is null.", Logger.MessageType.ERROR);
-            throw new Exception("DBCore:setUrlParameters: Database data is null.");
+            throw new NullPointerException("DBCore:setUrlParameters: Database data is null.");
         }
 
         this.url = url.replace("<ip>", data.getIP());
@@ -82,17 +82,21 @@ class DBCore {
      * and initialization.
      */
     void login(String username, String password) {
+        boolean successful = true;
         try {
             this.setUrlParameters();
             this.setLoginParameters(username, password);
         } catch (Exception e) {
             this.logger.log("DBCore:login: " + e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
+            successful = false;
         }
 
-        this.init();
-        this.logger.log("DBCore:login: User " + username + " successfully logged into the database at url" +
-                this.url + ".", Logger.MessageType.LOG);
+        if (successful) {
+            this.init();
+            this.logger.log("DBCore:login: User " + username + " successfully logged into the database at url " +
+                    this.url + ".", Logger.MessageType.LOG);
+        }
     }
 
     /**
