@@ -1,6 +1,7 @@
-import DBCore.DBAPI;
 import ConfigLoader.*;
+import DBCore.DBAPI;
 import Utils.Logger;
+import Utils.Utils;
 
 import java.util.Scanner;
 
@@ -36,6 +37,14 @@ public class Test {
 
         try {
             Thread.sleep(5000);
+        } catch (Exception e) {
+
+        }
+
+        try {
+            System.out.println(Utils.generateParcelID(api, "GER"));
+            System.out.println(Utils.generateUsername(api, "", ""));
+            System.out.println(Utils.generateUsername(api, "Majmun", "Bogoslavijević"));
         } catch (Exception e) {
 
         }

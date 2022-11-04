@@ -85,11 +85,12 @@ public class DBAPI {
     public int getCountOfIdenticalParcelIDs(String parcelID) {
         int count = -1;
         try {
-            this.statements[0].setString(0, parcelID);
+            this.statements[0].setString(1, parcelID);
             ResultSet rs = this.statements[0].executeQuery();
+            rs.next();
             count = rs.getInt("idcount");
         } catch (SQLException e) {
-            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            this.logger.log("DBAPI:getCountOfIdenticalParcelIDS: " + e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
         }
         return count;
@@ -103,11 +104,12 @@ public class DBAPI {
     public int getCountOfIdenticalUsernames(String userID) {
         int count = -1;
         try {
-            this.statements[1].setString(0, userID);
+            this.statements[1].setString(1, userID);
             ResultSet rs = this.statements[1].executeQuery();
+            rs.next();
             count = rs.getInt("uscount");
         } catch (SQLException e) {
-            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            this.logger.log("DBAPI:getCountOfIdenticalUsernames: " + e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
         }
         return count;

@@ -9,9 +9,27 @@ import java.util.Random;
  */
 public class Utils {
     /**
+     * Generates a random alphanumeric string of given length.
+     * @param targetLength int - The target length of string.
+     * @return String - The random alphanumeric string.
+     */
+    private static String generateRandomAlphanumericString(int targetLength) {
+        final int lowerLimit = 48; // Character '0'.
+        final int upperLimit = 122; // Character 'z'.
+
+        return new Random()
+                .ints(lowerLimit, upperLimit)
+                // Leave out non-alphanumeric characters.
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(targetLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+    }
+
+    /**
      * Generates an 8 character parcel ID in format: ISOCODExxxxx where x means random alphanumeric character.
      * @param country String - The country ISO code.
-     * @return String - The 8 character parcel ID.
+     * @return String - The 8 character parcel ID or null if timed out.
      * @throws Exception If country ISO code is in wrong format.
      * @throws NullPointerException If database API pointer is null.
      */
@@ -26,24 +44,18 @@ public class Utils {
 
         StringBuilder result;
         int identicalIDs = -1;
+        int attemptCount = 0;
 
         do {
             result = new StringBuilder(country);
-
-            final int lowerLimit = 48; // Character '0'.
-            final int upperLimit = 122; // Character 'z'.
-            final int targetLength = 5;
-
-            result.append(new Random()
-                    .ints(lowerLimit, upperLimit)
-                    // Leave out non-alphanumeric characters.
-                    .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-                    .limit(targetLength)
-                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                    .toString()
-            );
+            result.append(Utils.generateRandomAlphanumericString(5));
 
             identicalIDs = dbapi.getCountOfIdenticalParcelIDs(result.toString());
+
+            attemptCount++;
+            if (attemptCount > 20) {
+                return null;
+            }
         } while (identicalIDs != 0);
 
         return result.toString();
@@ -54,39 +66,40 @@ public class Utils {
      * generate only reference number.
      * @param name String - The user's name.
      * @param surname String - The user's surname.
-     * @return String - The 10 character username.
+     * @return String - The 10 character username or null if timed out.
      * @throws NullPointerException If database API pointer is null.
      */
     public static String generateUsername(DBAPI dbapi, String name, String surname) throws NullPointerException {
         if (dbapi == null) {
             throw new NullPointerException("Utils:generateUserID: Database API is null.");
         }
+
         StringBuilder result;
         int identicalIDs = -1;
+        int attemptCount = 0;
 
         do {
             if (name.equals("") || surname.equals("")) {
                 result = new StringBuilder();
             }
             else {
-                result = new StringBuilder(name.substring(0, 2));
-                result.append(surname, 0, 2);
+                if (name.length() < 2 || surname.length() < 2) {
+                    result = new StringBuilder();
+                }
+                else {
+                    result = new StringBuilder(name.substring(0, 2));
+                    result.append(surname, 0, 2);
+                }
             }
 
-            final int lowerLimit = 48; // Character '0'.
-            final int upperLimit = 122; // Character 'z'.
-            final int targetLength = 10 - result.length(); // Number of random characters to be generated, 10 being max.
-
-            result.append(new Random()
-                    .ints(lowerLimit, upperLimit)
-                    // Leave out non-alphanumeric characters.
-                    .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-                    .limit(targetLength)
-                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                    .toString()
-            );
+            result.append(Utils.generateRandomAlphanumericString(10 - result.length()));
 
             identicalIDs = dbapi.getCountOfIdenticalUsernames(result.toString());
+
+            attemptCount++;
+            if (attemptCount > 20) {
+                return null;
+            }
         } while (identicalIDs != 0);
 
         return result.toString();

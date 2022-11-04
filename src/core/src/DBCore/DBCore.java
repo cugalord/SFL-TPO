@@ -19,11 +19,11 @@ class DBCore {
     /** The database connection. */
     private Connection dbConnection;
     /** The MySQL connection string. */
-    private String url = "jdbc:mysql://<ip>:<port>/<dbname>";
+    private String url;
     /** The username to connect with. */
-    private String username = "";
+    private String username;
     /** The password to connect with. */
-    private String password = "";
+    private String password;
     /** The flag that signifies if the connection is currently established. */
     private boolean connectionEstablished;
 
@@ -33,6 +33,10 @@ class DBCore {
     protected DBCore() {
         this.cfgLoader = new ConfigLoader();
         this.logger = new Logger();
+
+        this.url  = "jdbc:mysql://<ip>:<port>/<dbname>";
+        this.username = "";
+        this.password = "";
         this.connectionEstablished = true;
     }
 
