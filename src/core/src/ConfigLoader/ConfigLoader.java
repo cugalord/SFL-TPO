@@ -60,7 +60,7 @@ public class ConfigLoader {
                 }
             }
         } catch (Exception e) {
-            this.logger.log("ConfigLoader:load: " + e.getMessage(), Logger.MessageType.ERROR);
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
         }
     }

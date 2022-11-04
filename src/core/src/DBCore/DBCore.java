@@ -76,7 +76,7 @@ class DBCore {
             this.dbConnection = DriverManager.getConnection(this.url, this.username, this.password);
             this.connectionEstablished = true;
         } catch (SQLException e) {
-            this.logger.log("DBCore:init: " + e.getMessage(), Logger.MessageType.ERROR);
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
         }
     }
@@ -91,14 +91,14 @@ class DBCore {
             this.setUrlParameters();
             this.setLoginParameters(username, password);
         } catch (Exception e) {
-            this.logger.log("DBCore:login: " + e.getMessage(), Logger.MessageType.ERROR);
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
             successful = false;
         }
 
         if (successful) {
             this.init();
-            this.logger.log("DBCore:login: User " + username + " successfully logged into the database at url " +
+            this.logger.log("User " + username + " successfully logged into the database at url " +
                     this.url + ".", Logger.MessageType.LOG);
         }
     }
@@ -121,12 +121,12 @@ class DBCore {
             this.connectionEstablished = false;
             this.dbConnection.close();
         } catch (SQLException e) {
-            this.logger.log("DBCore:logout: " + e.getMessage(), Logger.MessageType.ERROR);
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
         }
 
         if (!this.connectionEstablished) {
-            this.logger.log("DBCore:logout: User " + tmpUsername + " successfully logged out.",
+            this.logger.log("User " + tmpUsername + " successfully logged out.",
                     Logger.MessageType.LOG);
         }
     }

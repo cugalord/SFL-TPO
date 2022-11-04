@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
  */
 public class Logger {
     /** The log file path. */
-    private String logPath = "system.log";
+    private String logPath;
     /** The file writer. */
     private BufferedWriter writer;
     /** The message type. */
@@ -24,7 +24,7 @@ public class Logger {
      * Constructs a new default Logger instance.
      */
     public Logger() {
-
+        this.logPath  = "system.log";
     }
 
     /**
@@ -54,6 +54,19 @@ public class Logger {
                 case ERROR -> this.writer.append("Error: ");
             }
 
+            // Generate string of class_name:method which calls this method.
+            this.writer.append(
+                    new Exception()
+                            .getStackTrace()[1]
+                            .getClassName()
+            );
+            this.writer.append(':');
+            this.writer.append(
+                    new Exception()
+                            .getStackTrace()[1]
+                            .getMethodName()
+            );
+            this.writer.append(": ");
             this.writer.append(message);
             this.writer.append(System.lineSeparator());
 

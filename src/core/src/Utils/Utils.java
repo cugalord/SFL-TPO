@@ -35,11 +35,10 @@ public class Utils {
      */
     public static String generateParcelID(DBAPI dbapi, String country) throws Exception {
         if (dbapi == null) {
-            throw new NullPointerException("Utils:generateParcelIDs: Database API is null.");
+            throw new NullPointerException("Database API is null.");
         }
         if (country.length() != 3) {
-            throw new Exception("Utils:generateParcelIDs: " +
-                    "Country ISO code length is " + country.length() + " instead of 3 characters long.");
+            throw new Exception("Country ISO code length is " + country.length() + " instead of 3 characters long.");
         }
 
         StringBuilder result;
@@ -71,7 +70,7 @@ public class Utils {
      */
     public static String generateUsername(DBAPI dbapi, String name, String surname) throws NullPointerException {
         if (dbapi == null) {
-            throw new NullPointerException("Utils:generateUserID: Database API is null.");
+            throw new NullPointerException("Database API is null.");
         }
 
         StringBuilder result;

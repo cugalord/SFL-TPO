@@ -1,28 +1,14 @@
-2022-11-04 15:46:27 Log: Test message!
+2022-11-04 16:57:45 Log: Test:main: Test message!
 ================================================================================
-2022-11-04 15:46:27 Warning: Test warning!
+2022-11-04 16:57:45 Warning: Test:main: Test warning!
 ================================================================================
-2022-11-04 15:46:27 Error: Test error!
+2022-11-04 16:57:45 Error: Test:main: Test error!
 ================================================================================
-2022-11-04 15:46:34 Log: DBAPI:login: The user Sveigl is trying to log in.
+2022-11-04 16:57:52 Log: DBCore.DBAPI:login: The user Sveigl is trying to log in.
 ================================================================================
-2022-11-04 15:46:35 Log: DBCore:login: User Sveigl successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+2022-11-04 16:57:53 Log: DBCore.DBCore:login: User Sveigl successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
 ================================================================================
-2022-11-04 15:46:40 Log: DBAPI:logout: The user Sveigl is trying to log out.
+2022-11-04 16:57:58 Log: DBCore.DBAPI:logout: The user Sveigl is trying to log out.
 ================================================================================
-2022-11-04 15:46:40 Log: DBCore:logout: User Sveigl successfully logged out.
-================================================================================
-2022-11-04 16:06:06 Log: Test message!
-================================================================================
-2022-11-04 16:06:06 Warning: Test warning!
-================================================================================
-2022-11-04 16:06:06 Error: Test error!
-================================================================================
-2022-11-04 16:06:12 Log: DBAPI:login: The user Sveigl is trying to log in.
-================================================================================
-2022-11-04 16:06:13 Log: DBCore:login: User Sveigl successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
-================================================================================
-2022-11-04 16:06:18 Log: DBAPI:logout: The user Sveigl is trying to log out.
-================================================================================
-2022-11-04 16:06:18 Log: DBCore:logout: User Sveigl successfully logged out.
+2022-11-04 16:57:58 Log: DBCore.DBCore:logout: User Sveigl successfully logged out.
 ================================================================================

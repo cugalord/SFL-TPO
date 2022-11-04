@@ -51,7 +51,7 @@ public class DBAPI {
      * @param password String - The password.
      */
     public void login(String username, String password) {
-        this.logger.log("DBAPI:login: The user " + username + " is trying to log in.", Logger.MessageType.LOG);
+        this.logger.log("The user " + username + " is trying to log in.", Logger.MessageType.LOG);
         this.currentUser = username;
         this.core.login(username, password);
         this.precompileStatements();
@@ -61,7 +61,7 @@ public class DBAPI {
      * Logs out of the database.
      */
     public void logout() {
-        this.logger.log("DBAPI:logout: The user " + this.currentUser + " is trying to log out.",
+        this.logger.log("The user " + this.currentUser + " is trying to log out.",
                 Logger.MessageType.LOG);
         this.core.logout();
         this.currentUser = "";
@@ -90,7 +90,7 @@ public class DBAPI {
             rs.next();
             count = rs.getInt("idcount");
         } catch (SQLException e) {
-            this.logger.log("DBAPI:getCountOfIdenticalParcelIDS: " + e.getMessage(), Logger.MessageType.ERROR);
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
         }
         return count;
@@ -98,78 +98,20 @@ public class DBAPI {
 
     /**
      * Gets the number of identical usernames from database.
-     * @param userID String - The username to check.
+     * @param username String - The username to check.
      * @return int - The number of identical usernames.
      */
-    public int getCountOfIdenticalUsernames(String userID) {
+    public int getCountOfIdenticalUsernames(String username) {
         int count = -1;
         try {
-            this.statements[1].setString(1, userID);
+            this.statements[1].setString(1, username);
             ResultSet rs = this.statements[1].executeQuery();
             rs.next();
             count = rs.getInt("uscount");
         } catch (SQLException e) {
-            this.logger.log("DBAPI:getCountOfIdenticalUsernames: " + e.getMessage(), Logger.MessageType.ERROR);
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
         }
         return count;
-    }
-
-    // TODO: Remove following methods.
-
-    public void testPreparedStmtUpdate() {
-        try {
-            PreparedStatement stmt = this.core.getDbConnection().prepareStatement("insert into test values(?,?)");
-            stmt.setInt(1, 3);
-            stmt.setString(2, "klm");
-            int i = stmt.executeUpdate();
-            System.out.println(i + " records inserted.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void testPreparedStmtSelect() {
-        try {
-            PreparedStatement stmt = this.core.getDbConnection().prepareStatement("select * from test");
-            //stmt.setInt(1, 12); <- this breaks the query with no error!
-            ResultSet rs = stmt.executeQuery();
-            int i = 0;
-            while (rs.next()) {
-                System.out.println(rs.getInt(1) + " " + rs.getString(2));
-                i++;
-            }
-            System.out.println(i + " records queried.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void testPreparedStmtUpdate2() {
-        try {
-            PreparedStatement stmt = this.core.getDbConnection().prepareStatement("insert into test2(name) values(?)");
-            //stmt.setInt(1, 3);
-            stmt.setString(1, "abc");
-            int i = stmt.executeUpdate();
-            System.out.println(i + " records inserted.");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    public void testPreparedStmtSelect2() {
-        try {
-            PreparedStatement stmt = this.core.getDbConnection().prepareStatement("select * from test2");
-            ResultSet rs = stmt.executeQuery();
-            int i = 0;
-            while (rs.next()) {
-                System.out.println(rs.getInt(1) + " " + rs.getString(2));
-                i++;
-            }
-            System.out.println(i + " records queried.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }
