@@ -1,5 +1,6 @@
 package DBCore;
 
+import Data.DataCount;
 import Utils.Logger;
 
 import java.sql.PreparedStatement;
@@ -54,7 +55,9 @@ public class DBAPI {
         this.logger.log("The user " + username + " is trying to log in.", Logger.MessageType.LOG);
         this.currentUser = username;
         this.core.login(username, password);
-        this.precompileStatements();
+        if (this.core.isConnectionEstablished()) {
+            this.precompileStatements();
+        }
     }
 
     /**
@@ -82,13 +85,13 @@ public class DBAPI {
      * @param parcelID String - The parcel ID to check.
      * @return int - The number of identical IDs.
      */
-    public int getCountOfIdenticalParcelIDs(String parcelID) {
-        int count = -1;
+    public DataCount getCountOfIdenticalParcelIDs(String parcelID) {
+        DataCount count = new DataCount(0, -1);
         try {
             this.statements[0].setString(1, parcelID);
             ResultSet rs = this.statements[0].executeQuery();
             rs.next();
-            count = rs.getInt("idcount");
+            count = new DataCount(0, rs.getInt("idcount"));
         } catch (SQLException e) {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
@@ -101,13 +104,13 @@ public class DBAPI {
      * @param username String - The username to check.
      * @return int - The number of identical usernames.
      */
-    public int getCountOfIdenticalUsernames(String username) {
-        int count = -1;
+    public DataCount getCountOfIdenticalUsernames(String username) {
+        DataCount count = new DataCount(0, -1);
         try {
             this.statements[1].setString(1, username);
             ResultSet rs = this.statements[1].executeQuery();
             rs.next();
-            count = rs.getInt("uscount");
+            count = new DataCount(0,  rs.getInt("uscount"));
         } catch (SQLException e) {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();

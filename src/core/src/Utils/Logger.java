@@ -79,8 +79,9 @@ public class Logger {
             e.printStackTrace();
         } finally {
             try {
+                this.writer.flush();
                 // Try to close writer no matter what happens.
-                writer.close();
+                this.writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }

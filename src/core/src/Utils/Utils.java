@@ -28,6 +28,7 @@ public class Utils {
 
     /**
      * Generates an 8 character parcel ID in format: ISOCODExxxxx where x means random alphanumeric character.
+     * @param dbapi DBAPI - The database api.
      * @param country String - The country ISO code.
      * @return String - The 8 character parcel ID or null if timed out.
      * @throws Exception If country ISO code is in wrong format.
@@ -49,7 +50,7 @@ public class Utils {
             result = new StringBuilder(country);
             result.append(Utils.generateRandomAlphanumericString(5));
 
-            identicalIDs = dbapi.getCountOfIdenticalParcelIDs(result.toString());
+            identicalIDs = dbapi.getCountOfIdenticalParcelIDs(result.toString()).value;
 
             attemptCount++;
             if (attemptCount > 20) {
@@ -63,6 +64,7 @@ public class Utils {
     /**
      * Generates a 10 character username based on name and surname. If name and surname are blank,
      * generate only reference number.
+     * @param dbapi DBAPI - The database api.
      * @param name String - The user's name.
      * @param surname String - The user's surname.
      * @return String - The 10 character username or null if timed out.
@@ -93,7 +95,7 @@ public class Utils {
 
             result.append(Utils.generateRandomAlphanumericString(10 - result.length()));
 
-            identicalIDs = dbapi.getCountOfIdenticalUsernames(result.toString());
+            identicalIDs = dbapi.getCountOfIdenticalUsernames(result.toString()).value;
 
             attemptCount++;
             if (attemptCount > 20) {
@@ -105,9 +107,32 @@ public class Utils {
     }
 
     /**
-     * Finds the shortest path from the source parcel center to the destination parcel center.
+     * Finds the shortest path (via parcel centers) between the sender and recipient address.
+     * @param dbapi DBAPI - The database api.
+     * @param senderAddress String - The sender address.
+     * @param recipientAddress String - The recipient address.
+     * @return String[] - The list of parcel centers.
      */
-    public static void shortestPath() {
+    public static String[] shortestPath(DBAPI dbapi, String senderAddress, String recipientAddress) {
+        // TODO: Get list of parcel centers from database
+        // TODO: Create graph of parcel centers
+        // TODO: Find the closest parcel center to sender address (in same country)
+        // TODO: Find the closest parcel center to recipient address (in same country)
+        // TODO: Run the shortest path algorithm between them
+        return null;
+    }
+
+    private class Vertex {
+
+    }
+
+    private class Edge {
+
+    }
+
+    private class Dijsktra {
 
     }
 }
+
+

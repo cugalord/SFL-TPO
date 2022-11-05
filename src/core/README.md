@@ -77,6 +77,6 @@ The database manipulation methods are:
 
 ### 5.2 Utils
 
-The Utils class contains the following methods:
+The Utils class contains the following STATIC methods:
 - `generateParcelID(DBAPI dbapi, String country)`
 - `generateUsername(DBAPI dbapi, String name, String surname)`

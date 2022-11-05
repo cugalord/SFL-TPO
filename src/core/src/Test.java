@@ -14,13 +14,13 @@ public class Test {
 
         DBAPI api = new DBAPI();
 
-        Logger log = new Logger("system.log");
+        /*Logger log = new Logger("system.log");
 
         log.log("Test message!", Logger.MessageType.LOG);
         log.log("Test warning!", Logger.MessageType.WARNING);
         log.log("Test error!", Logger.MessageType.ERROR);
 
-        System.out.println("Is connection established: " + api.isConnectionEstablished());
+        System.out.println("Is connection established: " + api.isConnectionEstablished());*/
 
         Scanner scan = new Scanner(System.in);
         System.out.println("Username: ");
@@ -30,16 +30,23 @@ public class Test {
 
         api.login(username, password);
 
+        System.out.println("Is connection established: " + api.isConnectionEstablished());
+
+        if (!api.isConnectionEstablished()) {
+            System.out.println("Fail");
+            return;
+        }
+
         if (args[0].equals("--tests-run=true")) {
             configLoaderTests();
             DBAPITests();
         }
 
-        try {
+        /*try {
             Thread.sleep(5000);
         } catch (Exception e) {
 
-        }
+        }*/
 
         try {
             System.out.println(Utils.generateParcelID(api, "GER"));

@@ -1,14 +1,16 @@
-2022-11-04 16:57:45 Log: Test:main: Test message!
+2022-11-05 16:22:31 Log: DBCore.DBAPI:login: The user a is trying to log in.
 ================================================================================
-2022-11-04 16:57:45 Warning: Test:main: Test warning!
+2022-11-05 16:22:31 Error: DBCore.DBCore:init: Access denied for user 'a'@'149.126.159.91' (using password: YES)
 ================================================================================
-2022-11-04 16:57:45 Error: Test:main: Test error!
+2022-11-05 16:23:09 Log: DBCore.DBAPI:login: The user a is trying to log in.
 ================================================================================
-2022-11-04 16:57:52 Log: DBCore.DBAPI:login: The user Sveigl is trying to log in.
+2022-11-05 16:23:10 Error: DBCore.DBCore:init: Access denied for user 'a'@'149.126.159.91' (using password: YES)
 ================================================================================
-2022-11-04 16:57:53 Log: DBCore.DBCore:login: User Sveigl successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+2022-11-05 16:24:09 Log: DBCore.DBAPI:login: The user a is trying to log in.
 ================================================================================
-2022-11-04 16:57:58 Log: DBCore.DBAPI:logout: The user Sveigl is trying to log out.
+2022-11-05 16:24:10 Error: DBCore.DBCore:init: Access denied for user 'a'@'149.126.159.91' (using password: YES)
 ================================================================================
-2022-11-04 16:57:58 Log: DBCore.DBCore:logout: User Sveigl successfully logged out.
+2022-11-05 16:25:29 Log: DBCore.DBAPI:login: The user a is trying to log in.
+================================================================================
+2022-11-05 16:25:29 Error: DBCore.DBCore:init: Access denied for user 'a'@'149.126.159.91' (using password: YES)
 ================================================================================

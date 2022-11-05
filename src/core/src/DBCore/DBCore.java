@@ -37,7 +37,7 @@ class DBCore {
         this.url  = "jdbc:mysql://<ip>:<port>/<dbname>";
         this.username = "";
         this.password = "";
-        this.connectionEstablished = true;
+        this.connectionEstablished = false;
     }
 
     /**
@@ -76,6 +76,7 @@ class DBCore {
             this.dbConnection = DriverManager.getConnection(this.url, this.username, this.password);
             this.connectionEstablished = true;
         } catch (SQLException e) {
+            this.connectionEstablished = false;
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
         }
@@ -90,7 +91,7 @@ class DBCore {
         try {
             this.setUrlParameters();
             this.setLoginParameters(username, password);
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
             successful = false;
@@ -98,8 +99,10 @@ class DBCore {
 
         if (successful) {
             this.init();
-            this.logger.log("User " + username + " successfully logged into the database at url " +
-                    this.url + ".", Logger.MessageType.LOG);
+            if (this.isConnectionEstablished()) {
+                this.logger.log("User " + username + " successfully logged into the database at url " +
+                        this.url + ".", Logger.MessageType.LOG);
+            }
         }
     }
 
@@ -113,7 +116,7 @@ class DBCore {
         this.password = "";
 
         // If the connection is not established, skip the logout process.
-        if (!this.connectionEstablished) {
+        if (!this.isConnectionEstablished()) {
             return;
         }
 
@@ -125,7 +128,7 @@ class DBCore {
             e.printStackTrace();
         }
 
-        if (!this.connectionEstablished) {
+        if (!this.isConnectionEstablished()) {
             this.logger.log("User " + tmpUsername + " successfully logged out.",
                     Logger.MessageType.LOG);
         }

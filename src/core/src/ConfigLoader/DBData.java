@@ -12,15 +12,6 @@ public class DBData {
     private final String port;
 
     /**
-     * Constructs a new DBData instance with default values.
-     */
-    protected DBData() {
-        this.name = "default";
-        this.ip = "127.0.0.1";
-        this.port = "3331";
-    }
-
-    /**
      * Constructs a new DBData instance with given values.
      * @param name String - The database name.
      * @param ip String - The database ip.
