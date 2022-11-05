@@ -49,8 +49,7 @@ class DBCore {
         DBData data = cfgLoader.fetchData();
 
         if (data == null) {
-            this.logger.log("DBCore:setUrlParameters: Database data is null.", Logger.MessageType.ERROR);
-            throw new NullPointerException("DBCore:setUrlParameters: Database data is null.");
+            throw new NullPointerException("Database data is null.");
         }
 
         this.url = url.replace("<ip>", data.getIP());

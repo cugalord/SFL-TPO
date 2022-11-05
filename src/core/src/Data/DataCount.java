@@ -16,4 +16,9 @@ public class DataCount extends Data {
         super(index);
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return "[rN: " + this.recordNumber + ", C: " + this.value + "]";
+    }
 }

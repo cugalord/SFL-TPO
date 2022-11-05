@@ -5,7 +5,7 @@ package Data;
  */
 public abstract class Data {
     /** The sequential number of the record returned by the query. */
-    private final int recordNumber;
+    protected final int recordNumber;
 
     /**
      * Constructs a new data representation object.
