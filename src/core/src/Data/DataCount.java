@@ -17,6 +17,10 @@ public class DataCount extends Data {
         this.value = value;
     }
 
+    /**
+     * Converts object to String.
+     * @return String - The String representation of the object.
+     */
     @Override
     public String toString() {
         return "[rN: " + this.recordNumber + ", C: " + this.value + "]";
