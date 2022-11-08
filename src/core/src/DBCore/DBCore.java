@@ -34,7 +34,7 @@ class DBCore {
         this.cfgLoader = new ConfigLoader();
         this.logger = new Logger();
 
-        this.url  = "jdbc:mysql://<ip>:<port>/<dbname>";
+        this.url = "jdbc:mysql://<ip>:<port>/<dbname>";
         this.username = "";
         this.password = "";
         this.connectionEstablished = false;
