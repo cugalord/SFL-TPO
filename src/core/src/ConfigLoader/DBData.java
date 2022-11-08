@@ -27,6 +27,7 @@ public class DBData {
      * Converts object to String.
      * @return String - The String representation of the object.
      */
+    @Override
     public String toString() {
         return "[Name = " + this.name + ", ip = " + this.ip + ", port = " + this.port + "]";
     }

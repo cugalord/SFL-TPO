@@ -39,6 +39,8 @@ public class DBAPI {
                     .prepareStatement("SELECT COUNT(id) AS idcount FROM parcel WHERE id = ?");
             this.statements[1] = this.core.getDbConnection()
                     .prepareStatement("SELECT COUNT(username) AS uscount FROM customer WHERE username = ?");
+            this.statements[2] = this.core.getDbConnection()
+                    .prepareStatement("SELECT COUNT(code) AS postCode FROM city WHERE code = ?");
             // ... more statements.
         } catch (SQLException e) {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
@@ -83,7 +85,7 @@ public class DBAPI {
     /**
      * Gets the number of identical parcel IDs from database.
      * @param parcelID String - The parcel ID to check.
-     * @return int - The number of identical IDs.
+     * @return DataCount - Object representing the number of identical IDs.
      */
     public DataCount getCountOfIdenticalParcelIDs(String parcelID) {
         DataCount count = new DataCount(0, -1);
@@ -102,7 +104,7 @@ public class DBAPI {
     /**
      * Gets the number of identical usernames from database.
      * @param username String - The username to check.
-     * @return int - The number of identical usernames.
+     * @return DataCount - Object representing the number of identical usernames.
      */
     public DataCount getCountOfIdenticalUsernames(String username) {
         DataCount count = new DataCount(0, -1);
@@ -116,5 +118,40 @@ public class DBAPI {
             e.printStackTrace();
         }
         return count;
+    }
+
+    /**
+     * Gets the number of identical post codes from database.
+     * @param postCode String - The post code to check.
+     * @return DataCount - Object representing the number of identical post codes.
+     */
+    public DataCount getCountOfIdenticalPostCodes(String postCode) {
+        DataCount count = new DataCount(0, -1);
+        try {
+            this.statements[2].setString(1, postCode);
+            ResultSet rs = this.statements[1].executeQuery();
+            rs.next();
+            count = new DataCount(0,  rs.getInt("uscount"));
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    public void test() {
+        int count = 0;
+        try {
+            PreparedStatement ps = this.core.getDbConnection().prepareStatement("SELECT * FROM city");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                count++;
+            }
+            System.out.println("");
+        } catch (Exception e) {
+
+        } finally {
+            System.out.println("Count: " + count);
+        }
     }
 }

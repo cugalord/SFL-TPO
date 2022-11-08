@@ -19,8 +19,11 @@ public abstract class Data {
      * Converts object to String.
      * @return String - The String representation of the object.
      */
+    @Override
     public String toString() {
-        return "[rN: " + this.recordNumber + "]";
+        return "Data{" +
+                "recordNumber=" + recordNumber +
+                '}';
     }
 }
 

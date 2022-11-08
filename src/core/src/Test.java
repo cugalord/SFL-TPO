@@ -42,6 +42,7 @@ public class Test {
             DBAPITests();
         }
 
+        api.test();
         /*try {
             Thread.sleep(5000);
         } catch (Exception e) {
@@ -57,6 +58,8 @@ public class Test {
         }
 
         api.logout();
+
+        Utils.shortestPath(api, "a", "n");
     }
 
     /**

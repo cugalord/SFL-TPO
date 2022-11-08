@@ -23,6 +23,9 @@ public class DataCount extends Data {
      */
     @Override
     public String toString() {
-        return "[rN: " + this.recordNumber + ", C: " + this.value + "]";
+        return "DataCount{" +
+                "recordNumber=" + recordNumber +
+                ", value=" + value +
+                '}';
     }
 }
