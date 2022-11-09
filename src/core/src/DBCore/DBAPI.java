@@ -1,11 +1,14 @@
 package DBCore;
 
+import Data.Coordinates;
 import Data.DataCount;
+import Data.DataParcelCenter;
+import Data.GeneralAddress;
 import Utils.Logger;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+
+import java.util.ArrayList;
 
 /**
  * The public facing database access API.
@@ -19,6 +22,8 @@ public class DBAPI {
     private String currentUser;
     /** The list of precompiled prepared statements. */
     private final PreparedStatement [] statements;
+    /** The list of precompiled callable statements. */
+    private final CallableStatement [] callables;
 
     /**
      * Constructs a new database API instance.
@@ -27,6 +32,7 @@ public class DBAPI {
         this.core = new DBCore();
         this.logger = new Logger();
         this.statements = new PreparedStatement[10];
+        this.callables = new CallableStatement[10];
     }
 
     /**
@@ -41,7 +47,19 @@ public class DBAPI {
                     .prepareStatement("SELECT COUNT(username) AS uscount FROM customer WHERE username = ?");
             this.statements[2] = this.core.getDbConnection()
                     .prepareStatement("SELECT COUNT(code) AS postCode FROM city WHERE code = ?");
+            this.statements[3] = this.core.getDbConnection()
+                    .prepareStatement("SELECT branch_id, latitude, longitude, country FROM parcel_center_locations");
             // ... more statements.
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+    }
+
+    private void precompileCallables() {
+        try {
+            this.callables[0] = this.core.getDbConnection().prepareCall("CALL resolve_address(?, ?, ?, ?, ?)");
+            // ... more callables.
         } catch (SQLException e) {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
@@ -59,6 +77,7 @@ public class DBAPI {
         this.core.login(username, password);
         if (this.core.isConnectionEstablished()) {
             this.precompileStatements();
+            this.precompileCallables();
         }
     }
 
@@ -139,19 +158,57 @@ public class DBAPI {
         return count;
     }
 
-    public void test() {
-        int count = 0;
+    /**
+     * Gets the data of all parcel centers from database.
+     * @return ArrayList<DataParcelCenter> - List of parcel center data objects.
+     */
+    public ArrayList<DataParcelCenter> getAllParcelCenterData() {
+        ArrayList<DataParcelCenter> data = new ArrayList<>();
         try {
-            PreparedStatement ps = this.core.getDbConnection().prepareStatement("SELECT * FROM city");
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = this.statements[3].executeQuery();
+            int i = 0;
             while (rs.next()) {
-                count++;
+                data.add(new DataParcelCenter(
+                        i,
+                        rs.getString("branch_id"),
+                        Double.parseDouble(rs.getString("latitude")),
+                        Double.parseDouble(rs.getString("longitude")),
+                        rs.getString("country")
+                    ));
+                i++;
             }
-            System.out.println("");
-        } catch (Exception e) {
-
-        } finally {
-            System.out.println("Count: " + count);
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
         }
+        return data;
+    }
+
+    // CALLABLE STATEMENTS
+
+    /**
+     * Gets coordinates from a general address data object.
+     * @param address GeneralAddress - The general address (post code, city name, country ISO code).
+     * @return Coordinates - The coordinates of the address.
+     */
+    public Coordinates getCoordinatesFromAddress(GeneralAddress address) {
+        Coordinates data = null;
+        try {
+            this.callables[0].setString("postcode", address.postCode);
+            this.callables[0].setString("cityname", address.cityName);
+            this.callables[0].setString("country", address.countryISO);
+            this.callables[0].registerOutParameter("latitude", Types.VARCHAR);
+            this.callables[0].registerOutParameter("longitude", Types.VARCHAR);
+            this.callables[0].executeQuery();
+            data = new Coordinates(
+                    0,
+                    Double.parseDouble(this.callables[0].getString("latitude")),
+                    Double.parseDouble(this.callables[0].getString("longitude"))
+                    );
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
     }
 }

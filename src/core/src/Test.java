@@ -1,5 +1,6 @@
 import ConfigLoader.*;
 import DBCore.DBAPI;
+import Data.GeneralAddress;
 import Utils.Logger;
 import Utils.Utils;
 
@@ -41,13 +42,14 @@ public class Test {
             configLoaderTests();
             DBAPITests();
         }
-
-        api.test();
         /*try {
             Thread.sleep(5000);
         } catch (Exception e) {
 
         }*/
+
+        System.out.println(api.getCoordinatesFromAddress(new GeneralAddress(0, "1000", "Ljubljana - dostava", "SVN")));
+        System.out.println(api.getAllParcelCenterData().size());
 
         try {
             System.out.println(Utils.generateParcelID(api, "GER"));

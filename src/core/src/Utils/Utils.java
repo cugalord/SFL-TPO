@@ -2,6 +2,8 @@ package Utils;
 
 import DBCore.DBAPI;
 
+import Data.Coordinates;
+
 import java.util.List;
 import java.util.Random;
 
@@ -153,28 +155,6 @@ public class Utils {
         // TODO: Find the closest parcel center to recipient address (in same country)
         // TODO: Run the shortest path algorithm between them
 
-        /*SimpleDirectedWeightedGraph<String, Integer> g = new SimpleDirectedWeightedGraph<String, Integer>(Integer.class);
-
-        //DefaultDirectedWeightedGraph<String, Integer> g = new DefaultDirectedWeightedGraph<>(Integer.class);
-        g.addVertex("A");
-        g.addVertex("B");
-        g.addVertex("C");
-        g.addVertex("D");
-        g.addVertex("E");
-        g.addVertex("F");
-        g.addVertex("G");
-        g.addEdge("A", "B", 10);
-        g.addEdge("A", "C", 8);
-        g.addEdge("A", "D", 7);
-        g.addEdge("B", "C", 3);
-        g.addEdge("B", "E", 10);
-        g.addEdge("B", "F", 3);
-        g.addEdge("B", "G", 10);
-        g.addEdge("C", "D", 7);
-
-        List<Integer> sp = DijkstraShortestPath.findPathBetween(g, "A", "G");
-        System.out.println(sp);*/
-
         SimpleDirectedWeightedGraph<String, DefaultWeightedEdge>  graph =
                 new SimpleDirectedWeightedGraph<String, DefaultWeightedEdge>
                         (DefaultWeightedEdge.class);
@@ -227,25 +207,7 @@ public class Utils {
 
     // Utility classes
 
-    /**
-     * The geographical coordinates.
-     */
-    private static class Coordinates {
-        /** The latitude. */
-        public final double latitude;
-        /** The longitude. */
-        public final double longitude;
 
-        /**
-         * Constructs a new Coordinates object.
-         * @param latitude double - The latitude.
-         * @param longitude dobule - The longitude.
-         */
-        Coordinates(double latitude, double longitude) {
-            this.latitude = latitude;
-            this.longitude = longitude;
-        }
-    }
 }
 
 
