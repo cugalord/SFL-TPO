@@ -28,6 +28,8 @@ CREATE PROCEDURE branch_add(
     IN country_code VARCHAR(3)
 )
 BEGIN
+    CALL street_add(st_name,st_num,city_code,city_name,country_code);
+
 	INSERT branch
 	VALUES(default,branch_type_id,name,st_name,st_num,city_code,city_name,country_code);
 END !!
@@ -59,15 +61,17 @@ CREATE PROCEDURE customer_add(
     IN surname VARCHAR(85),
     IN company_name VARCHAR(85),
     IN tel_num VARCHAR(45),
-    IN street_name VARCHAR(150),
-    IN street_number INT,
+    IN st_name VARCHAR(150),
+    IN st_num INT,
     IN city_code VARCHAR(20),
     in city_name VARCHAR(145),
     IN country_code VARCHAR(3)
 )
 BEGIN
+    CALL street_add(st_name,st_num,city_code,city_name,country_code);
+
 	INSERT customer
-	VALUES(username,name,surname,company_name,tel_num,street_name,street_number,city_code,city_name,country_code);
+	VALUES(username,name,surname,company_name,tel_num,st_name,st_num,city_code,city_name,country_code);
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
@@ -110,6 +114,8 @@ CREATE PROCEDURE parcel_create(
     IN depth INT
 )
 BEGIN
+    CALL street_add(sender_st_name,sender_st_num,sender_city_code,sender_city_name,sender_country_code);
+    CALL street_add(recipient_street_name,recipient_street_num,recipient_city_code,recipient_city_name,recipient_country_code);
     INSERT parcel
 	VALUES(
         ID,
@@ -144,5 +150,22 @@ CREATE PROCEDURE link_parcel_job(
 BEGIN
 	INSERT job_packet
 	VALUES(job_id,parcel_id);
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- returns coordinates for given address
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE resolve_address(
+    IN postcode VARCHAR(20),
+    IN cityname VARCHAR(145),
+    IN country VARCHAR(3),
+    OUT latitude VARCHAR(7),
+    OUT longitude VARCHAR(7)
+)
+BEGIN
+    SELECT ci.latitude, ci.longitude INTO latitude, longitude
+    FROM city ci
+    WHERE ci.code=postcode AND ci.name=cityname AND ci.country_code=country;
 END !!
 DELIMITER ;
