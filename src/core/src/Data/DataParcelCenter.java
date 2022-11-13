@@ -6,10 +6,8 @@ package Data;
 public class DataParcelCenter extends Data {
     /** The parcel center id. */
     public final String id;
-    /** The parcel center latitude. */
-    public final double latitude;
-    /** The parcel center longitude. */
-    public final double longitude;
+    /** The parcel center coordinates. */
+    public final Coordinates coordinates;
     /** The country ISO3 code. */
     public final String countryISO;
 
@@ -17,15 +15,13 @@ public class DataParcelCenter extends Data {
      * Constructs a new DataParcelCenter object.
      * @param index int - The sequential record number.
      * @param id String - The parcel center id.
-     * @param latitude double - The parcel center latitude.
-     * @param longitude double - The parcel center longitude.
+     * @param coordinates Coordinates - The parcel center latitude.
      * @param countryISO String - The country ISO3 code.
      */
-    public DataParcelCenter(int index, String id, double latitude, double longitude, String countryISO) {
+    public DataParcelCenter(int index, String id, Coordinates coordinates, String countryISO) {
         super(index);
         this.id = id;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.coordinates = coordinates;
         this.countryISO = countryISO;
     }
 
@@ -38,9 +34,8 @@ public class DataParcelCenter extends Data {
         return "DataParcelCenter{" +
                 "recordNumber=" + recordNumber +
                 ", id='" + id + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", country=" + countryISO +
+                ", coordinates=" + coordinates +
+                ", countryISO='" + countryISO + '\'' +
                 '}';
     }
 }

@@ -4,9 +4,12 @@ import DBCore.DBAPI;
 
 import Data.Coordinates;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import Data.DataParcelCenter;
+import Data.GeneralAddress;
 import org.jgrapht.alg.DijkstraShortestPath;
 import org.jgrapht.graph.*;
 
@@ -14,6 +17,9 @@ import org.jgrapht.graph.*;
  * The core utilities.
  */
 public class Utils {
+    /** The maximum allowed distance between two parcel centers. */
+    private static final double maxDistanceBetweenCenters = 200;
+
     /**
      * Generates a random alphanumeric string of given length.
      * @param targetLength int - The target length of string.
@@ -51,7 +57,7 @@ public class Utils {
     }
 
     /**
-     * Generates an 8 character parcel ID in format: ISOCODExxxxx where x means random alphanumeric character.
+     * Generates an 8 character parcel ID in format: <ISOCODE>xxxxx where x means random alphanumeric character.
      * @param dbapi DBAPI - The database api.
      * @param country String - The country ISO code.
      * @return String - The 8 character parcel ID or null if timed out.
@@ -67,7 +73,7 @@ public class Utils {
         }
 
         StringBuilder result;
-        int identicalIDs = -1;
+        int identicalIDs;
         int attemptCount = 0;
 
         do {
@@ -100,7 +106,7 @@ public class Utils {
         }
 
         StringBuilder result;
-        int identicalIDs = -1;
+        int identicalIDs;
         int attemptCount = 0;
 
         do {
@@ -144,65 +150,114 @@ public class Utils {
     /**
      * Finds the shortest path (via parcel centers) between the sender and recipient address.
      * @param dbapi DBAPI - The database api.
-     * @param senderAddress String - The sender address.
-     * @param recipientAddress String - The recipient address.
-     * @return String[] - The list of parcel centers.
+     * @param senderAddress GeneralAddress - The sender address.
+     * @param recipientAddress GeneralAddress - The recipient address.
+     * @return ArrayList<DataParcelCenter> - The list of parcel centers on path.
      */
-    public static String[] shortestPath(DBAPI dbapi, String senderAddress, String recipientAddress) {
-        // TODO: Get list of parcel centers from database
-        // TODO: Create graph of parcel centers
-        // TODO: Find the closest parcel center to sender address (in same country)
-        // TODO: Find the closest parcel center to recipient address (in same country)
-        // TODO: Run the shortest path algorithm between them
-
+    public static ArrayList<DataParcelCenter> shortestPath(DBAPI dbapi,
+                                                  GeneralAddress senderAddress,
+                                                  GeneralAddress recipientAddress) {
+        ArrayList<DataParcelCenter> data = dbapi.getAllParcelCenterData();
         SimpleDirectedWeightedGraph<String, DefaultWeightedEdge>  graph =
-                new SimpleDirectedWeightedGraph<String, DefaultWeightedEdge>
-                        (DefaultWeightedEdge.class);
-        graph.addVertex("vertex1");
-        graph.addVertex("vertex2");
-        graph.addVertex("vertex3");
-        graph.addVertex("vertex4");
-        graph.addVertex("vertex5");
+                new SimpleDirectedWeightedGraph<>(DefaultWeightedEdge.class);
+
+        // Populate graph with parcel center data as vertices
+        for (DataParcelCenter parcelCenter : data) {
+            graph.addVertex(parcelCenter.id);
+        }
+
+        // Create both-ways connections between all parcel centers. This is needed due to the limitations of the used
+        // version of JGraphT library, as it does not include a functional undirected graph variant.
+        double distance;
+        for (int i = 0; i < data.size(); i++) {
+            for (int j = 0; j < data.size(); j++) {
+                if (i != j) {
+                    distance = calculateDistanceFromCoordinates(
+                            data.get(i).coordinates,
+                            data.get(j).coordinates
+                    );
+                    if (distance < Utils.maxDistanceBetweenCenters) {
+                        DefaultWeightedEdge edge = graph.addEdge(data.get(i).id, data.get(j).id);
+                        graph.setEdgeWeight(edge, distance);
+                    }
+                }
+            }
+        }
 
 
-        DefaultWeightedEdge e1 = graph.addEdge("vertex1", "vertex2");
-        graph.setEdgeWeight(e1, 5);
+        // Find the closest parcel center to sender in same country. This can be guaranteed as each country has at least
+        // one parcel center.
+        DataParcelCenter closestCenterToSender = null;
+        Coordinates senderCoordinates;
+        double minDistance = Double.MAX_VALUE;
+        double curDistance;
+        for (DataParcelCenter parcelCenter : data) {
+            if (parcelCenter.countryISO.equals(senderAddress.countryISO)) {
+                senderCoordinates = dbapi.getCoordinatesFromAddress(senderAddress);
+                curDistance = calculateDistanceFromCoordinates(senderCoordinates, parcelCenter.coordinates);
+                if (curDistance < minDistance) {
+                    minDistance = curDistance;
+                    closestCenterToSender = parcelCenter;
+                }
+            }
+        }
 
-        DefaultWeightedEdge e2 = graph.addEdge("vertex2", "vertex3");
-        graph.setEdgeWeight(e2, 3);
+        // Find the closest parcel center to recipient in same country. This can be guaranteed as each country has
+        // at least one parcel center.
+        DataParcelCenter closestCenterToRecipient = null;
+        Coordinates recipientCoordinates;
+        minDistance = Double.MAX_VALUE;
+        for (DataParcelCenter parcelCenter : data) {
+            if (parcelCenter.countryISO.equals(recipientAddress.countryISO)) {
+                recipientCoordinates = dbapi.getCoordinatesFromAddress(recipientAddress);
+                curDistance = calculateDistanceFromCoordinates(recipientCoordinates, parcelCenter.coordinates);
+                if (curDistance < minDistance) {
+                    minDistance = curDistance;
+                    closestCenterToRecipient = parcelCenter;
+                }
+            }
+        }
 
-        DefaultWeightedEdge e3 = graph.addEdge("vertex4", "vertex5");
-        graph.setEdgeWeight(e3, 6);
+        assert closestCenterToSender != null;
+        assert closestCenterToRecipient != null;
+        List<DefaultWeightedEdge> shortestPath = DijkstraShortestPath.findPathBetween(
+                graph,
+                closestCenterToSender.id,
+                closestCenterToRecipient.id
+        );
 
-        DefaultWeightedEdge e4 = graph.addEdge("vertex2", "vertex4");
-        graph.setEdgeWeight(e4, 2);
+        // Assemble result list.
+        ArrayList<DataParcelCenter> result = new ArrayList<>();
+        int count = 0;
+        for (DefaultWeightedEdge edge : shortestPath) {
+            if (count == 0) {
+                String edgeString = edge.toString();
+                String firstID = edgeString.substring(1, edgeString.indexOf(' '));
+                String secondID = edgeString.substring(edgeString.lastIndexOf(' ') + 1, edgeString.length() - 1);
+                System.out.println(secondID);
+                for (DataParcelCenter parcelCenter : data) {
+                    if (parcelCenter.id.equals(firstID)) {
+                        result.add(parcelCenter);
+                    }
+                    if (parcelCenter.id.equals(secondID)) {
+                        result.add(parcelCenter);
+                    }
+                }
+            }
+            else {
+                String edgeString = edge.toString();
+                String secondID = edgeString.substring(edgeString.lastIndexOf(' ') + 1, edgeString.length() - 1);
+                System.out.println(secondID);
+                for (DataParcelCenter parcelCenter : data) {
+                    if (parcelCenter.id.equals(secondID)) {
+                        result.add(parcelCenter);
+                    }
+                }
+            }
+            count++;
+        }
 
-        DefaultWeightedEdge e5 = graph.addEdge("vertex5", "vertex4");
-        graph.setEdgeWeight(e5, 4);
-
-
-        DefaultWeightedEdge e6 = graph.addEdge("vertex2", "vertex5");
-        graph.setEdgeWeight(e6, 9);
-
-        DefaultWeightedEdge e7 = graph.addEdge("vertex4", "vertex1");
-        graph.setEdgeWeight(e7, 7);
-
-        DefaultWeightedEdge e8 = graph.addEdge("vertex3", "vertex2");
-        graph.setEdgeWeight(e8, 2);
-
-        DefaultWeightedEdge e9 = graph.addEdge("vertex1", "vertex3");
-        graph.setEdgeWeight(e9, 10);
-
-        DefaultWeightedEdge e10 = graph.addEdge("vertex3", "vertex5");
-        graph.setEdgeWeight(e10, 1);
-
-
-        System.out.println("Shortest path from vertex1 to vertex5:");
-        List<DefaultWeightedEdge> shortest_path =
-                DijkstraShortestPath.findPathBetween(graph, "vertex1", "vertex5");
-        System.out.println(shortest_path);
-
-        return null;
+        return result;
     }
 
     // Utility classes

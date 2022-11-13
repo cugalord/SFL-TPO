@@ -59,9 +59,15 @@ public class Test {
 
         }
 
+        System.out.println(Utils.shortestPath(api,
+                new GeneralAddress(0, "1000", "Ljubljana - dostava", "SVN"),
+                //new GeneralAddress(0, "2000", "Maribor - dostava", "SVN")
+                new GeneralAddress(0, "1230", "Wien, Liesing", "AUT")
+        ));
+
         api.logout();
 
-        Utils.shortestPath(api, "a", "n");
+        //Utils.shortestPath(api, "a", "n");
     }
 
     /**

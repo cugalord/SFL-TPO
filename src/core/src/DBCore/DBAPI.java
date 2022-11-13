@@ -171,8 +171,11 @@ public class DBAPI {
                 data.add(new DataParcelCenter(
                         i,
                         rs.getString("branch_id"),
-                        Double.parseDouble(rs.getString("latitude")),
-                        Double.parseDouble(rs.getString("longitude")),
+                        new Coordinates(
+                                0,
+                                Double.parseDouble(rs.getString("latitude")),
+                                Double.parseDouble(rs.getString("longitude"))
+                        ),
                         rs.getString("country")
                     ));
                 i++;
