@@ -141,8 +141,12 @@ public class Utils {
      * @param dbapi DBAPI - The database api.
      * @param postCode String - The post code.
      * @return boolean - True if post code exists in database, false otherwise.
+     * @throws NullPointerException If database API pointer is null.
      */
-    public static boolean validatePostCode(DBAPI dbapi, String postCode) {
+    public static boolean validatePostCode(DBAPI dbapi, String postCode) throws NullPointerException {
+        if (dbapi == null) {
+            throw new NullPointerException("Database API is null.");
+        }
         int samePostCodes = dbapi.getCountOfIdenticalPostCodes(postCode).value;
         return samePostCodes > 0;
     }
@@ -153,10 +157,15 @@ public class Utils {
      * @param senderAddress GeneralAddress - The sender address.
      * @param recipientAddress GeneralAddress - The recipient address.
      * @return ArrayList<DataParcelCenter> - The list of parcel centers on path.
+     * @throws NullPointerException If database API pointer is null.
      */
     public static ArrayList<DataParcelCenter> shortestPath(DBAPI dbapi,
                                                   GeneralAddress senderAddress,
-                                                  GeneralAddress recipientAddress) {
+                                                  GeneralAddress recipientAddress) throws NullPointerException {
+        if (dbapi == null) {
+            throw new NullPointerException("Database API is null.");
+        }
+
         ArrayList<DataParcelCenter> data = dbapi.getAllParcelCenterData();
         SimpleDirectedWeightedGraph<String, DefaultWeightedEdge>  graph =
                 new SimpleDirectedWeightedGraph<>(DefaultWeightedEdge.class);
@@ -259,10 +268,6 @@ public class Utils {
 
         return result;
     }
-
-    // Utility classes
-
-
 }
 
 
