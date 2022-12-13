@@ -174,30 +174,23 @@ DELIMITER ;
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE get_jobs(
-    IN username VARCHAR(10),
-    OUT job_id INT,
-    OUT parcel_id VARCHAR(8),
-    OUT weight DOUBLE,
-    OUT height INT,
-    OUT width INT,
-    OUT depth INT
+    IN username VARCHAR(10)
 )
 BEGIN
-    SELECT j.id, p.id, p.weight, p.height, p.width, p.depth, j.date_created
+    SELECT j.id as job_id, p.id as parcel_id, p.weight as weight, p.height as height, p.width as width, p.depth as depth, j.date_created
     FROM job j
     INNER JOIN job_packet jp on j.id = jp.job_id
     INNER JOIN job_status js on j.job_status_id = js.id
     INNER JOIN parcel p ON jp.parcel_id = p.id
     WHERE j.staff_username=username AND j.job_status_id=1
     UNION
-    SELECT j.id, p.id, p.weight, p.height, p.width, p.depth, j.date_created
+    SELECT j.id as job_id, p.id as parcel_id, p.weight as weight, p.height as height, p.width as width, p.depth as depth, j.date_created
     FROM job j
     INNER JOIN job_packet jp on j.id = jp.job_id
     INNER JOIN job_status js on j.job_status_id = js.id
     INNER JOIN parcel p ON jp.parcel_id = p.id
     WHERE j.staff_username=username AND j.job_status_id IN (2,3)
-    ORDER BY date_created DESC
-    INTO job_id, parcel_id, weight, height, width, depth;
+    ORDER BY date_created DESC;
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
@@ -214,5 +207,181 @@ BEGIN
     SELECT s.name, s.surname, sr.role_name
     FROM staff s
     INNER JOIN staff_role sr ON s.staff_role_id = sr.id;
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- update parcel_status
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE update_parcel_status(
+    IN parcel_id VARCHAR(8),
+    IN new_status INT
+)
+BEGIN
+    UPDATE parcel
+    SET parcel_status_id=new_status
+    WHERE id=parcel_id;
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- no_of_jobs
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE get_no_jobs(
+    IN username VARCHAR(10),
+    OUT no_of_jobs INT
+)
+BEGIN
+    SELECT COUNT(j.id) INTO no_of_jobs
+    FROM job j
+    WHERE j.staff_username=username AND j.job_status_id=1;
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- get_jobs_filter_type
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE get_jobs_filter_type(
+    IN username VARCHAR(10),
+    IN type VARCHAR(45)
+)
+BEGIN
+    SELECT j.id as job_id, p.id as parcel_id, p.weight as weight, p.height as height, p.width as width, p.depth as depth, j.date_created
+    FROM job j
+    INNER JOIN job_packet jp on j.id = jp.job_id
+    INNER JOIN job_status js on j.job_status_id = js.id
+    INNER JOIN parcel p ON jp.parcel_id = p.id
+    INNER JOIN job_type jt on j.job_type_id = jt.id
+    WHERE j.staff_username=username AND UPPER(jt.name) = UPPER(type);
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- warehouse_parcel_info
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE get_warehouse_parcel_info(
+    IN username VARCHAR(10),
+    OUT no_of_all_parcels INT,
+    OUT no_of_pending_parcels INT,
+    OUT no_of_processed_parcels INT
+)
+BEGIN
+    -- all parcels
+    SELECT COUNT(DISTINCT jp.parcel_id) INTO no_of_all_parcels
+    FROM job j
+    INNER JOIN job_packet jp on j.id = jp.job_id
+    WHERE j.staff_username IN (
+        SELECT s.username
+        FROM staff s
+        INNER JOIN branch b on s.branch_id = b.id
+        WHERE b.id IN(
+            SELECT s.branch_id
+            FROM staff
+            WHERE s.username=username
+        )
+    );
+
+    -- pending parcels
+    SELECT COUNT(DISTINCT jp.parcel_id) INTO no_of_pending_parcels
+    FROM job j
+    INNER JOIN job_packet jp on j.id = jp.job_id
+    WHERE j.job_status_id=1 AND j.staff_username IN (
+        SELECT s.username
+        FROM staff s
+        INNER JOIN branch b on s.branch_id = b.id
+        WHERE b.id IN(
+            SELECT s.branch_id
+            FROM staff
+            WHERE s.username=username
+        )
+    );
+
+    -- processed parcels
+    SELECT COUNT(DISTINCT jp.parcel_id) INTO no_of_processed_parcels
+    FROM job j
+    INNER JOIN job_packet jp on j.id = jp.job_id
+    WHERE j.job_status_id IN (2,3) AND j.staff_username IN (
+        SELECT s.username
+        FROM staff s
+        INNER JOIN branch b on s.branch_id = b.id
+        WHERE b.id IN(
+            SELECT s.branch_id
+            FROM staff
+            WHERE s.username=username
+        )
+    );
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- warehouse_employee_info
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE get_warehouse_employee_info(
+    IN username VARCHAR(10)
+)
+BEGIN
+    SELECT s.name as name, s.surname as surname, sr.role_name as role
+    FROM staff s
+    INNER JOIN staff_role sr on s.staff_role_id = sr.id
+    INNER JOIN branch b on s.branch_id = b.id
+    WHERE b.id IN(
+        SELECT s.branch_id
+        FROM staff
+        WHERE s.username=username
+    );
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- returns branch employees
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE branch_employees(
+    IN branch_id INT
+)
+BEGIN
+    SELECT s.name as name, s.surname as surname, sr.role_name as role
+    FROM staff s
+    INNER JOIN staff_role sr ON s.staff_role_id = sr.id
+    WHERE s.branch_id=branch_id;
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- returns branch delivery drivers
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE branch_delivery_drivers(
+    IN branch_id INT
+)
+BEGIN
+    SELECT s.name as name, s.surname as surname, sr.role_name as role
+    FROM staff s
+    INNER JOIN staff_role sr ON s.staff_role_id = sr.id
+    WHERE s.branch_id=branch_id AND sr.id=4;
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- returns branch international drivers
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE branch_international_drivers(
+    IN branch_id INT
+)
+BEGIN
+    SELECT s.name as name, s.surname as surname, sr.role_name as role
+    FROM staff s
+    INNER JOIN staff_role sr ON s.staff_role_id = sr.id
+    WHERE s.branch_id=branch_id AND sr.id=5;
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- returns branches
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE get_branches(
+)
+BEGIN
+    SELECT b.id as bid, b.name as name, bt.name as type
+    FROM branch b
+    INNER JOIN branch_type bt on b.branch_type_id = bt.id;
 END !!
 DELIMITER ;
