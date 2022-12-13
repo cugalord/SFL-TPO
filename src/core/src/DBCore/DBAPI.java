@@ -27,8 +27,8 @@ public class DBAPI {
     public DBAPI() {
         this.core = new DBCore();
         this.logger = new Logger();
-        this.statements = new PreparedStatement[10];
-        this.callables = new CallableStatement[10];
+        this.statements = new PreparedStatement[15];
+        this.callables = new CallableStatement[15];
     }
 
     /**
@@ -69,6 +69,11 @@ public class DBAPI {
             this.callables[4] = this.core.getDbConnection().prepareCall("CALL get_warehouse_parcel_info(?, ?, ? ,?)");
             this.callables[5] = this.core.getDbConnection().prepareCall("CALL get_jobs_filter_type(?, ?)");
             this.callables[6] = this.core.getDbConnection().prepareCall("CALL update_parcel_status(?, ?)");
+            this.callables[7] = this.core.getDbConnection().prepareCall("CALL get_warehouse_employee_info(?)");
+            this.callables[8] = this.core.getDbConnection().prepareCall("CALL branch_employees(?)");
+            this.callables[9] = this.core.getDbConnection().prepareCall("CALL branch_delivery_drivers(?)");
+            this.callables[10] = this.core.getDbConnection().prepareCall("CALL branch_international_drivers(?)");
+            this.callables[11] = this.core.getDbConnection().prepareCall("CALL get_branches()");
             // ... more callables.
         } catch (SQLException e) {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
@@ -492,6 +497,143 @@ public class DBAPI {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Gets all employees that work in warehouse of given warehouse manager.
+     * @param username String - The warehouse manager username.
+     * @return ArrayList<DataStaff> - The list of employees.
+     */
+    public ArrayList<DataStaff> getWarehouseManagerEmployeesInfo(String username) {
+        ArrayList<DataStaff> data = new ArrayList<>();
+        try {
+            this.callables[7].setString("username", username);
+            ResultSet rs = this.callables[7].executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                data.add(new DataStaff(
+                        i,
+                        username,
+                        this.callables[7].getString("u_name"),
+                        this.callables[7].getString("u_surname"),
+                        this.callables[7].getString("u_role")
+                ));
+                i++;
+            }
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    /**
+     * Gets all employees at given branch.
+     * @param branchID int - The branch ID.
+     * @return ArrayList<DataStaff> - The list of employees.
+     */
+    public ArrayList<DataStaff> getEmployeesAtBranch(int branchID) {
+        ArrayList<DataStaff> data = new ArrayList<>();
+        try {
+            this.callables[8].setInt("branch_id", branchID);
+            ResultSet rs = this.callables[8].executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                data.add(new DataStaff(
+                        i,
+                        this.callables[8].getString("username"),
+                        this.callables[8].getString("name"),
+                        this.callables[8].getString("surname"),
+                        this.callables[8].getString("role")
+                ));
+                i++;
+            }
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    /**
+     * Gets all delivery drivers at given branch.
+     * @param branchID int - The branch ID.
+     * @return ArrayList<DataStaff> - The list of delivery drivers.
+     */
+    public ArrayList<DataStaff> getDeliveryDriversAtBranch(int branchID) {
+        ArrayList<DataStaff> data = new ArrayList<>();
+        try {
+            this.callables[9].setInt("branch_id", branchID);
+            ResultSet rs = this.callables[9].executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                data.add(new DataStaff(
+                        i,
+                        this.callables[9].getString("username"),
+                        this.callables[9].getString("name"),
+                        this.callables[9].getString("surname"),
+                        this.callables[9].getString("role")
+                ));
+                i++;
+            }
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    /**
+     * Gets all international drivers at given branch.
+     * @param branchID int - The branch ID.
+     * @return ArrayList<DataStaff> - The list of international drivers.
+     */
+    public ArrayList<DataStaff> getInternationalDriversAtBranch(int branchID) {
+        ArrayList<DataStaff> data = new ArrayList<>();
+        try {
+            this.callables[10].setInt("branch_id", branchID);
+            ResultSet rs = this.callables[10].executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                data.add(new DataStaff(
+                        i,
+                        this.callables[10].getString("username"),
+                        this.callables[10].getString("name"),
+                        this.callables[10].getString("surname"),
+                        this.callables[10].getString("role")
+                ));
+                i++;
+            }
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    /**
+     * Gets the data of all branches.
+     * @return ArrayList<DataBranch> - The list of branches.
+     */
+    public ArrayList<DataBranch> getBranches() {
+        ArrayList<DataBranch> data = new ArrayList<>();
+        try {
+            ResultSet rs = this.callables[11].executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                data.add(new DataBranch(
+                        i,
+                        this.callables[11].getInt("bid"),
+                        this.callables[11].getString("name"),
+                        this.callables[11].getString("surname")
+                ));
+                i++;
+            }
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
     }
 
 }
