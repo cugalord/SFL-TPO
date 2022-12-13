@@ -169,3 +169,50 @@ BEGIN
     WHERE ci.code=postcode AND ci.name=cityname AND ci.country_code=country;
 END !!
 DELIMITER ;
+-- --------------------------------------------------------------
+-- returns user's jobs
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE get_jobs(
+    IN username VARCHAR(10),
+    OUT job_id INT,
+    OUT parcel_id VARCHAR(8),
+    OUT weight DOUBLE,
+    OUT height INT,
+    OUT width INT,
+    OUT depth INT
+)
+BEGIN
+    SELECT j.id, p.id, p.weight, p.height, p.width, p.depth, j.date_created
+    FROM job j
+    INNER JOIN job_packet jp on j.id = jp.job_id
+    INNER JOIN job_status js on j.job_status_id = js.id
+    INNER JOIN parcel p ON jp.parcel_id = p.id
+    WHERE j.staff_username=username AND j.job_status_id=1
+    UNION
+    SELECT j.id, p.id, p.weight, p.height, p.width, p.depth, j.date_created
+    FROM job j
+    INNER JOIN job_packet jp on j.id = jp.job_id
+    INNER JOIN job_status js on j.job_status_id = js.id
+    INNER JOIN parcel p ON jp.parcel_id = p.id
+    WHERE j.staff_username=username AND j.job_status_id IN (2,3)
+    ORDER BY date_created DESC
+    INTO job_id, parcel_id, weight, height, width, depth;
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- returns user's info
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE user_info(
+    IN username VARCHAR(10),
+    OUT u_name VARCHAR(85),
+    OUT u_surname VARCHAR(85),
+    OUT u_role VARCHAR(65)
+)
+BEGIN
+    SELECT s.name, s.surname, sr.role_name
+    FROM staff s
+    INNER JOIN staff_role sr ON s.staff_role_id = sr.id;
+END !!
+DELIMITER ;
