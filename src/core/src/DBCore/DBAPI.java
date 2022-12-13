@@ -290,7 +290,7 @@ public class DBAPI {
     /**
      * Gets the number of uncompleted jobs assigned to a given employee.
      * @param username String - The staff username.
-     * @return DataCount - The number of uncompleted jobs.
+     * @return DataCount - Object representing the number of uncompleted jobs.
      */
     public DataCount getNumberOfUncompletedJobOfStaff(String username) {
         DataCount data = null;
@@ -309,7 +309,7 @@ public class DBAPI {
     /**
      * Gets the numbers of parcels that belong to the warehouse of a given warehouse manager.
      * @param username String - The warehouse manager username.
-     * @return DataCount[] - The numbers of parcels (all, pending, processed).
+     * @return DataCount[] - Object representing the numbers of parcels (all, pending, processed).
      */
     public DataCount[] getWarehouseManagerWarehouseParcelInfo(String username) {
         DataCount[] data = {null, null, null};
