@@ -4,7 +4,6 @@ import Data.*;
 import Utils.Logger;
 
 import java.sql.*;
-
 import java.util.ArrayList;
 
 /**
@@ -59,7 +58,9 @@ public class DBAPI {
             this.callables[1] = this.core.getDbConnection().prepareCall("CALL user_info(?, ?, ?, ?)");
             this.callables[2] = this.core.getDbConnection().prepareCall("CALL get_jobs(?)");
             this.callables[3] = this.core.getDbConnection().prepareCall("CALL get_no_jobs(?, ?)");
-            this.callables[4] = this.core.getDbConnection().prepareCall("CALL update_parcel_status(?, ?)");
+            this.callables[4] = this.core.getDbConnection().prepareCall("CALL get_warehouse_parcel_info(?, ?, ? ,?)");
+            this.callables[5] = this.core.getDbConnection().prepareCall("CALL get_jobs_filter_type(?, ?)");
+            this.callables[6] = this.core.getDbConnection().prepareCall("CALL update_parcel_status(?, ?)");
             // ... more callables.
         } catch (SQLException e) {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
@@ -216,6 +217,11 @@ public class DBAPI {
         return data;
     }
 
+    /**
+     * Gets staff data from staff username.
+     * @param username String - The staff username.
+     * @return DataStaff - The staff data (name, surname, role name).
+     */
     public DataStaff getStaffDataFromUsername(String username) {
         DataStaff data = null;
         try {
@@ -236,6 +242,152 @@ public class DBAPI {
             e.printStackTrace();
         }
         return data;
+    }
+
+    /**
+     * Gets all jobs assigned to a given employee.
+     * @param username String - The staff username.
+     * @return ArrayList<DataJob> - The jobs of employee.
+     */
+    public ArrayList<DataJob> getJobsOfStaff(String username) {
+        ArrayList<DataJob> data = new ArrayList<>();
+        try {
+            this.callables[2].setString("username", username);
+            ResultSet rs = this.callables[2].executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                int currentJobID = rs.getInt("job_id");
+                // Check if this job already exists.
+                DataJob job = data.stream().filter(jobd -> jobd.jobID == currentJobID).findAny().orElse(null);
+                // If the job doesn't exist, create it.
+                if (job == null) {
+                    data.add(new DataJob(
+                            i,
+                            currentJobID,
+                            null,
+                            null,
+                            -1,
+                            -1,
+                            username
+                    ));
+                }
+                // If the job already exists, add parcel to its list.
+                else {
+                    String currentParcelID = rs.getString("parcel_id");
+                    if (job.parcelIDs.stream().filter(id -> id.equals(currentParcelID)).findAny().orElse(null) == null) {
+                        job.parcelIDs.add(currentParcelID);
+                    }
+                }
+                i++;
+            }
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    /**
+     * Gets the number of uncompleted jobs assigned to a given employee.
+     * @param username String - The staff username.
+     * @return DataCount - The number of uncompleted jobs.
+     */
+    public DataCount getNumberOfUncompletedJobOfStaff(String username) {
+        DataCount data = null;
+        try {
+            this.callables[3].setString("username", username);
+            this.callables[3].registerOutParameter("no_of_jobs", Types.INTEGER);
+            this.callables[3].executeQuery();
+            data = new DataCount(0, this.callables[3].getInt("no_of_jobs"));
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    /**
+     * Gets the numbers of parcels that belong to the warehouse of a given warehouse manager.
+     * @param username String - The warehouse manager username.
+     * @return DataCount[] - The numbers of parcels (all, pending, processed).
+     */
+    public DataCount[] getWarehouseManagerWarehouseParcelInfo(String username) {
+        DataCount[] data = {null, null, null};
+        try {
+            this.callables[4].setString("username", username);
+            this.callables[4].registerOutParameter("no_of_all_parcels", Types.INTEGER);
+            this.callables[4].registerOutParameter("no_of_pending_parcels", Types.INTEGER);
+            this.callables[4].registerOutParameter("no_of_processed_parcels", Types.INTEGER);
+            this.callables[4].executeQuery();
+            data[0] = new DataCount(0, this.callables[4].getInt("no_of_all_parcels"));
+            data[1] = new DataCount(1, this.callables[4].getInt("no_of_pending_parcels"));
+            data[2] = new DataCount(2, this.callables[4].getInt("no_of_processed_parcels"));
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    /**
+     * Gets all jobs assigned to a given employee with given type.
+     * @param username String - The staff username.
+     * @param type String - The job type.
+     * @return ArrayList<DataJob> - The jobs of employee.
+     */
+    public ArrayList<DataJob> getJobsOfStaffByType(String username, String type) {
+        ArrayList<DataJob> data = new ArrayList<>();
+        try {
+            this.callables[5].setString("username", username);
+            this.callables[5].setString("type", type);
+            ResultSet rs = this.callables[5].executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                int currentJobID = rs.getInt("job_id");
+                // Check if this job already exists.
+                DataJob job = data.stream().filter(jobd -> jobd.jobID == currentJobID).findAny().orElse(null);
+                // If the job doesn't exist, create it.
+                if (job == null) {
+                    data.add(new DataJob(
+                            i,
+                            currentJobID,
+                            null,
+                            null,
+                            -1,
+                            -1,
+                            username
+                    ));
+                }
+                // If the job already exists, add parcel to its list.
+                else {
+                    String currentParcelID = rs.getString("parcel_id");
+                    if (job.parcelIDs.stream().filter(id -> id.equals(currentParcelID)).findAny().orElse(null) == null) {
+                        job.parcelIDs.add(currentParcelID);
+                    }
+                }
+                i++;
+            }
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    /**
+     * Updates the parcel status for the given parcel.
+     * @param parcelID String - The parcel ID.
+     * @param newStatus String - The new parcel status.
+     */
+    public void updateParcelStatus(String parcelID, String newStatus) {
+        try {
+            this.callables[6].setString("parcel_id", parcelID);
+            this.callables[6].setString("new_status", newStatus);
+            this.callables[6].executeQuery();
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
     }
 
 }

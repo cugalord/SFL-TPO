@@ -5,7 +5,7 @@ package Data;
  */
 public class DataParcel extends Data {
     /** The parcel ID. */
-    public final int parcelID;
+    public final String parcelID;
     /** The status ID. */
     public final int statusID;
     /** The sender data. */
@@ -20,14 +20,14 @@ public class DataParcel extends Data {
     /**
      * Constructs a new DataParcel object.
      * @param index int - The sequential record number.
-     * @param parcelID int - The parcel ID.
+     * @param parcelID String - The parcel ID.
      * @param statusID int - The status ID.
      * @param sender DataCustomer - The sender data.
      * @param recipient DataCustomer - The recipient data.
      * @param weight double - The parcel weight.
      * @param dimensions Dimensions - The parcel dimensions (height, width, depth).
      */
-    public DataParcel(int index, int parcelID, int statusID, DataCustomer sender, DataCustomer recipient, double weight, Dimensions dimensions ) {
+    public DataParcel(int index, String parcelID, int statusID, DataCustomer sender, DataCustomer recipient, double weight, Dimensions dimensions ) {
         super(index);
         this.parcelID = parcelID;
         this.statusID = statusID;
