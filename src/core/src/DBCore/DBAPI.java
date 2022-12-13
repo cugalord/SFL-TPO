@@ -45,6 +45,14 @@ public class DBAPI {
                     .prepareStatement("SELECT COUNT(code) AS postCode FROM city WHERE code = ?");
             this.statements[3] = this.core.getDbConnection()
                     .prepareStatement("SELECT branch_id, latitude, longitude, country FROM parcel_center_locations");
+            this.statements[4] = this.core.getDbConnection()
+                    .prepareStatement("SELECT id AS id, name AS name FROM parcel_status");
+            this.statements[5] = this.core.getDbConnection()
+                    .prepareStatement("SELECT id AS id, name AS name FROM job_type");
+            this.statements[6] = this.core.getDbConnection()
+                    .prepareStatement("SELECT id AS id, name AS name FROM job_status");
+            this.statements[7] = this.core.getDbConnection()
+                    .prepareStatement("SELECT id AS id, name AS name FROM staff_role");
             // ... more statements.
         } catch (SQLException e) {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
@@ -180,6 +188,102 @@ public class DBAPI {
                         ),
                         rs.getString("country")
                     ));
+                i++;
+            }
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    /**
+     * Gets a list of all parcel statuses.
+     * @return ArrayList<DataStatus> - The list of parcel statuses.
+     */
+    public ArrayList<DataStatus> getParcelStatuses() {
+        ArrayList<DataStatus> data = new ArrayList<>();
+        try {
+            ResultSet rs = this.statements[4].executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                data.add(new DataStatus(
+                        i,
+                        rs.getInt("id"),
+                        rs.getString("name")
+                ));
+                i++;
+            }
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    /**
+     * Gets a list of all job types.
+     * @return ArrayList<DataStatus> - The list of job types.
+     */
+    public ArrayList<DataStatus> getJobTypes() {
+        ArrayList<DataStatus> data = new ArrayList<>();
+        try {
+            ResultSet rs = this.statements[5].executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                data.add(new DataStatus(
+                        i,
+                        rs.getInt("id"),
+                        rs.getString("name")
+                ));
+                i++;
+            }
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    /**
+     * Gets a list of all job statuses.
+     * @return ArrayList<DataStatus> - The list of job statuses.
+     */
+    public ArrayList<DataStatus> getJobStatuses() {
+        ArrayList<DataStatus> data = new ArrayList<>();
+        try {
+            ResultSet rs = this.statements[6].executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                data.add(new DataStatus(
+                        i,
+                        rs.getInt("id"),
+                        rs.getString("name")
+                ));
+                i++;
+            }
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    /**
+     * Gets a list of all staff roles.
+     * @return ArrayList<DataStatus> - The list of staff roles.
+     */
+    public ArrayList<DataStatus> getStaffRoles() {
+        ArrayList<DataStatus> data = new ArrayList<>();
+        try {
+            ResultSet rs = this.statements[7].executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                data.add(new DataStatus(
+                        i,
+                        rs.getInt("id"),
+                        rs.getString("name")
+                ));
                 i++;
             }
         } catch (SQLException e) {
