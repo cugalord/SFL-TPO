@@ -85,7 +85,7 @@ class DBCore {
      * Logs into the database with the login parameters and url. This method encapsulates setting of parameters
      * and initialization.
      */
-    void login(String username, String password) {
+    public void login(String username, String password) {
         boolean successful = true;
         try {
             this.setUrlParameters();
@@ -108,7 +108,7 @@ class DBCore {
     /**
      * Closes the current database connection.
      */
-    void logout() {
+    public void logout() {
         String tmpUsername = this.username;
         this.url = "jdbc:mysql://<ip>:<port>/<dbname>";
         this.username = "";
@@ -137,7 +137,7 @@ class DBCore {
      * Database connection getter.
      * @return Connection - The database connection.
      */
-    Connection getDbConnection() {
+    public Connection getDbConnection() {
         return this.dbConnection;
     }
 
@@ -145,7 +145,7 @@ class DBCore {
      * Getter for the flag that signifies if the connection is established.
      * @return Boolean - True if connection is established, false otherwise.
      */
-    boolean isConnectionEstablished() {
+    public boolean isConnectionEstablished() {
         return this.connectionEstablished;
     }
 }

@@ -1,9 +1,6 @@
 package DBCore;
 
-import Data.Coordinates;
-import Data.DataCount;
-import Data.DataParcelCenter;
-import Data.GeneralAddress;
+import Data.*;
 import Utils.Logger;
 
 import java.sql.*;
@@ -59,6 +56,10 @@ public class DBAPI {
     private void precompileCallables() {
         try {
             this.callables[0] = this.core.getDbConnection().prepareCall("CALL resolve_address(?, ?, ?, ?, ?)");
+            this.callables[1] = this.core.getDbConnection().prepareCall("CALL user_info(?, ?, ?, ?)");
+            this.callables[2] = this.core.getDbConnection().prepareCall("CALL get_jobs(?)");
+            this.callables[3] = this.core.getDbConnection().prepareCall("CALL get_no_jobs(?, ?)");
+            this.callables[4] = this.core.getDbConnection().prepareCall("CALL update_parcel_status(?, ?)");
             // ... more callables.
         } catch (SQLException e) {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
@@ -207,11 +208,34 @@ public class DBAPI {
                     0,
                     Double.parseDouble(this.callables[0].getString("latitude")),
                     Double.parseDouble(this.callables[0].getString("longitude"))
-                    );
+            );
         } catch (SQLException e) {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
         }
         return data;
     }
+
+    public DataStaff getStaffDataFromUsername(String username) {
+        DataStaff data = null;
+        try {
+            this.callables[1].setString("username", username);
+            this.callables[1].registerOutParameter("u_name", Types.VARCHAR);
+            this.callables[1].registerOutParameter("u_surname", Types.VARCHAR);
+            this.callables[1].registerOutParameter("u_role", Types.VARCHAR);
+            this.callables[1].executeQuery();
+            data = new DataStaff(
+                    0,
+                    username,
+                    this.callables[1].getString("u_name"),
+                    this.callables[1].getString("u_surname"),
+                    this.callables[1].getString("u_role")
+            );
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
 }
