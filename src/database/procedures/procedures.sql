@@ -20,7 +20,7 @@ DELIMITER ;
 DELIMITER !!
 CREATE PROCEDURE branch_add(
     IN branch_type_id INT,
-    IN name VARCHAR(45),
+    IN name VARCHAR(125),
     IN st_name VARCHAR(150),
     IN st_num INT,
     IN city_code VARCHAR(20),
@@ -194,7 +194,7 @@ BEGIN
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
--- returns user's info
+-- returns user's info (name, surname, role)
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE user_info(
@@ -210,7 +210,7 @@ BEGIN
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
--- update parcel_status
+-- update parcel_status (updates status (INT) to parcel with ID)
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE update_parcel_status(
@@ -239,6 +239,7 @@ END !!
 DELIMITER ;
 -- --------------------------------------------------------------
 -- get_jobs_filter_type
+-- retuens users jobs with type
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE get_jobs_filter_type(
@@ -314,6 +315,7 @@ END !!
 DELIMITER ;
 -- --------------------------------------------------------------
 -- warehouse_employee_info
+-- gets all employees of branch where user works
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE get_warehouse_employee_info(
@@ -333,6 +335,7 @@ END !!
 DELIMITER ;
 -- --------------------------------------------------------------
 -- returns branch employees
+-- gets all employees of branch with ID
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE branch_employees(
@@ -347,6 +350,7 @@ END !!
 DELIMITER ;
 -- --------------------------------------------------------------
 -- returns branch delivery drivers
+-- gets all employees of branch(branch_id) delivery drivers
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE branch_delivery_drivers(
@@ -361,6 +365,7 @@ END !!
 DELIMITER ;
 -- --------------------------------------------------------------
 -- returns branch international drivers
+-- gets all employees of branch(branch_id) international drivers
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE branch_international_drivers(
@@ -375,6 +380,7 @@ END !!
 DELIMITER ;
 -- --------------------------------------------------------------
 -- returns branches
+-- gets all branches
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE get_branches(
