@@ -5,9 +5,7 @@
 2. [Structure](#2-structure)
 3. [Building](#3-building)
 4. [Extending](#4-extending)
-5. [Public facing APIs](#5-public-facing-apis)
-   1. [DBAPI](#51-dbapi)
-   2. [Utils](#52-utils)
+
 
 ## 1. Description
 
@@ -37,6 +35,8 @@ The module structure is as follows:
   - The `Logger.java` file contains the implementation of the Logger.
   - The `Utils.java` file contains the utilities used by other parts of 
     the project.
+- The `Data` directory contains the POD implementations of database tables, 
+  or constructs that are returned by the prepared or callable statements
 - The `config.xml` file contains the database url parameters, such as ip, 
   port and schema name.
 - The `system.log` file contains the log of messages from the SFL-Core module.
@@ -53,30 +53,6 @@ and can be included into other projects either via GUI or manually via commands
 
 To extend the functionality of this module modify only the DBAPI.java or 
 Utils.java files. Modify the DBAPI.java file by adding new methods under 
-the `// PREPARED STATEMENTS` comment and recompile the jar.
-
-## 5. Public facing APIs
-
-### 5.1 DBAPI
-
-The DBAPI class methods are split into 2 sections, the connection management 
-methods and the database "manipulation" methods. 
-
-The connection management methods are:
-- `login(String username, String password)`
-- `logout()`
-
-Before using any of the database manipulation methods, the user must first
-call the login() method to create connection to the database (for which the
-parameters are stored in the config.xml file). When the user wants to stop
-the connection, the logout() method must be called.
-
-The database manipulation methods are:
-- `getCountOfIdenticalParcelIDs(String ParcelID)`
-- `getCountOfIdenticalUsernames(String username)`
-
-### 5.2 Utils
-
-The Utils class contains the following STATIC methods:
-- `generateParcelID(DBAPI dbapi, String country)`
-- `generateUsername(DBAPI dbapi, String name, String surname)`
+the `// PREPARED STATEMENTS` or `// CALLABLE STATEMENTs` comment and 
+recompile the jar. Of course you also need to add the statements to either
+`precompileStatements()` or `precompileCallables()` methods.
