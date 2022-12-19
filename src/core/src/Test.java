@@ -65,6 +65,8 @@ public class Test {
                 new GeneralAddress(0, "1230", "Wien, Liesing", "AUT")
         ));
 
+        System.out.println(api.getStaffDataFromUsername("alfperr10"));
+
         api.logout();
 
         //Utils.shortestPath(api, "a", "n");

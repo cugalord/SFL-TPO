@@ -51,4 +51,13 @@ public class DataStaff extends Data {
     public String getFullName() {
         return this.name.strip() + " " + this.surname.strip();
     }
+
+    /**
+     * Gets the staff first name and initial.
+     * @return String - The staff first name and initial.
+     */
+    public String getFirstNameAndInitial() {
+        return this.name.strip() + " " + this.surname.strip().charAt(0) + ".";
+    }
+
 }
