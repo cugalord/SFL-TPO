@@ -947,6 +947,12 @@ public class DBAPI {
         }
     }
 
+    /**
+     * Gets all employees with given role at the given branch.
+     * @param branchID int - The branch ID.
+     * @param roleID int - The role ID.
+     * @return ArrayList<DataStaff> - The list of employees.
+     */
     public ArrayList<DataStaff> getAllEmployeesWithRoleAtBranch(int branchID, int roleID) {
         ArrayList<DataStaff> data = new ArrayList<>();
         try {
@@ -965,6 +971,11 @@ public class DBAPI {
         return data;
     }
 
+    /**
+     * Gets the branch address for given branch ID.
+     * @param branchID int - The branch ID.
+     * @return GeneralAddress - The branch address.
+     */
     public GeneralAddress getBranchAddress(int branchID) {
         GeneralAddress data = null;
         try {
@@ -983,6 +994,11 @@ public class DBAPI {
         return data;
     }
 
+    /**
+     * Gets the ID of the branch office for the given country.
+     * @param countryISO String - The country ISO code.
+     * @return DataCount - The branch ID.
+     */
     public DataCount getBranchOffice(String countryISO) {
         DataCount data = null;
         try {
@@ -997,6 +1013,11 @@ public class DBAPI {
         return data;
     }
 
+    /**
+     * Gets the data for the given parcel id.
+     * @param parcelID String - The parcel ID.
+     * @return DataParcel - The parcel data.
+     */
     public DataParcel getParcelDataFromID(String parcelID) {
         DataParcel data = null;
         try {
@@ -1050,6 +1071,11 @@ public class DBAPI {
         return data;
     }
 
+    /**
+     * Gets the branch ID of the given employee.
+     * @param username String - The employee username.
+     * @return DataCount - The branch ID.
+     */
     public DataCount getBranchIDFromUsername(String username) {
         DataCount data = null;
         try {
@@ -1064,6 +1090,13 @@ public class DBAPI {
         return data;
     }
 
+    /**
+     * Creates a new job and returns its ID.
+     * @param jobTypeID int - The job type ID.
+     * @param jobStatusID int - The job status ID.
+     * @param username String - The employee username.
+     * @return DataCount - The job ID.
+     */
     public DataCount createJob(int jobTypeID, int jobStatusID, String username) {
         DataCount data = null;
         try {
@@ -1080,6 +1113,11 @@ public class DBAPI {
         return data;
     }
 
+    /**
+     * Links a parcel to a job.
+     * @param parcelID String - The parcel ID.
+     * @param jobID int - The job ID.
+     */
     public void linkJobAndParcel(String parcelID, int jobID) {
         try {
             this.callables[24].setString("parcel_id", parcelID);
@@ -1091,6 +1129,11 @@ public class DBAPI {
         }
     }
 
+    /**
+     * Gets the type of the given job.
+     * @param jobID int - The job ID.
+     * @return DataCount - The job type ID.
+     */
     public DataCount getJobType(int jobID) {
         DataCount data = null;
         try {

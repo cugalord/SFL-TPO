@@ -23,8 +23,10 @@ public class Data {
     private final int userIconIndex;
     /** How many items can be displayed on page. */
     private final int contentPerPage;
-    private static final HashMap<String, Integer> staffRoleToId = new HashMap<>();;
-    private static final HashMap<String, Integer> jobNameToId = new HashMap<>();;
+    /** Maps staff roles to their database identifiers. */
+    private static final HashMap<String, Integer> staffRoleToId = new HashMap<>();
+    /** Maps job type names to their database identifiers. */
+    private static final HashMap<String, Integer> jobNameToId = new HashMap<>();
 
     /**
      * Constructs a new Data object.
