@@ -42,7 +42,7 @@
                      </font>
                   </Label>
                   <TextField fx:id="senderStreetName" layoutX="217.0" layoutY="87.0" prefHeight="25.0" prefWidth="180.0" />
-                  <AnchorPane layoutX="37.0" layoutY="437.0" onMouseClicked="#createNewParcelAnchorPaneButton" prefHeight="29.0" prefWidth="103.0" style="-fx-border-color: #30a3ff; -fx-border-radius: 5px; -fx-border-width: 1.5px; -fx-cursor: hand;">
+                  <AnchorPane layoutX="37.0" layoutY="457.0" onMouseClicked="#createNewParcelAnchorPaneButton" prefHeight="29.0" prefWidth="103.0" style="-fx-border-color: #30a3ff; -fx-border-radius: 5px; -fx-border-width: 1.5px; -fx-cursor: hand;">
                      <children>
                         <Label fx:id="signOutAnchorPane1" alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="4.0" prefHeight="21.0" prefWidth="90.0" style="-fx-font-weight: bold;" text="Create" textFill="#30a3ff">
                            <font>
@@ -270,30 +270,42 @@
                      </font>
                   </Label>
                   <TextField fx:id="recID" layoutX="636.0" layoutY="221.0" prefHeight="25.0" prefWidth="180.0" />
-                  <Label layoutX="33.0" layoutY="284.0" text="Weight:">
+                  <Label layoutX="36.0" layoutY="323.0" text="Weight:">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="weight" layoutX="216.0" layoutY="285.0" prefHeight="25.0" prefWidth="180.0" />
-                  <Label layoutX="33.0" layoutY="311.0" text="Height:">
+                  <TextField fx:id="weight" layoutX="219.0" layoutY="324.0" prefHeight="25.0" prefWidth="180.0" />
+                  <Label layoutX="36.0" layoutY="350.0" text="Height:">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="height" layoutX="216.0" layoutY="312.0" prefHeight="25.0" prefWidth="180.0" />
-                  <Label layoutX="33.0" layoutY="336.0" text="Width:">
+                  <TextField fx:id="height" layoutX="219.0" layoutY="351.0" prefHeight="25.0" prefWidth="180.0" />
+                  <Label layoutX="36.0" layoutY="375.0" text="Width:">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="width" layoutX="216.0" layoutY="339.0" prefHeight="25.0" prefWidth="180.0" />
-                  <Label layoutX="32.0" layoutY="363.0" text="Depth:">
+                  <TextField fx:id="width" layoutX="219.0" layoutY="378.0" prefHeight="25.0" prefWidth="180.0" />
+                  <Label layoutX="35.0" layoutY="402.0" text="Depth:">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="depth" layoutX="216.0" layoutY="366.0" prefHeight="25.0" prefWidth="180.0" />
+                  <TextField fx:id="depth" layoutX="219.0" layoutY="405.0" prefHeight="25.0" prefWidth="180.0" />
+                  <Label layoutX="33.0" layoutY="245.0" text="Sender phone no.:">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="senderPhoneNumber" layoutX="217.0" layoutY="248.0" prefHeight="25.0" prefWidth="180.0" />
+                  <Label layoutX="453.0" layoutY="245.0" text="Rec. phone no.:">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="recPhoneNumber" layoutX="636.0" layoutY="248.0" prefHeight="25.0" prefWidth="180.0" />
                </children></AnchorPane>
          </children>
       </AnchorPane>

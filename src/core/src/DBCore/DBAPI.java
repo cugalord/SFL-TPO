@@ -28,7 +28,7 @@ public class DBAPI {
         this.core = new DBCore();
         this.logger = new Logger();
         this.statements = new PreparedStatement[15];
-        this.callables = new CallableStatement[20];
+        this.callables = new CallableStatement[30];
     }
 
     /**
@@ -106,6 +106,14 @@ public class DBAPI {
             this.callables[16] = this.core.getDbConnection().prepareCall("CALL customer_add(?, ?, ?, ?, ?, " +
                     "?, ?, ?, ?, ?)");
             this.callables[17] = this.core.getDbConnection().prepareCall("CALL update_job_status(?, ?)");
+            this.callables[18] = this.core.getDbConnection().prepareCall("CALL branch_employee_lookup(?, ?)");
+            this.callables[19] = this.core.getDbConnection().prepareCall("CALL get_branch_address(?)");
+            this.callables[20] = this.core.getDbConnection().prepareCall("CALL get_branch_office(?, ?)");
+            this.callables[21] = this.core.getDbConnection().prepareCall("CALL get_parcel(?)");
+            this.callables[22] = this.core.getDbConnection().prepareCall("CALL branch_lookup(?)");
+            this.callables[23] = this.core.getDbConnection().prepareCall("CALL job_create(?, ?, ?)");
+            this.callables[24] = this.core.getDbConnection().prepareCall("CALL link_parcel_job(?, ?)");
+            this.callables[25] = this.core.getDbConnection().prepareCall("CALL get_job_type(?, ?)");
             // ... more callables.
         } catch (SQLException e) {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
@@ -467,7 +475,7 @@ public class DBAPI {
                             rs.getDate("date_created").toLocalDate(),
                             rs.getDate("date_completed") == null ? null : rs.getDate("date_completed").toLocalDate(),
                             rs.getString("job_type"),
-                            rs.getString("job_id"),
+                            rs.getString("job_status"),
                             username
                     ));
                     data.get(data.size() - 1).parcelIDs.add(rs.getString("parcel_id"));
@@ -937,6 +945,164 @@ public class DBAPI {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<DataStaff> getAllEmployeesWithRoleAtBranch(int branchID, int roleID) {
+        ArrayList<DataStaff> data = new ArrayList<>();
+        try {
+            this.callables[18].setInt("branch_id", branchID);
+            this.callables[18].setInt("staff_role", roleID);
+            ResultSet rs = this.callables[18].executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                data.add(new DataStaff(i, rs.getString("username"), "", "", ""));
+                i++;
+            }
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    public GeneralAddress getBranchAddress(int branchID) {
+        GeneralAddress data = null;
+        try {
+            this.callables[19].setInt("branch_id", branchID);
+            ResultSet rs = this.callables[19].executeQuery();
+            rs.next();
+            data = new GeneralAddress(0,
+                    rs.getString("city_code"),
+                    rs.getString("city_name"),
+                    rs.getString("country_code"));
+
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    public DataCount getBranchOffice(String countryISO) {
+        DataCount data = null;
+        try {
+            this.callables[20].setString("country", countryISO);
+            ResultSet rs = this.callables[20].executeQuery();
+            rs.next();
+            data = new DataCount(0, rs.getInt("branch_id"));
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    public DataParcel getParcelDataFromID(String parcelID) {
+        DataParcel data = null;
+        try {
+            this.callables[21].setString("ID", parcelID);
+            ResultSet rs = this.callables[21].executeQuery();
+            rs.next();
+            // Assemble the sender data.
+            DataCustomer sender = new DataCustomer(
+                    0, rs.getString("sender"), "", "", "", "",
+                    new SpecificAddress(
+                            0,
+                            rs.getString("sender_street_name"),
+                            rs.getInt("sender_street_num"),
+                            rs.getString("sender_city_code"),
+                            rs.getString("sender_city_name"),
+                            rs.getString("sender_country_code")
+                    )
+            );
+            // Assemble the recipient data.
+            DataCustomer recipient = new DataCustomer(
+                    0, rs.getString("recipient"), "", "", "", "",
+                    new SpecificAddress(
+                            0,
+                            rs.getString("recipient_street_name"),
+                            rs.getInt("recipient_street_num"),
+                            rs.getString("recipient_city_code"),
+                            rs.getString("recipient_city_name"),
+                            rs.getString("recipient_country_code")
+                    )
+            );
+
+            data = new DataParcel(
+                    0,
+                    rs.getString("parcel_id"),
+                    rs.getString("parcel_status"),
+                    sender,
+                    recipient,
+                    rs.getInt("weight"),
+                    new Dimensions(
+                            0,
+                            rs.getInt("height"),
+                            rs.getInt("width"),
+                            rs.getInt("depth")
+                    )
+            );
+
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    public DataCount getBranchIDFromUsername(String username) {
+        DataCount data = null;
+        try {
+            this.callables[22].setString("username", username);
+            ResultSet rs = this.callables[22].executeQuery();
+            rs.next();
+            data = new DataCount(0, rs.getInt("branch_id"));
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    public DataCount createJob(int jobTypeID, int jobStatusID, String username) {
+        DataCount data = null;
+        try {
+            this.callables[23].setInt("job_type", jobTypeID);
+            this.callables[23].setInt("job_status_id", jobStatusID);
+            this.callables[23].setString("staff_username", username);
+            this.callables[23].registerOutParameter("job_id", Types.INTEGER);
+            this.callables[23].executeQuery();
+            data = new DataCount(0, this.callables[23].getInt("job_id"));
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    public void linkJobAndParcel(String parcelID, int jobID) {
+        try {
+            this.callables[24].setString("parcel_id", parcelID);
+            this.callables[24].setInt("job_id", jobID);
+            this.callables[24].executeQuery();
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+    }
+
+    public DataCount getJobType(int jobID) {
+        DataCount data = null;
+        try {
+            this.callables[25].setInt("jID", jobID);
+            this.callables[25].registerOutParameter("type_id", Types.INTEGER);
+            this.callables[25].executeQuery();
+            data = new DataCount(0, this.callables[25].getInt("type_id"));
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
     }
 
 }

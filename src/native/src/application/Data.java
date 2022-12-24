@@ -1,9 +1,6 @@
 package application;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import Data.*;
 import Utils.Utils;
@@ -26,6 +23,8 @@ public class Data {
     private final int userIconIndex;
     /** How many items can be displayed on page. */
     private final int contentPerPage;
+    private static final HashMap<String, Integer> staffRoleToId = new HashMap<>();;
+    private static final HashMap<String, Integer> jobNameToId = new HashMap<>();;
 
     /**
      * Constructs a new Data object.
@@ -40,6 +39,23 @@ public class Data {
         }
         this.userIconIndex = new Random().nextInt(5);
         this.contentPerPage = 7;
+
+        Data.staffRoleToId.put("Administrator", 1);
+        Data.staffRoleToId.put("Warehouse manager", 2);
+        Data.staffRoleToId.put("Warehouse agent", 3);
+        Data.staffRoleToId.put("Delivery driver", 4);
+        Data.staffRoleToId.put("International driver", 5);
+        Data.staffRoleToId.put("Logistics agent", 6);
+        Data.staffRoleToId.put("Order confirmation specialist", 7);
+
+        Data.jobNameToId.put("Order processing", 1);
+        Data.jobNameToId.put("Handover", 2);
+        Data.jobNameToId.put("Check in", 3);
+        Data.jobNameToId.put("Check out", 4);
+        Data.jobNameToId.put("Cargo departing confirmation", 5);
+        Data.jobNameToId.put("Cargo arrival confirmation", 6);
+        Data.jobNameToId.put("Delivery cargo confirmation", 7);
+        Data.jobNameToId.put("Parcel handover", 8);
     }
 
     /**
@@ -67,21 +83,14 @@ public class Data {
                     Common.parcelToJob.put(parcelID, Integer.toString(job.jobID));
                     DataParcel parcel = Common.dbapi.getParcelData(parcelID);
                     String[] parcelString = {
-                            parcel.parcelID,
+                            Integer.toString(job.jobID),
                             parcel.parcelID,
                             Double.toString(parcel.weight),
                             parcel.dimensions.height + "x" + parcel.dimensions.width + "x" + parcel.dimensions.depth,
-                            parcel.statusID,
-                            ""
+                            job.jobStatusID,
+                            job.jobTypeID
                     };
                     this.content.add(parcelString);
-
-                }
-            }
-            System.out.println("Content size: " + this.content.size());
-            for (String[] parcel : this.content) {
-                for (String s : parcel) {
-                    System.out.print(s + " ");
                 }
             }
         }
@@ -92,12 +101,8 @@ public class Data {
      */
     void setupShipmentData() {
         if (!Data.userRole.equals("Warehouse manager")) {
-            System.out.println();
-            System.out.println("Prepping data.");
             ArrayList<DataJob> data = Common.dbapi.getJobsOfStaff(Data.user);
-            System.out.println(data.size());
             for (DataJob job : data) {
-                System.out.println("Job: " + job.jobID);
                 double weight = 0;
                 for (String parcelID : job.parcelIDs) {
                     DataParcel parcel = Common.dbapi.getParcelData(parcelID);
@@ -110,12 +115,6 @@ public class Data {
                         job.jobStatusID
                 };
                 this.shipments.add(parcelString);
-            }
-            for (String[] parcel : this.shipments) {
-                for (String s : parcel) {
-                    System.out.print(s + " ");
-                }
-                System.out.println();
             }
         }
     }
@@ -152,6 +151,7 @@ public class Data {
      * @param _senderCityName String - The sender's city name.
      * @param _senderCountryCode String - The sender's country code.
      * @param _senderID String - The sender's ID.
+     * @param _senderPhoneNumber String - The sender's phone number.
      * @param _rec String - The recipient's username.
      * @param _recStreetName String - The recipient's street name.
      * @param _recStreetNumber String - The recipient's street number.
@@ -159,12 +159,15 @@ public class Data {
      * @param _recCityName String - The recipient's city name.
      * @param _recCountryCode String - The recipient's country code.
      * @param _recID String - The recipient's ID.
+     * @param _recPhoneNumber String - The recipient's phone number.
      * @param _weight String - The parcel's weight.
      * @param _height String - The parcel's height.
      * @param _width String - The parcel's width.
      * @param _depth String - The parcel's depth.
      */
-    public void createNewParcel(String _sender, String _senderStreetName, String _senderStreetNumber, String _senderCityCode, String _senderCityName, String _senderCountryCode, String _senderID, String _rec, String _recStreetName, String _recStreetNumber, String _recCityCode, String _recCityName, String _recCountryCode, String _recID, String _weight, String _height, String _width, String _depth) {
+    public void createNewParcel(String _sender, String _senderStreetName, String _senderStreetNumber, String _senderCityCode, String _senderCityName, String _senderCountryCode, String _senderID, String _senderPhoneNumber,
+                                String _rec, String _recPhoneNumber, String _recStreetName, String _recStreetNumber, String _recCityCode, String _recCityName, String _recCountryCode, String _recID,
+                                String _weight, String _height, String _width, String _depth) {
         String senderFirstName = _sender.split(" ")[0];
         List<String> parts = Arrays.asList(_sender.split(" "));
         String senderLastName = String.join(" ", parts.subList(1, parts.size()));
@@ -179,7 +182,7 @@ public class Data {
                 senderFirstName,
                 senderLastName,
                 "",
-                "",
+                _senderPhoneNumber,
                 new SpecificAddress(
                         0,
                         _senderStreetName,
@@ -194,7 +197,7 @@ public class Data {
                 recipientFirstName,
                 recipientLastName,
                 "",
-                "",
+                _recPhoneNumber,
                 new SpecificAddress(
                         0,
                         _recStreetName,
@@ -212,9 +215,10 @@ public class Data {
         try {
             Common.dbapi.createCustomer(sender);
             Common.dbapi.createCustomer(recipient);
+            String parcelID = Utils.generateParcelID(Common.dbapi, _senderCountryCode);
             Common.dbapi.createParcel(new DataParcel(
                     0,
-                    Utils.generateParcelID(Common.dbapi, _senderCountryCode),
+                    parcelID,
                     "",
                     sender,
                     recipient,
@@ -222,14 +226,14 @@ public class Data {
                     dimensions
             ));
 
+            Internals.createJobForDriver(parcelID, Data.user);
+
             // After adding parcel update view.
             this.setupParcelData();
             this.setupShipmentData();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("created new parcel! ");
-        System.out.println(_sender + _senderStreetName+ _rec+ _recStreetName+ _weight+ _height+ _depth);
     }
 
 
@@ -261,7 +265,7 @@ public class Data {
      * @param action String - The action.
      * @param value  String - The action value.
      */
-    public void deliveryDriverAction(String action, String value) {
+    public void deliveryDriverAction(String action, String value, String driverType) {
         int jobID = Integer.parseInt(Common.parcelToJob.get(value));
         int newStatus = switch (action.split(" ")[1]) {
             case "handover" -> 2;
@@ -269,6 +273,29 @@ public class Data {
             default -> 0;
         };
         Common.dbapi.updateJobStatus(jobID, newStatus);
+
+        if (newStatus == 2) {
+            if (driverType.equals("International")) {
+                int jobType = Common.dbapi.getJobType(jobID).value;
+
+                if (jobType == 2) {
+                    Internals.moveJob(Internals.MoveType.DELIVERYTOWAREHOUSE, jobID, value, Data.user, Data.userRole);
+                }
+                else if (jobType == 7) {
+                    Internals.moveJob(Internals.MoveType.DELIVERYTODELIVERY, jobID, value, Data.user, Data.userRole);
+                }
+            }
+            else {
+                int jobType = Common.dbapi.getJobType(jobID).value;
+
+                if (jobType == 5) {
+                    Internals.moveJob(Internals.MoveType.INTERNATIONALTOINTERNATIONAL, jobID, value, Data.user, Data.userRole);
+                }
+                else if (jobType == 6) {
+                    Internals.moveJob(Internals.MoveType.INTERNATIONALTOWAREHOUSE, jobID, value, Data.user, Data.userRole);
+                }
+            }
+        }
     }
 
 
@@ -295,6 +322,8 @@ public class Data {
         return this.shipments.subList(from, to);
     }
 
+    // WAREHOUSE AGENT METHODS
+
     /**
      * Changes the parcel status.
      *
@@ -302,16 +331,37 @@ public class Data {
      * @param status   String - The new status.
      */
     public void statusChanged(String parcelID, String status) {
-        int statusID = switch (status) {
-            case "In IT system" -> 1;
-            case "In transit" -> 2;
-            case "At the final parcel center" -> 3;
-            case "In delivery" -> 4;
-            case "Delivered" -> 5;
-            default -> 0 + 1;
+        int newStatus = switch (status) {
+            case "Completed" -> 2;
+            case "Cancelled" -> 3;
+            default -> 0;
         };
-        Common.dbapi.updateParcelStatus(parcelID, statusID);
-        System.out.println(parcelID + " " + status);
+
+        int jobID = Integer.parseInt(Common.parcelToJob.get(parcelID));
+        Common.dbapi.updateJobStatus(jobID, newStatus);
+
+        if (newStatus == 2) {
+            int branchID = Common.dbapi.getBranchIDFromUsername(Data.user).value;
+            GeneralAddress branchAddress = Common.dbapi.getBranchAddress(branchID);
+            DataParcel parcel = Common.dbapi.getParcelData(parcelID);
+
+            SpecificAddress finalAddress = parcel.recipient.address;
+            GeneralAddress finalAddressGeneral = new GeneralAddress(
+                    0,
+                    finalAddress.postCode,
+                    finalAddress.cityName,
+                    finalAddress.countryISO);
+
+            ArrayList<DataParcelCenter> centers = Utils.shortestPath(Common.dbapi, branchAddress, finalAddressGeneral);
+            int finalCenterID = Integer.parseInt(centers.get(centers.size() - 1).id);
+
+            if (finalCenterID == branchID) {
+                Internals.moveJob(Internals.MoveType.WAREHOUSETODELIVERY, jobID, parcelID, Data.user, Data.userRole);
+            }
+            else {
+                Internals.moveJob(Internals.MoveType.WAREHOUSETOINTERNATIONAL, jobID, parcelID, Data.user, Data.userRole);
+            }
+        }
     }
 
     /**
@@ -539,6 +589,282 @@ public class Data {
      */
     public String getUserRole(String username) {
         return Common.dbapi.getStaffDataFromUsername(username).role;
+    }
+
+    /**
+     * The internal implementation of the parcel pipeline.
+     */
+    private static class Internals {
+        /** Current job ID. */
+        private static int jobID;
+
+        /**
+         * The type of job move, which tells the system from which staff role to which staff role the parcel is moving.
+         */
+        public enum MoveType {
+            DELIVERYTOWAREHOUSE,
+            WAREHOUSETOINTERNATIONAL,
+            INTERNATIONALTOINTERNATIONAL,
+            INTERNATIONALTOWAREHOUSE,
+            WAREHOUSETODELIVERY,
+            DELIVERYTODELIVERY,
+        }
+
+        // STEP 2
+        // On parcel create -> create job for random delivery driver at closest parcel center.
+
+        /**
+         * Creates a job for a random delivery driver at the closest parcel center.
+         * @param parcelID String - The parcel ID.
+         * @param username String - The username of the staff member who created the parcel.
+         */
+        private static void createJobForDriver(String parcelID, String username) {
+            // From staff username get branch
+            // From branch address get closest parcel center (coordinates etc.)
+            // Create job for random driver at that parcel center
+
+            int branchID = Common.dbapi.getBranchIDFromUsername(username).value;
+            GeneralAddress branchAddress = Common.dbapi.getBranchAddress(branchID);
+            SpecificAddress finalAddress = Common.dbapi.getParcelData(parcelID).recipient.address;
+            GeneralAddress finalAddressGeneral = new GeneralAddress(0, finalAddress.postCode, finalAddress.cityName, finalAddress.countryISO);
+            // SpecificAddress branchAddress = Common.dbapi.getBranchAddress(branchID);
+            // GeneralAddress branchGeneralAddress = new GeneralAddress(branchAddress.items);
+            // SpecificAddress finalAddress = Common.dbapi.getParcelData(parcelID).recipientAddress;
+            // GeneralAddress finalGeneralAddress = new GeneralAddress(finalAddress.items);
+            // ArrayList<DataParcelCenter> closestParcelCenter = Utils.shortestPath(Common.dbapi, branchGeneralAddress, finalGeneralAddress);
+            // String parcelCenterID = closestParcelCenter.get(0).id;
+            // ArrayList<DataStaff> drivers = Common.dbapi.getStaffDataFromParcelCenter(parcelCenterID, "Delivery driver");
+            // Get random driver
+            // Common.dbapi.createJob(//);
+
+            ArrayList<DataParcelCenter> parcelCenters = Utils.shortestPath(Common.dbapi, branchAddress, finalAddressGeneral);
+            String parcelCenterID = parcelCenters.get(0).id;
+            ArrayList<DataStaff> drivers = Common.dbapi.getAllEmployeesWithRoleAtBranch(branchID, Data.staffRoleToId.get("Delivery driver"));
+
+            DataStaff driver = drivers.get(new Random().nextInt(drivers.size()));
+            Internals.jobID = Common.dbapi.createJob(Data.jobNameToId.get("Handover"), 1, driver.username).value;
+            Common.dbapi.linkJobAndParcel(parcelID, Internals.jobID);
+        }
+
+        // STEPS 3, 4, 5, 6, 7
+        // Moves job to another driver or warehouse agent.
+        // Dijkstra on switch of roles.
+
+        /**
+         * Moves a job to another driver or warehouse agent.
+         * @param type MoveType - The type of move.
+         * @param jobID int - The job ID.
+         * @param parcelID String - The parcel ID.
+         * @param username String - The username of the staff member who moved the job.
+         * @param userRole String - The user role.
+         */
+        private static void moveJob(MoveType type, int jobID, String parcelID, String username, String userRole) {
+            switch (type) {
+                case DELIVERYTOWAREHOUSE -> {
+                    Internals.moveJobFromDeliveryToWarehouse(jobID, parcelID, username, userRole);
+                }
+                case WAREHOUSETOINTERNATIONAL -> {
+                    Internals.moveJobFromWarehouseToInternational(jobID, parcelID, username, userRole);
+                }
+                case INTERNATIONALTOINTERNATIONAL -> {
+                    Internals.moveJobFromInternationalToInternational(jobID, parcelID, username, userRole);
+                }
+                case INTERNATIONALTOWAREHOUSE -> {
+                    Internals.moveJobFromInternationalToWarehouse(jobID, parcelID, username, userRole);
+                }
+                case WAREHOUSETODELIVERY -> {
+                    Internals.moveJobFromWarehouseToDelivery(jobID, parcelID, username, userRole);
+                }
+                case DELIVERYTODELIVERY -> {
+                    Internals.moveJobFromDeliveryToDelivery(jobID, parcelID, username, userRole);
+                }
+                default -> {
+                    return;
+                }
+            }
+            // If type is DELIVERTOWAREHOUSE
+            // Get random warehouse agent at same parcel center.
+            // Create job for that warehouse agent. (check-in)
+            // If type is WAREHOUSETOINTERNATIONAL
+            // Get random international driver at head office in same country as parcel center.
+            // Create job for that international driver. (cargo departing info)
+            // If type is INTERNATIONALTOINTERNATIONAL
+            // Create cargo arrival info job for that international driver.
+            // If type is INTERNATIONALTOWAREHOUSE
+            // Get random warehouse agent at destination parcel center.
+            // Create job for that warehouse agent. (check-in)
+            // If type is WAREHOUSETODELIVERY
+            // Get random delivery driver at current parcel center.
+            // Create job for that delivery driver. (delivery cargo info)
+            // If type is DELIVERYTODELIVERY
+            // Create job for same delivery driver. (parcel handover)
+        }
+
+        /**
+         * Moves a job from delivery driver to warehouse agent.
+         * @param jobID int - The job ID.
+         * @param parcelID String - The parcel ID.
+         * @param username String - The username of the staff member who moved the job.
+         * @param userRole String - The user role.
+         */
+        private static void moveJobFromDeliveryToWarehouse(int jobID, String parcelID, String username, String userRole) {
+            int branchID = Common.dbapi.getBranchIDFromUsername(username).value;
+            ArrayList<DataStaff> warehouseAgents = Common.dbapi.getAllEmployeesWithRoleAtBranch(branchID, Data.staffRoleToId.get("Warehouse agent"));
+            DataStaff warehouseAgent = warehouseAgents.get(new Random().nextInt(warehouseAgents.size()));
+            Internals.jobID = Common.dbapi.createJob(Data.jobNameToId.get("Check in"), 1, warehouseAgent.username).value;
+            Common.dbapi.linkJobAndParcel(parcelID, jobID);
+
+            // int branchID = Common.dbapi.getBranchIDFromStaff(username);
+            // ArrayList<DataStaff> warehouseAgents = Common.dbapi.getStaffDataFromParcelCenter(branchID, "Warehouse Agent");
+            // Get random agent
+            // Common.dbapi.createJob(//);
+
+
+            // Get random warehouse agent at same parcel center.
+            // Create job for that warehouse agent. (check-in)
+        }
+
+        /**
+         * Moves a job from warehouse agent to international driver.
+         * @param jobID int - The job ID.
+         * @param parcelID String - The parcel ID.
+         * @param username String - The username of the staff member who moved the job.
+         * @param userRole String - The user role.
+         */
+        private static void moveJobFromWarehouseToInternational(int jobID, String parcelID, String username, String userRole) {
+            int branchID = Common.dbapi.getBranchIDFromUsername(username).value;
+            GeneralAddress branchAddress = Common.dbapi.getBranchAddress(branchID);
+            int headOfficeID = Common.dbapi.getBranchOffice(branchAddress.countryISO).value;
+            ArrayList<DataStaff> internationalDrivers = Common.dbapi.getAllEmployeesWithRoleAtBranch(headOfficeID, Data.staffRoleToId.get("International driver"));
+            DataStaff internationalDriver = internationalDrivers.get(new Random().nextInt(internationalDrivers.size()));
+            Internals.jobID = Common.dbapi.createJob(Data.jobNameToId.get("Cargo departing confirmation"), 1, internationalDriver.username).value;
+            Common.dbapi.linkJobAndParcel(parcelID, Internals.jobID);
+
+            // int branchID = Common.dbapi.getBranchIDFromStaff(username);
+            // SpecificAddress branchAddress = Common.dbapi.getBranchAddress(branchID);
+            // int headOfficeID = Common.dbapi.getBranchOfficeIDFromCountry(branchAddress.country);
+            // ArrayList<DataStaff> internationalDrivers = Common.dbapi.getStaffDataFromParcelCenter(headOfficeID, "International driver");
+            // Get random driver
+            // Common.dbapi.createJob(//);
+
+            // Get random international driver at head office in same country as parcel center.
+            // Create job for that international driver. (cargo departing info)
+        }
+
+        /**
+         * Moves a job from international driver to international driver (same person).
+         * @param jobID int - The job ID.
+         * @param parcelID String - The parcel ID.
+         * @param username String - The username of the staff member who moved the job.
+         * @param userRole String - The user role.
+         */
+        private static void moveJobFromInternationalToInternational(int jobID, String parcelID, String username, String userRole) {
+            ArrayList<DataJob> jobs = Common.dbapi.getJobsOfStaff(username);
+            DataJob currentJob = null;
+            for (DataJob job : jobs) {
+                if (job.jobID == jobID) {
+                    currentJob = job;
+                    break;
+                }
+            }
+
+            Internals.jobID = Common.dbapi.createJob(Data.jobNameToId.get("Cargo arrival confirmation"), 1, username).value;
+
+            ArrayList<DataParcel> parcels = new ArrayList<>();
+            for (String jobParcelID : currentJob.parcelIDs) {
+                Common.dbapi.linkJobAndParcel(jobParcelID, Internals.jobID);
+            }
+
+            // Common.dbapi.createJob(//);
+
+            // Create cargo arrival info job for that international driver.
+        }
+
+        /**
+         * Moves a job from international driver to warehouse agent.
+         * @param jobID int - The job ID.
+         * @param parcelID String - The parcel ID.
+         * @param username String - The username of the staff member who moved the job.
+         * @param userRole String - The user role.
+         */
+        private static void moveJobFromInternationalToWarehouse(int jobID, String parcelID, String username, String userRole) {
+            int branchID = Common.dbapi.getBranchIDFromUsername(username).value;
+
+            GeneralAddress branchAddress = Common.dbapi.getBranchAddress(branchID);
+            SpecificAddress finalAddress = Common.dbapi.getParcelData(parcelID).recipient.address;
+            GeneralAddress finalAddressGeneral = new GeneralAddress(0, finalAddress.postCode, finalAddress.cityName, finalAddress.countryISO);
+
+
+            ArrayList<DataParcelCenter> branches = Utils.shortestPath(Common.dbapi, branchAddress, finalAddressGeneral);
+            DataParcelCenter branch = branches.get(0);
+
+            ArrayList<DataStaff> warehouseAgents = Common.dbapi.getAllEmployeesWithRoleAtBranch(Integer.parseInt(branch.id), Data.staffRoleToId.get("Warehouse agent"));
+            DataStaff warehouseAgent = warehouseAgents.get(new Random().nextInt(warehouseAgents.size()));
+
+            Internals.jobID = Common.dbapi.createJob(Data.jobNameToId.get("Check in"), 1, warehouseAgent.username).value;
+            Common.dbapi.linkJobAndParcel(parcelID, Internals.jobID);
+
+            // int branchID = Common.dbapi.getBranchIDFromStaff(username);
+            // int parcelID = Common.dbapi.getParcelIDFromJob(jobID);
+            // SpecificAddress finalAddress = Common.dbapi.getParcelData(parcelID).recipientAddress;
+            // ArrayList<DataStaff> warehouseAgents = Common.dbapi.getStaffDataFromParcelCenter(finalAddress, "Warehouse Agent");
+            // Get random agent
+            // Common.dbapi.createJob(//);
+
+            // Get random warehouse agent at destination parcel center.
+            // Create job for that warehouse agent. (check-in)
+        }
+
+        /**
+         * Moves a job from warehouse agent to delivery driver.
+         * @param jobID int - The job ID.
+         * @param parcelID String - The parcel ID.
+         * @param username String - The username of the staff member who moved the job.
+         * @param userRole String - The user role.
+         */
+        private static void moveJobFromWarehouseToDelivery(int jobID, String parcelID, String username, String userRole) {
+            int branchID = Common.dbapi.getBranchIDFromUsername(username).value;
+            ArrayList<DataStaff> deliveryDrivers = Common.dbapi.getAllEmployeesWithRoleAtBranch(branchID, Data.staffRoleToId.get("Delivery driver"));
+            DataStaff deliveryDriver = deliveryDrivers.get(new Random().nextInt(deliveryDrivers.size()));
+
+            Internals.jobID = Common.dbapi.createJob(Data.jobNameToId.get("Delivery cargo confirmation"), 1, deliveryDriver.username).value;
+            Common.dbapi.linkJobAndParcel(parcelID, Internals.jobID);
+
+            // int branchID = Common.dbapi.getBranchIDFromStaff(username);
+            // SpecificAddress branchAddress = Common.dbapi.getBranchAddress(branchID);
+            // GeneralAddress branchGeneralAddress = new GeneralAddress(branchAddress.items);
+            // ArrayList<DataStaff> deliveryDrivers = Common.dbapi.getStaffDataFromParcelCenter(branchGeneralAddress, "Delivery driver");
+            // Get random driver
+            // Common.dbapi.createJob(//);
+
+            // Get random delivery driver at current parcel center.
+            // Create job for that delivery driver. (delivery cargo info)
+        }
+
+        /**
+         * Moves a job from delivery driver to delivery driver (same person).
+         * @param jobID int - The job ID.
+         * @param parcelID String - The parcel ID.
+         * @param username String - The username of the staff member who moved the job.
+         * @param userRole String - The user role.
+         */
+        private static void moveJobFromDeliveryToDelivery(int jobID, String parcelID, String username, String userRole) {
+            ArrayList<DataJob> jobs = Common.dbapi.getJobsOfStaff(username);
+            DataJob currentJob = null;
+            for (DataJob job : jobs) {
+                if (job.jobID == jobID) {
+                    currentJob = job;
+                    break;
+                }
+            }
+
+            Internals.jobID = Common.dbapi.createJob(Data.jobNameToId.get("Parcel handover"), 1, username).value;
+
+            ArrayList<DataParcel> parcels = new ArrayList<>();
+            for (String jobParcelID : currentJob.parcelIDs) {
+                Common.dbapi.linkJobAndParcel(jobParcelID, Internals.jobID);
+            }
+        }
     }
 
 }

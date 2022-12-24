@@ -42,7 +42,7 @@ public class WarehouseAgentController implements Initializable {
 	@FXML private Label d1,  d2,  d3,  d4,  d5,  d6,  d7;  // dimensions
 	@FXML private ChoiceBox<String> c1, c2, c3, c4, c5, c6, c7;    // Action
 	
-	private String[] choices = { "In IT system", "In transit", "At the final parcel center", "In delivery", "Delivered" };
+	private String[] choices = { "Completed", "Cancelled" };
 
 	private int page = 0;
 	private Data data = new Data();

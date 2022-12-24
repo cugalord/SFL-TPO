@@ -32,8 +32,8 @@ public class OrderConfirmationSpecialistController implements Initializable {
 	@FXML private CheckBox c1, c2, c3, c4, c5, c6, c7;    // Confirmed checkbox
 	@FXML private Label 		userFullName;
 	@FXML private ImageView		userIcon;
-	@FXML private TextField		sender, senderStreetName, senderStreetNumber, senderCityCode, senderCityName, senderCountryCode, senderID;
-	@FXML private TextField		rec, recStreetName, recStreetNumber, recCityCode, recCityName, recCountryCode, recID;
+	@FXML private TextField		sender, senderStreetName, senderStreetNumber, senderCityCode, senderCityName, senderCountryCode, senderID, senderPhoneNumber;
+	@FXML private TextField		rec, recStreetName, recStreetNumber, recCityCode, recCityName, recCountryCode, recID, recPhoneNumber;
 	@FXML private TextField		weight, height, width, depth;
 	
 	
@@ -172,6 +172,7 @@ public class OrderConfirmationSpecialistController implements Initializable {
 		String _senderCityName = senderCityName.getText();
 		String _senderCountryCode = senderCountryCode.getText();
 		String _senderID = senderID.getText();
+		String _senderPhoneNumber = senderPhoneNumber.getText();
 		
 		String _rec = rec.getText();
 		String _recStreetName = recStreetName.getText();
@@ -180,14 +181,15 @@ public class OrderConfirmationSpecialistController implements Initializable {
 		String _recCityName = recCityName.getText();
 		String _recCountryCode = recCountryCode.getText();
 		String _recID = recID.getText();
+		String _recPhoneNumber = recPhoneNumber.getText();
 		
 		String _weight = weight.getText();
 		String _height = height.getText();
 		String _width = width.getText();
 		String _depth = depth.getText();
 
-		data.createNewParcel(_sender, _senderStreetName, _senderStreetNumber, _senderCityCode, _senderCityName, _senderCountryCode, _senderID,
-							 _rec, _recStreetName, _recStreetNumber, _recCityCode, _recCityName, _recCountryCode, _recID,
+		data.createNewParcel(_sender, _senderStreetName, _senderStreetNumber, _senderCityCode, _senderCityName, _senderCountryCode, _senderID, _senderPhoneNumber,
+							 _rec, _recStreetName, _recStreetNumber, _recCityCode, _recCityName, _recCountryCode, _recID, _recPhoneNumber,
 							 _weight, _height, _width, _depth);
 		
 		// return to "Order processing" view
