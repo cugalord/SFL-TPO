@@ -70,7 +70,7 @@ CREATE PROCEDURE customer_add(
 BEGIN
     CALL street_add(st_name,st_num,city_code,city_name,country_code);
 
-	INSERT customer
+	INSERT IGNORE customer
 	VALUES(username,name,surname,company_name,tel_num,st_name,st_num,city_code,city_name,country_code);
 END !!
 DELIMITER ;
@@ -86,7 +86,7 @@ CREATE PROCEDURE job_create(
 )
 BEGIN
 	INSERT job
-	VALUES(default,NOW(),NULL, job_type_id, job_status_id, staff_username);
+	VALUES(default,NOW(),NULL, job_type, job_status_id, staff_username);
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
@@ -177,7 +177,7 @@ DELIMITER ;
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE link_parcel_job(
-    IN parcel_id INT,
+    IN parcel_id VARCHAR(8),
     IN job_id INT
 )
 BEGIN
@@ -261,7 +261,8 @@ CREATE PROCEDURE user_info(
 BEGIN
     SELECT s.name, s.surname, sr.role_name INTO u_name, u_surname, u_role
     FROM staff s
-    INNER JOIN staff_role sr ON s.staff_role_id = sr.id;
+    INNER JOIN staff_role sr ON s.staff_role_id = sr.id
+    WHERE s.username=username;
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
@@ -290,6 +291,20 @@ BEGIN
     SELECT COUNT(j.id) INTO no_of_jobs
     FROM job j
     WHERE j.staff_username=username AND j.job_status_id=1;
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- change job status
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE update_job_status(
+    IN job_ID INT,
+    IN new_status INT
+)
+BEGIN
+    UPDATE job
+    SET job_status_id=new_status
+    WHERE id=job_ID;
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
@@ -579,8 +594,5 @@ BEGIN
     INNER JOIN staff_role sr ON s.staff_role_id = sr.id
     INNER JOIN branch b on s.branch_id = b.id
     WHERE sr.id=4 AND b.id=branch_id;
-
-
-
 END !!
 DELIMITER ;
