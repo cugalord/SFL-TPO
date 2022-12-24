@@ -70,7 +70,7 @@ CREATE PROCEDURE customer_add(
 BEGIN
     CALL street_add(st_name,st_num,city_code,city_name,country_code);
 
-	INSERT customer
+	INSERT IGNORE customer
 	VALUES(username,name,surname,company_name,tel_num,st_name,st_num,city_code,city_name,country_code);
 END !!
 DELIMITER ;
