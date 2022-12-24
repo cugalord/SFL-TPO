@@ -1,6 +1,7 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -23,19 +24,27 @@ public class Data {
     public static String userRole;
     /** The user icon index. */
     private final int userIconIndex;
-
-
+    /** How many items can be displayed on page. */
     private final int contentPerPage;
 
     /**
      * Constructs a new Data object.
      */
     public Data() {
+        if (Common.dbapi.isConnectionEstablished()) {
+            if (!Common.username.equals("")) {
+                Data.user = Common.username;
+                this.setupParcelData();
+                this.setupShipmentData();
+            }
+        }
         this.userIconIndex = new Random().nextInt(5);
         this.contentPerPage = 7;
     }
 
-    // *** test data ***
+    /**
+     * Sets up the parcel data.
+     */
     void setupParcelData() {
         if (Data.userRole.equals("Warehouse manager")) {
             ArrayList<DataParcel> data = Common.dbapi.getWarehouseManagerParcelData(Data.user);
@@ -45,7 +54,7 @@ public class Data {
                         parcel.parcelID,
                         Double.toString(parcel.weight),
                         parcel.dimensions.height + "x" + parcel.dimensions.width + "x" + parcel.dimensions.depth,
-                        Integer.toString(parcel.statusID),
+                        parcel.statusID,
                         ""
                 };
                 this.content.add(parcelString);
@@ -55,66 +64,40 @@ public class Data {
             ArrayList<DataJob> data = Common.dbapi.getJobsOfStaff(Data.user);
             for (DataJob job : data) {
                 for (String parcelID : job.parcelIDs) {
+                    Common.parcelToJob.put(parcelID, Integer.toString(job.jobID));
                     DataParcel parcel = Common.dbapi.getParcelData(parcelID);
                     String[] parcelString = {
                             parcel.parcelID,
                             parcel.parcelID,
                             Double.toString(parcel.weight),
                             parcel.dimensions.height + "x" + parcel.dimensions.width + "x" + parcel.dimensions.depth,
-                            Integer.toString(parcel.statusID),
+                            parcel.statusID,
                             ""
                     };
                     this.content.add(parcelString);
+
+                }
+            }
+            System.out.println("Content size: " + this.content.size());
+            for (String[] parcel : this.content) {
+                for (String s : parcel) {
+                    System.out.print(s + " ");
                 }
             }
         }
-
-        /*if (Data.userRole.equals("Warehouse manager")) {
-            
-        }
-        else {
-            ArrayList<DataJob> data = Common.dbapi.getJobsOfStaff(Data.user);
-            for (DataJob job : data) {
-                //this.content.addAll(job.par)
-            } 
-        }*/
-        
-        
-        /*String id, tracking_no, weight, dimensions, status, action;
-        id = "0045";
-        tracking_no = "YT72760621444007800";
-        weight = "2.53";
-        dimensions = "12.3 x 10.5 x 5.0";
-        status = "Pending";
-        action = "None"; // Delivery driver -> None, Handover, Cancelled
-        String[][] temp_content = {{id + "1", tracking_no, weight, dimensions, status, action},
-                {id + "2", tracking_no, weight, dimensions, status, action},
-                {id + "3", tracking_no, weight, dimensions, status, action},
-                {id + "4", tracking_no, weight, dimensions, status, action},
-                {id + "5", tracking_no, weight, dimensions, status, action},
-                {id + "5", tracking_no, weight, dimensions, status, action},
-                {id + "6", tracking_no, weight, dimensions, status, action},
-                {id + "7", tracking_no, weight, dimensions, status, action},
-                {id + "8", tracking_no, weight, dimensions, status, action},
-                {id + "9", tracking_no, weight, dimensions, status, action},
-                {id + "10", tracking_no, weight, dimensions, status, action},
-                {id + "11", tracking_no, weight, dimensions, status, action},
-                {id + "12", tracking_no, weight, dimensions, status, action},
-                {id + "13", tracking_no, weight, dimensions, status, action},
-                {id + "14", tracking_no, weight, dimensions, status, action},
-                {id + "15", tracking_no, weight, dimensions, status, action},
-        };
-
-        for (String[] parcel : temp_content) {
-            content.add(parcel);
-        }*/
     }
 
-    // *** test data ***
+    /**
+     * Sets up the shipment data.
+     */
     void setupShipmentData() {
         if (!Data.userRole.equals("Warehouse manager")) {
+            System.out.println();
+            System.out.println("Prepping data.");
             ArrayList<DataJob> data = Common.dbapi.getJobsOfStaff(Data.user);
+            System.out.println(data.size());
             for (DataJob job : data) {
+                System.out.println("Job: " + job.jobID);
                 double weight = 0;
                 for (String parcelID : job.parcelIDs) {
                     DataParcel parcel = Common.dbapi.getParcelData(parcelID);
@@ -124,38 +107,17 @@ public class Data {
                         Integer.toString(job.jobID),
                         Integer.toString(job.parcelIDs.size()),
                         Double.toString(weight),
-                        Integer.toString(job.jobStatusID)
+                        job.jobStatusID
                 };
-                this.content.add(parcelString);
+                this.shipments.add(parcelString);
+            }
+            for (String[] parcel : this.shipments) {
+                for (String s : parcel) {
+                    System.out.print(s + " ");
+                }
+                System.out.println();
             }
         }
-        /*String id, no_of_parcels, net_weight, status;
-        id = "04";
-        no_of_parcels = "23";
-        net_weight = "22.5";
-        status = "None";
-
-        String[][] temp_content = {{id + "1", no_of_parcels, net_weight, status},
-                {id + "2", no_of_parcels, net_weight, status},
-                {id + "3", no_of_parcels, net_weight, status},
-                {id + "4", no_of_parcels, net_weight, status},
-                {id + "5", no_of_parcels, net_weight, status},
-                {id + "5", no_of_parcels, net_weight, status},
-                {id + "6", no_of_parcels, net_weight, status},
-                {id + "7", no_of_parcels, net_weight, status},
-                {id + "8", no_of_parcels, net_weight, status},
-                {id + "9", no_of_parcels, net_weight, status},
-                {id + "10", no_of_parcels, net_weight, status},
-                {id + "11", no_of_parcels, net_weight, status},
-                {id + "12", no_of_parcels, net_weight, status},
-                {id + "13", no_of_parcels, net_weight, status},
-                {id + "14", no_of_parcels, net_weight, status},
-                {id + "15", no_of_parcels, net_weight, status},
-        };
-
-        for (String[] shipment : temp_content) {
-            shipments.add(shipment);
-        }*/
     }
 
 
@@ -181,13 +143,41 @@ public class Data {
         return this.content.subList(from, to);
     }
 
-    // funkcija se izvede ko Order conf. specialist ustvari novo pošiljko
+    /**
+     * Creates a new parcel.
+     * @param _sender String - The sender's username.
+     * @param _senderStreetName String - The sender's street name.
+     * @param _senderStreetNumber String - The sender's street number.
+     * @param _senderCityCode String - The sender's city code.
+     * @param _senderCityName String - The sender's city name.
+     * @param _senderCountryCode String - The sender's country code.
+     * @param _senderID String - The sender's ID.
+     * @param _rec String - The recipient's username.
+     * @param _recStreetName String - The recipient's street name.
+     * @param _recStreetNumber String - The recipient's street number.
+     * @param _recCityCode String - The recipient's city code.
+     * @param _recCityName String - The recipient's city name.
+     * @param _recCountryCode String - The recipient's country code.
+     * @param _recID String - The recipient's ID.
+     * @param _weight String - The parcel's weight.
+     * @param _height String - The parcel's height.
+     * @param _width String - The parcel's width.
+     * @param _depth String - The parcel's depth.
+     */
     public void createNewParcel(String _sender, String _senderStreetName, String _senderStreetNumber, String _senderCityCode, String _senderCityName, String _senderCountryCode, String _senderID, String _rec, String _recStreetName, String _recStreetNumber, String _recCityCode, String _recCityName, String _recCountryCode, String _recID, String _weight, String _height, String _width, String _depth) {
+        String senderFirstName = _sender.split(" ")[0];
+        List<String> parts = Arrays.asList(_sender.split(" "));
+        String senderLastName = String.join(" ", parts.subList(1, parts.size()));
+
+        String recipientFirstName = _rec.split(" ")[0];
+        parts = Arrays.asList(_rec.split(" "));
+        String recipientLastName = String.join(" ", parts.subList(1, parts.size()));
+
         DataCustomer sender = new DataCustomer(
                 0,
-                _sender.equals("") ? Utils.generateUsername(Common.dbapi, "", "") : _sender,
-                "",
-                "",
+                _senderID.equals("") ? Utils.generateUsername(Common.dbapi, senderFirstName, senderLastName) : _senderID,
+                senderFirstName,
+                senderLastName,
                 "",
                 "",
                 new SpecificAddress(
@@ -200,9 +190,9 @@ public class Data {
         );
         DataCustomer recipient = new DataCustomer(
                 0,
-                _rec.equals("") ? Utils.generateUsername(Common.dbapi, "", "") : _rec,
-                "",
-                "",
+                _recID.equals("") ? Utils.generateUsername(Common.dbapi, recipientFirstName, recipientLastName) : _recID,
+                recipientFirstName,
+                recipientLastName,
                 "",
                 "",
                 new SpecificAddress(
@@ -220,15 +210,21 @@ public class Data {
                 Integer.parseInt(_depth)
         );
         try {
+            Common.dbapi.createCustomer(sender);
+            Common.dbapi.createCustomer(recipient);
             Common.dbapi.createParcel(new DataParcel(
                     0,
                     Utils.generateParcelID(Common.dbapi, _senderCountryCode),
-                    0,
+                    "",
                     sender,
                     recipient,
                     Double.parseDouble(_weight),
                     dimensions
             ));
+
+            // After adding parcel update view.
+            this.setupParcelData();
+            this.setupShipmentData();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -266,8 +262,13 @@ public class Data {
      * @param value  String - The action value.
      */
     public void deliveryDriverAction(String action, String value) {
-        // TODO:
-        System.out.println(action + " " + value);
+        int jobID = Integer.parseInt(Common.parcelToJob.get(value));
+        int newStatus = switch (action.split(" ")[1]) {
+            case "handover" -> 2;
+            case "cancelled" -> 3;
+            default -> 0;
+        };
+        Common.dbapi.updateJobStatus(jobID, newStatus);
     }
 
 
@@ -302,14 +303,15 @@ public class Data {
      */
     public void statusChanged(String parcelID, String status) {
         int statusID = switch (status) {
-            case "In Transit" -> 1;
-            case "Arrived" -> 2;
-            case "Delivered" -> 3;
-            default -> 0;
+            case "In IT system" -> 1;
+            case "In transit" -> 2;
+            case "At the final parcel center" -> 3;
+            case "In delivery" -> 4;
+            case "Delivered" -> 5;
+            default -> 0 + 1;
         };
         Common.dbapi.updateParcelStatus(parcelID, statusID);
         System.out.println(parcelID + " " + status);
-        // primer: 00451 Processed
     }
 
     /**
@@ -395,19 +397,18 @@ public class Data {
      * @return String[] - The branch data.
      */
     public String[] getBranchData(String branch) {
-        // inbound, outbound, branch load, average load, all jobs for drivers,
-        // no. of drivers, avg. no. of jobs per driver
         String branchID = Common.dbapi.getBranchIDFromName(branch);
         DataCount[] data = Common.dbapi.getBranchStats(branchID);
-        //String[] branchData = {"4.512", "1.332", "24", "3", "242", "32", "2.4"};
+        DataCount[] dataInbound = Common.dbapi.getCountOfAllInboundParcels();
+        DataCount[] dataOutbound = Common.dbapi.getCountOfAllOutboundParcels();
         String[] branchData = {
-                Integer.toString(data[0].value),
-                Integer.toString(data[1].value),
-                "0", // TODO:
-                "0",
-                Integer.toString(data[2].value),
-                Integer.toString(data[3].value),
-                Double.toString((double) data[2].value / data[3].value)
+                Integer.toString(data[0].value), // Inbound.
+                Integer.toString(data[1].value), // Outbound.
+                Double.toString((double)data[0].value / data[1].value), // Branch load.
+                Double.toString((double)dataInbound[0].value / dataOutbound[0].value), // Average load.
+                Integer.toString(data[2].value), // All jobs for drivers.
+                Integer.toString(data[3].value), // No. of drivers.
+                Double.toString((double) data[2].value / data[3].value) // Avg. no. of jobs per driver.
         };
         return branchData;
     }
@@ -500,6 +501,8 @@ public class Data {
     public String verifyUsernameAndPassword(String username, String password) {
         Common.dbapi.login(username, password);
         if (Common.dbapi.isConnectionEstablished()) {
+            Common.username = username;
+            Data.user = username;
             Data.userRole = this.getUserRole(username);
             this.setupParcelData();
             this.setupShipmentData();

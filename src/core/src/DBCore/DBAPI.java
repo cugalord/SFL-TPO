@@ -55,6 +55,22 @@ public class DBAPI {
                     .prepareStatement("SELECT id AS id, name AS name FROM staff_role");
             this.statements[8] = this.core.getDbConnection()
                     .prepareStatement("SELECT id as id FROM branch WHERE name = ?");
+            this.statements[9] = this.core.getDbConnection()
+                    .prepareStatement("SELECT b.id as branch_id, COUNT(jp.parcel_id) as inbound_parcels\n" +
+                            "    FROM branch b\n" +
+                            "    INNER JOIN staff s on b.id = s.branch_id\n" +
+                            "    INNER JOIN job j on s.username = j.staff_username\n" +
+                            "    INNER JOIN job_packet jp on j.id = jp.job_id\n" +
+                            "    WHERE j.job_status_id=1 AND j.job_type_id=3\n" +
+                            "    GROUP BY b.id;");
+            this.statements[10] = this.core.getDbConnection()
+                    .prepareStatement("SELECT b.id as branch_id, COUNT(jp.parcel_id) as outbound_parcels\n" +
+                            "    FROM branch b\n" +
+                            "    INNER JOIN staff s on b.id = s.branch_id\n" +
+                            "    INNER JOIN job j on s.username = j.staff_username\n" +
+                            "    INNER JOIN job_packet jp on j.id = jp.job_id\n" +
+                            "    WHERE j.job_status_id=2 AND j.job_type_id=4\n" +
+                            "    GROUP BY b.id;");
             // ... more statements.
         } catch (SQLException e) {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
@@ -87,7 +103,9 @@ public class DBAPI {
                     "?, ?, ?, ?, ?, " +
                     "?, ?, ?, ?, ?, " +
                     "?, ?)");
-            this.callables[16] = this.core.getDbConnection().prepareCall("CALL update_parcel_status(?, ?)");
+            this.callables[16] = this.core.getDbConnection().prepareCall("CALL customer_add(?, ?, ?, ?, ?, " +
+                    "?, ?, ?, ?, ?)");
+            this.callables[17] = this.core.getDbConnection().prepareCall("CALL update_job_status(?, ?)");
             // ... more callables.
         } catch (SQLException e) {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
@@ -325,6 +343,52 @@ public class DBAPI {
         return "";
     }
 
+    /**
+     * Gets the number of inbound parcels and number of all branches.
+     * @return DataCount[] - First element is the number of inbound parcels, second element is the number of all branches.
+     */
+    public DataCount[] getCountOfAllInboundParcels() {
+        DataCount[] data = {null, null};
+        try {
+            ResultSet rs = this.statements[9].executeQuery();
+            int sum = 0;
+            int i = 0;
+            while (rs.next()) {
+                i++;
+                sum += rs.getInt("inbound_parcels");
+            }
+            data[0] = new DataCount(0, sum);
+            data[1] = new DataCount(1, i);
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    /**
+     * Gets the number of outbound parcels and number of all branches.
+     * @return DataCount[] - First element is the number of outbound parcels, second element is the number of all branches.
+     */
+    public DataCount[] getCountOfAllOutboundParcels() {
+        DataCount[] data = {null, null};
+        try {
+            ResultSet rs = this.statements[10].executeQuery();
+            int sum = 0;
+            int i = 0;
+            while (rs.next()) {
+                i++;
+                sum += rs.getInt("outbound_parcels");
+            }
+            data[0] = new DataCount(0, sum);
+            data[1] = new DataCount(1, i);
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
     // CALLABLE STATEMENTS
 
     /**
@@ -401,11 +465,13 @@ public class DBAPI {
                             i,
                             currentJobID,
                             rs.getDate("date_created").toLocalDate(),
-                            rs.getDate("date_completed").toLocalDate(),
-                            rs.getInt("job_type"),
-                            rs.getInt("job_id"),
+                            rs.getDate("date_completed") == null ? null : rs.getDate("date_completed").toLocalDate(),
+                            rs.getString("job_type"),
+                            rs.getString("job_id"),
                             username
                     ));
+                    data.get(data.size() - 1).parcelIDs.add(rs.getString("parcel_id"));
+                    System.out.println("Added job " + currentJobID);
                 }
                 // If the job already exists, add parcel to its list.
                 else {
@@ -489,8 +555,8 @@ public class DBAPI {
                             currentJobID,
                             null,
                             null,
-                            -1,
-                            -1,
+                            "",
+                            "",
                             username
                     ));
                 }
@@ -663,10 +729,15 @@ public class DBAPI {
         return data;
     }
 
+    /**
+     * Gets the data of parcel with given ID.
+     * @param parcelID String - The parcel ID.
+     * @return DataParcel - The parcel data.
+     */
     public DataParcel getParcelData(String parcelID) {
         DataParcel data = null;
         try {
-            this.callables[12].setString("parcel_id", parcelID);
+            this.callables[12].setString("ID", parcelID);
             ResultSet rs = this.callables[12].executeQuery();
             rs.next();
             // Assemble the sender data.
@@ -697,7 +768,7 @@ public class DBAPI {
             data = new DataParcel(
                     0,
                     parcelID,
-                    rs.getInt("parcel_status"),
+                    rs.getString("parcel_status"),
                     sender,
                     recipient,
                     rs.getInt("weight"),
@@ -715,6 +786,11 @@ public class DBAPI {
         return data;
     }
 
+    /**
+     * Gets the data of all parcels at given warehouse manager's warehouse.
+     * @param username String - The warehouse manager username.
+     * @return ArrayList<DataParcel> - The list of parcels.
+     */
     public ArrayList<DataParcel> getWarehouseManagerParcelData(String username) {
         ArrayList<DataParcel> data = new ArrayList<>();
         try {
@@ -750,7 +826,7 @@ public class DBAPI {
                 data.add(new DataParcel(
                         i,
                         rs.getString("parcel_id"),
-                        rs.getInt("parcel_status"),
+                        rs.getString("parcel_status"),
                         sender,
                         recipient,
                         rs.getInt("weight"),
@@ -769,6 +845,11 @@ public class DBAPI {
         return data;
     }
 
+    /**
+     * Gets the branch statistics, such as inbound, outbound parcels, number of jobs, number of drivers.
+     * @param branchID String - The branch ID.
+     * @return DataCount[] - The array of the statistics.
+     */
     public DataCount[] getBranchStats(String branchID) {
         DataCount[] data = {null, null, null, null};
         try {
@@ -789,9 +870,13 @@ public class DBAPI {
         return data;
     }
 
+    /**
+     * Creates a new parcel.
+     * @param parcel DataParcel - The parcel data.
+     */
     public void createParcel(DataParcel parcel) {
         try {
-            this.callables[15].setString("parcel_id", parcel.parcelID);
+            this.callables[15].setString("ID", parcel.parcelID);
             this.callables[15].setString("sender", parcel.sender.username);
             this.callables[15].setString("sender_st_name", parcel.sender.address.streetName);
             this.callables[15].setInt("sender_st_num", parcel.sender.address.streetNumber);
@@ -799,8 +884,8 @@ public class DBAPI {
             this.callables[15].setString("sender_city_name", parcel.sender.address.cityName);
             this.callables[15].setString("sender_country_code", parcel.sender.address.countryISO);
             this.callables[15].setString("recipient", parcel.recipient.username);
-            this.callables[15].setString("recipient_st_name", parcel.recipient.address.streetName);
-            this.callables[15].setInt("recipient_st_num", parcel.recipient.address.streetNumber);
+            this.callables[15].setString("recipient_street_name", parcel.recipient.address.streetName);
+            this.callables[15].setInt("recipient_street_num", parcel.recipient.address.streetNumber);
             this.callables[15].setString("recipient_city_code", parcel.recipient.address.postCode);
             this.callables[15].setString("recipient_city_name", parcel.recipient.address.cityName);
             this.callables[15].setString("recipient_country_code", parcel.recipient.address.countryISO);
@@ -809,6 +894,45 @@ public class DBAPI {
             this.callables[15].setInt("width", parcel.dimensions.width);
             this.callables[15].setInt("depth", parcel.dimensions.depth);
             this.callables[15].executeQuery();
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Creates a new customer if the customer does not exist.
+     * @param customer DataCustomer - The customer.
+     */
+    public void createCustomer(DataCustomer customer) {
+        try {
+            this.callables[16].setString("username", customer.username);
+            this.callables[16].setString("name", customer.name);
+            this.callables[16].setString("surname", customer.surname);
+            this.callables[16].setString("company_name", customer.companyName);
+            this.callables[16].setString("tel_num", customer.phoneNumber);
+            this.callables[16].setString("st_name", customer.address.streetName);
+            this.callables[16].setInt("st_num", customer.address.streetNumber);
+            this.callables[16].setString("city_code", customer.address.postCode);
+            this.callables[16].setString("city_name", customer.address.cityName);
+            this.callables[16].setString("country_code", customer.address.countryISO);
+            this.callables[16].executeQuery();
+        } catch(SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Updates the status of the given job.
+     * @param jobID int - The job ID.
+     * @param newStatus int - The new status ID.
+     */
+    public void updateJobStatus(int jobID, int newStatus) {
+        try {
+            this.callables[17].setInt("job_ID", jobID);
+            this.callables[17].setInt("new_status", newStatus);
+            this.callables[17].executeQuery();
         } catch (SQLException e) {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();

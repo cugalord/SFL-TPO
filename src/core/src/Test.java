@@ -1,9 +1,11 @@
 import ConfigLoader.*;
 import DBCore.DBAPI;
+import Data.DataJob;
 import Data.GeneralAddress;
 import Utils.Logger;
 import Utils.Utils;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -58,6 +60,23 @@ public class Test {
         } catch (Exception e) {
 
         }
+
+        try {
+            for (int i = 0; i < 5; i++) {
+                System.out.println(Utils.generateParcelID(api, "SLV"));
+            }
+        } catch (Exception e) {
+
+        }
+
+        System.out.println("Testing getJobOfStaff()");
+        ArrayList<DataJob> data = api.getJobsOfStaff("sheshut51");
+        System.out.println(data.size());
+        for (DataJob job : data) {
+            System.out.println(job);
+        }
+        System.out.println("Testing getJobOfStaff() done");
+
 
         System.out.println(Utils.shortestPath(api,
                 new GeneralAddress(0, "1000", "Ljubljana - dostava", "SVN"),

@@ -7,7 +7,7 @@ public class DataParcel extends Data {
     /** The parcel ID. */
     public final String parcelID;
     /** The status ID. */
-    public final int statusID;
+    public final String statusID;
     /** The sender data. */
     public final DataCustomer sender;
     /** The recipient data. */
@@ -27,7 +27,7 @@ public class DataParcel extends Data {
      * @param weight double - The parcel weight.
      * @param dimensions Dimensions - The parcel dimensions (height, width, depth).
      */
-    public DataParcel(int index, String parcelID, int statusID, DataCustomer sender, DataCustomer recipient, double weight, Dimensions dimensions ) {
+    public DataParcel(int index, String parcelID, String statusID, DataCustomer sender, DataCustomer recipient, double weight, Dimensions dimensions ) {
         super(index);
         this.parcelID = parcelID;
         this.statusID = statusID;

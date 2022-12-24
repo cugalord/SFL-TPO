@@ -14,9 +14,9 @@ public class DataJob extends Data {
     /** The date when job was completed. */
     public final LocalDate completed;
     /** The job type ID. */
-    public final int jobTypeID;
+    public final String jobTypeID;
     /** The job status ID. */
-    public final int jobStatusID;
+    public final String jobStatusID;
     /** The username of staff to whom the job is assigned. */
     public final String username;
     /** The list of parcel IDs that belong to this job. */
@@ -34,7 +34,7 @@ public class DataJob extends Data {
      * @param jobStatusID int - The job status ID.
      * @param username String - The username of staff to whom the job is assigned.
      */
-    public DataJob(int index, int jobID, LocalDate created, LocalDate completed, int jobTypeID, int jobStatusID, String username) {
+    public DataJob(int index, int jobID, LocalDate created, LocalDate completed, String jobTypeID, String jobStatusID, String username) {
         super(index);
         this.jobID = jobID;
         this.created = created;

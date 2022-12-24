@@ -19,7 +19,7 @@ the GUI, which is used to communicate with the user and the database.
 The module structure is as follows:
 - The `application` directory contains the implementation of the 
   necessary views and controllers for the GUI.
-- The `res` direcotry contains the necessary resources for the GUI, such as
+- The `res` directory contains the necessary resources for the GUI, such as
   different icons.
 
 ## 3. Building
