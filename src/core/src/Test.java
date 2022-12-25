@@ -78,6 +78,10 @@ public class Test {
         System.out.println("Testing getJobOfStaff() done");
 
 
+        System.out.println("Testing getBranchID()");
+        System.out.println(api.getBranchIDFromUsername("sheshut51"));
+        System.out.println("Testing getBranchID() done");
+
         System.out.println(Utils.shortestPath(api,
                 new GeneralAddress(0, "1000", "Ljubljana - dostava", "SVN"),
                 //new GeneralAddress(0, "2000", "Maribor - dostava", "SVN")

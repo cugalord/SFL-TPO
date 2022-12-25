@@ -65,6 +65,7 @@ public class InternationalDriverController implements Initializable {
 		userIcon.setImage(new Image(getClass().getResourceAsStream("/res/" + data.getUserProfilePicture())));
 
 		resetContent();
+		data.reload();
 
 		// fetch the data
 		if (view == "Cargo Departing Info" || view == "Cargo Arrival Info")
@@ -198,13 +199,13 @@ public class InternationalDriverController implements Initializable {
 		String id = box.getId();
 		System.out.println(id);
 		switch(id) {
-		case "c1": data.deliveryDriverAction("shipment completed", shipments.get(0)[0]); break;
-		case "c2": data.deliveryDriverAction("shipment completed", shipments.get(1)[0]); break;
-		case "c3": data.deliveryDriverAction("shipment completed", shipments.get(2)[0]); break;
-		case "c4": data.deliveryDriverAction("shipment completed", shipments.get(3)[0]); break;
-		case "c5": data.deliveryDriverAction("shipment completed", shipments.get(4)[0]); break;
-		case "c6": data.deliveryDriverAction("shipment completed", shipments.get(5)[0]); break;
-		case "c7": data.deliveryDriverAction("shipment completed", shipments.get(6)[0]); break;
+		case "c1": data.deliveryDriverAction("shipment completed", shipments.get(0)[0], "International"); break;
+		case "c2": data.deliveryDriverAction("shipment completed", shipments.get(1)[0], "International"); break;
+		case "c3": data.deliveryDriverAction("shipment completed", shipments.get(2)[0], "International"); break;
+		case "c4": data.deliveryDriverAction("shipment completed", shipments.get(3)[0], "International"); break;
+		case "c5": data.deliveryDriverAction("shipment completed", shipments.get(4)[0], "International"); break;
+		case "c6": data.deliveryDriverAction("shipment completed", shipments.get(5)[0], "International"); break;
+		case "c7": data.deliveryDriverAction("shipment completed", shipments.get(6)[0], "International"); break;
 		}
 		
 		

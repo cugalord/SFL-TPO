@@ -64,6 +64,7 @@ public class DeliveryDriverController implements Initializable {
 	public void populateContent() {
 		
 		resetContent();
+		data.reload();
 
 		// fetch the data
 		parcels = data.getParcelDataByPage(page);
@@ -77,56 +78,56 @@ public class DeliveryDriverController implements Initializable {
 			t1.setText( parcels.get(0)[1]);
 			w1.setText( parcels.get(0)[2]);
 			d1.setText( parcels.get(0)[3]); 
-			if (parcels.get(0)[5] == "Handover") h1.setSelected(true);
-			if (parcels.get(0)[5] == "Cancelled") c1.setSelected(true);				
+			if (parcels.get(0)[4].equals("completed")) h1.setSelected(true);
+			if (parcels.get(0)[4].equals("cancelled")) c1.setSelected(true);
 		}
 		if (size >= 2) {
 			id2.setText(parcels.get(1)[0]);
 			t2.setText( parcels.get(1)[1]);
 			w2.setText( parcels.get(1)[2]);
 			d2.setText( parcels.get(1)[3]);
-			if (parcels.get(1)[5] == "Handover") h2.setSelected(true);
-			if (parcels.get(1)[5] == "Cancelled") c2.setSelected(true);	
+			if (parcels.get(1)[4].equals("completed")) h2.setSelected(true);
+			if (parcels.get(1)[4].equals("cancelled")) c2.setSelected(true);
 		}
 		if (size >= 3) {
 			id3.setText(parcels.get(2)[0]);
 			t3.setText( parcels.get(2)[1]);
 			w3.setText( parcels.get(2)[2]);
 			d3.setText( parcels.get(2)[3]);
-			if (parcels.get(2)[5] == "Handover") h3.setSelected(true);
-			if (parcels.get(2)[5] == "Cancelled") c3.setSelected(true);		
+			if (parcels.get(2)[4].equals("completed")) h3.setSelected(true);
+			if (parcels.get(2)[4].equals("cancelled")) c3.setSelected(true);
 		}
 		if (size >= 4) {
 			id4.setText(parcels.get(3)[0]);
 			t4.setText( parcels.get(3)[1]);
 			w4.setText( parcels.get(3)[2]);
 			d4.setText( parcels.get(3)[3]);
-			if (parcels.get(3)[5] == "Handover") h4.setSelected(true);
-			if (parcels.get(3)[5] == "Cancelled") c4.setSelected(true);	
+			if (parcels.get(3)[4].equals("completed")) h4.setSelected(true);
+			if (parcels.get(3)[4].equals("cancelled")) c4.setSelected(true);
 		}
 		if (size >= 5) {
 			id5.setText(parcels.get(4)[0]);
 			t5.setText( parcels.get(4)[1]);
 			w5.setText( parcels.get(4)[2]);
 			d5.setText( parcels.get(4)[3]);
-			if (parcels.get(4)[5] == "Handover") h5.setSelected(true);
-			if (parcels.get(4)[5] == "Cancelled") c5.setSelected(true);				
+			if (parcels.get(4)[4].equals("completed")) h5.setSelected(true);
+			if (parcels.get(4)[4].equals("cancelled")) c5.setSelected(true);
 		}
 		if (size >= 6) {
 			id6.setText(parcels.get(5)[0]);
 			t6.setText( parcels.get(5)[1]);
 			w6.setText( parcels.get(5)[2]);
 			d6.setText( parcels.get(5)[3]);
-			if (parcels.get(5)[5] == "Handover") h6.setSelected(true);
-			if (parcels.get(5)[5] == "Cancelled") c6.setSelected(true);	
+			if (parcels.get(5)[4].equals("completed")) h6.setSelected(true);
+			if (parcels.get(5)[4].equals("cancelled")) c6.setSelected(true);
 		}
 		if (size >= 7) {
 			id7.setText(parcels.get(6)[0]);
 			t7.setText( parcels.get(6)[1]);
 			w7.setText( parcels.get(6)[2]);
 			d7.setText( parcels.get(6)[3]);
-			if (parcels.get(6)[5] == "Handover") h7.setSelected(true);
-			if (parcels.get(6)[5] == "Cancelled") c7.setSelected(true);	
+			if (parcels.get(6)[4].equals("completed")) h7.setSelected(true);
+			if (parcels.get(6)[4].equals("cancelled")) c7.setSelected(true);
 		}
 
 
@@ -196,20 +197,20 @@ public class DeliveryDriverController implements Initializable {
 		String id = box.getId();
 		System.out.println(id);
 		switch(id) {
-		case "c1": data.deliveryDriverAction(view + " cancelled", parcels.get(0)[0]); break;
-		case "c2": data.deliveryDriverAction(view + " cancelled", parcels.get(1)[0]); break;
-		case "c3": data.deliveryDriverAction(view + " cancelled", parcels.get(2)[0]); break;
-		case "c4": data.deliveryDriverAction(view + " cancelled", parcels.get(3)[0]); break;
-		case "c5": data.deliveryDriverAction(view + " cancelled", parcels.get(4)[0]); break;
-		case "c6": data.deliveryDriverAction(view + " cancelled", parcels.get(5)[0]); break;
-		case "c7": data.deliveryDriverAction(view + " cancelled", parcels.get(6)[0]); break;
-		case "h1": data.deliveryDriverAction(view + " handover", parcels.get(0)[0]); break;
-		case "h2": data.deliveryDriverAction(view + " handover", parcels.get(1)[0]); break;
-		case "h3": data.deliveryDriverAction(view + " handover", parcels.get(2)[0]); break;
-		case "h4": data.deliveryDriverAction(view + " handover", parcels.get(3)[0]); break;
-		case "h5": data.deliveryDriverAction(view + " handover", parcels.get(4)[0]); break;
-		case "h6": data.deliveryDriverAction(view + " handover", parcels.get(5)[0]); break;
-		case "h7": data.deliveryDriverAction(view + " handover", parcels.get(6)[0]); break;
+		case "c1": data.deliveryDriverAction(view + " cancelled", parcels.get(0)[1], ""); break;
+		case "c2": data.deliveryDriverAction(view + " cancelled", parcels.get(1)[1], ""); break;
+		case "c3": data.deliveryDriverAction(view + " cancelled", parcels.get(2)[1], ""); break;
+		case "c4": data.deliveryDriverAction(view + " cancelled", parcels.get(3)[1], ""); break;
+		case "c5": data.deliveryDriverAction(view + " cancelled", parcels.get(4)[1], ""); break;
+		case "c6": data.deliveryDriverAction(view + " cancelled", parcels.get(5)[1], ""); break;
+		case "c7": data.deliveryDriverAction(view + " cancelled", parcels.get(6)[1], ""); break;
+		case "h1": data.deliveryDriverAction(view + " handover", parcels.get(0)[1], ""); break;
+		case "h2": data.deliveryDriverAction(view + " handover", parcels.get(1)[1], ""); break;
+		case "h3": data.deliveryDriverAction(view + " handover", parcels.get(2)[1], ""); break;
+		case "h4": data.deliveryDriverAction(view + " handover", parcels.get(3)[1], ""); break;
+		case "h5": data.deliveryDriverAction(view + " handover", parcels.get(4)[1], ""); break;
+		case "h6": data.deliveryDriverAction(view + " handover", parcels.get(5)[1], ""); break;
+		case "h7": data.deliveryDriverAction(view + " handover", parcels.get(6)[1], ""); break;
 		}
 		
 		

@@ -273,6 +273,41 @@
                         </Label>
                      </children>
                   </AnchorPane>
+                  <Label fx:id="j1" layoutX="645.0" layoutY="177.0" text="Handover" visible="false">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="j2" layoutX="645.0" layoutY="236.0" text="Check in" visible="false">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="j3" layoutX="645.0" layoutY="293.0" text="Parcel hando." visible="false">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="j4" layoutX="645.0" layoutY="350.0" text="Handover" visible="false">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="j5" layoutX="645.0" layoutY="406.0" text="Handover" visible="false">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="j6" layoutX="645.0" layoutY="462.0" text="Handover" visible="false">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="j7" layoutX="645.0" layoutY="517.0" text="Handover" visible="false">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
                </children></AnchorPane>
          </children>
       </AnchorPane>

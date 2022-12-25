@@ -2,6 +2,7 @@ package application;
 
 import DBCore.DBAPI;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -13,5 +14,5 @@ public class Common {
     /** The current staff username. */
     public static String username = "";
     /** Maps parcels to their jobs. */
-    public static final HashMap<String, String> parcelToJob = new HashMap<>();
+    public static final HashMap<String, ArrayList<String>> parcelToJob = new HashMap<>();
 }

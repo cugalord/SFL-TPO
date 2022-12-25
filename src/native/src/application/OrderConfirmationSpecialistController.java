@@ -66,6 +66,7 @@ public class OrderConfirmationSpecialistController implements Initializable {
 	public void populateContent() {
 		
 		resetContent();
+		data.reload();
 
 		// fetch the data
 		parcels = data.getParcelDataOrderConfirmationSpecialistByPage(page);
@@ -79,49 +80,49 @@ public class OrderConfirmationSpecialistController implements Initializable {
 			t1.setText( parcels.get(0)[1]);
 			w1.setText( parcels.get(0)[2]);
 			d1.setText( parcels.get(0)[3]); 
-			if (parcels.get(0)[5] == "Confirmed") c1.setSelected(true);				
+			if (parcels.get(0)[4].equals("completed")) c1.setSelected(true);
 		}
 		if (size >= 2) {
 			id2.setText(parcels.get(1)[0]);
 			t2.setText( parcels.get(1)[1]);
 			w2.setText( parcels.get(1)[2]);
 			d2.setText( parcels.get(1)[3]);
-			if (parcels.get(1)[5] == "Confirmed") c2.setSelected(true);	
+			if (parcels.get(1)[4].equals("completed")) c2.setSelected(true);
 		}
 		if (size >= 3) {
 			id3.setText(parcels.get(2)[0]);
 			t3.setText( parcels.get(2)[1]);
 			w3.setText( parcels.get(2)[2]);
 			d3.setText( parcels.get(2)[3]);
-			if (parcels.get(2)[5] == "Confirmed") c3.setSelected(true);		
+			if (parcels.get(2)[4].equals("completed")) c3.setSelected(true);
 		}
 		if (size >= 4) {
 			id4.setText(parcels.get(3)[0]);
 			t4.setText( parcels.get(3)[1]);
 			w4.setText( parcels.get(3)[2]);
 			d4.setText( parcels.get(3)[3]);
-			if (parcels.get(3)[5] == "Confirmed") c4.setSelected(true);	
+			if (parcels.get(3)[4].equals("completed")) c4.setSelected(true);
 		}
 		if (size >= 5) {
 			id5.setText(parcels.get(4)[0]);
 			t5.setText( parcels.get(4)[1]);
 			w5.setText( parcels.get(4)[2]);
 			d5.setText( parcels.get(4)[3]);
-			if (parcels.get(4)[5] == "Confirmed") c5.setSelected(true);				
+			if (parcels.get(4)[4].equals("completed")) c5.setSelected(true);
 		}
 		if (size >= 6) {
 			id6.setText(parcels.get(5)[0]);
 			t6.setText( parcels.get(5)[1]);
 			w6.setText( parcels.get(5)[2]);
 			d6.setText( parcels.get(5)[3]);
-			if (parcels.get(5)[5] == "Confirmed") c6.setSelected(true);	
+			if (parcels.get(5)[4].equals("completed")) c6.setSelected(true);
 		}
 		if (size >= 7) {
 			id7.setText(parcels.get(6)[0]);
 			t7.setText( parcels.get(6)[1]);
 			w7.setText( parcels.get(6)[2]);
 			d7.setText( parcels.get(6)[3]);
-			if (parcels.get(6)[5] == "Confirmed") c7.setSelected(true);	
+			if (parcels.get(6)[4].equals("completed")) c7.setSelected(true);
 		}
 
 
@@ -219,13 +220,13 @@ public class OrderConfirmationSpecialistController implements Initializable {
 		String id = box.getId();
 		System.out.println(id);
 		switch(id) {
-		case "c1": data.deliveryDriverAction("parcel confirmed", parcels.get(0)[0]); break;
-		case "c2": data.deliveryDriverAction("parcel confirmed", parcels.get(1)[0]); break;
-		case "c3": data.deliveryDriverAction("parcel confirmed", parcels.get(2)[0]); break;
-		case "c4": data.deliveryDriverAction("parcel confirmed", parcels.get(3)[0]); break;
-		case "c5": data.deliveryDriverAction("parcel confirmed", parcels.get(4)[0]); break;
-		case "c6": data.deliveryDriverAction("parcel confirmed", parcels.get(5)[0]); break;
-		case "c7": data.deliveryDriverAction("parcel confirmed", parcels.get(6)[0]); break;
+		case "c1": data.deliveryDriverAction("parcel confirmed", parcels.get(0)[1], "OCS"); break;
+		case "c2": data.deliveryDriverAction("parcel confirmed", parcels.get(1)[1], "OCS"); break;
+		case "c3": data.deliveryDriverAction("parcel confirmed", parcels.get(2)[1], "OCS"); break;
+		case "c4": data.deliveryDriverAction("parcel confirmed", parcels.get(3)[1], "OCS"); break;
+		case "c5": data.deliveryDriverAction("parcel confirmed", parcels.get(4)[1], "OCS"); break;
+		case "c6": data.deliveryDriverAction("parcel confirmed", parcels.get(5)[1], "OCS"); break;
+		case "c7": data.deliveryDriverAction("parcel confirmed", parcels.get(6)[1], "OCS"); break;
 		}
 
 

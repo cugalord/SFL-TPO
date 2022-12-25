@@ -235,6 +235,41 @@
                      </font>
                   </Button>
                   <ChoiceBox fx:id="choiceBoxFilter" layoutX="157.0" layoutY="16.0" prefWidth="150.0" visible="false" />
+                  <Label fx:id="j1" layoutX="736.0" layoutY="130.0" text="Handover" visible="false">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="j2" layoutX="736.0" layoutY="189.0" text="Check in" visible="false">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="j3" layoutX="736.0" layoutY="246.0" text="Parcel hando." visible="false">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="j4" layoutX="736.0" layoutY="303.0" text="Handover" visible="false">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="j5" layoutX="736.0" layoutY="359.0" text="Handover" visible="false">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="j6" layoutX="736.0" layoutY="415.0" text="Handover" visible="false">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="j7" layoutX="736.0" layoutY="470.0" text="Handover" visible="false">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
                </children></AnchorPane>
          </children>
       </AnchorPane>

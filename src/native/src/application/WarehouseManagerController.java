@@ -59,6 +59,7 @@ public class WarehouseManagerController implements Initializable {
 	@FXML private Label w1,  w2,  w3,  w4,  w5,  w6,  w7;  // weight
 	@FXML private Label d1,  d2,  d3,  d4,  d5,  d6,  d7;  // dimensions
 	@FXML private Button b1, b2, b3, b4, b5, b6, b7;    // Status
+	@FXML private Label j1,  j2,  j3,  j4,  j5,  j6,  j7;  // job type
 	@FXML private ChoiceBox<String> choiceBoxFilter;    // Filter
 	
 	
@@ -77,19 +78,21 @@ public class WarehouseManagerController implements Initializable {
 	
 	// delete default values (as set in SceneBuilder)
 	public void resetContent() {
-		id1.setText(""); t1.setText(""); w1.setText(""); d1.setText(""); 
-		id2.setText(""); t2.setText(""); w2.setText(""); d2.setText("");
-		id3.setText(""); t3.setText(""); w3.setText(""); d3.setText("");
-		id4.setText(""); t4.setText(""); w4.setText(""); d4.setText("");
-		id5.setText(""); t5.setText(""); w5.setText(""); d5.setText("");
-		id6.setText(""); t6.setText(""); w6.setText(""); d6.setText("");
-		id7.setText(""); t7.setText(""); w7.setText(""); d7.setText("");
+		id1.setText(""); t1.setText(""); w1.setText(""); d1.setText(""); j1.setText("");
+		id2.setText(""); t2.setText(""); w2.setText(""); d2.setText(""); j2.setText("");
+		id3.setText(""); t3.setText(""); w3.setText(""); d3.setText(""); j3.setText("");
+		id4.setText(""); t4.setText(""); w4.setText(""); d4.setText(""); j4.setText("");
+		id5.setText(""); t5.setText(""); w5.setText(""); d5.setText(""); j5.setText("");
+		id6.setText(""); t6.setText(""); w6.setText(""); d6.setText(""); j6.setText("");
+		id7.setText(""); t7.setText(""); w7.setText(""); d7.setText(""); j7.setText("");
 		contentAnchorPane.getChildren().removeAll(b1, b2, b3, b4, b5, b6, b7);
 	}
 	
 	// populate the table of content with actual data
 	public void populateContent() {
 		resetContent();
+
+		data.reload();
 
 		// fetch the data
 		if (view == "All Parcels" || view == "Filter Parcels" || view == "Stats") {
@@ -107,6 +110,7 @@ public class WarehouseManagerController implements Initializable {
 			w1.setText( content.get(0)[2]);
 			d1.setText( content.get(0)[3]); 
 			b1.setText( content.get(0)[4]);
+			j1.setText( content.get(0)[5]);
 			if (content.get(0)[4] == "Processed") b1.setStyle(b1.getStyle() + "-fx-background-color: #00B512;");
 			contentAnchorPane.getChildren().add(b1);				
 		}
@@ -116,6 +120,7 @@ public class WarehouseManagerController implements Initializable {
 			w2.setText( content.get(1)[2]);
 			d2.setText( content.get(1)[3]);
 			b2.setText( content.get(1)[4]);
+			j2.setText( content.get(1)[5]);
 			if (content.get(1)[4] == "Processed") b2.setStyle(b2.getStyle() + "-fx-background-color: #00B512;");
 			contentAnchorPane.getChildren().add(b2);				
 		}
@@ -125,6 +130,7 @@ public class WarehouseManagerController implements Initializable {
 			w3.setText( content.get(2)[2]);
 			d3.setText( content.get(2)[3]);
 			b3.setText( content.get(2)[4]);
+			j3.setText( content.get(2)[5]);
 			if (content.get(2)[4] == "Processed") b3.setStyle(b3.getStyle() + "-fx-background-color: #00B512;");
 			contentAnchorPane.getChildren().add(b3);				
 		}
@@ -134,6 +140,7 @@ public class WarehouseManagerController implements Initializable {
 			w4.setText( content.get(3)[2]);
 			d4.setText( content.get(3)[3]);
 			b4.setText( content.get(3)[4]);
+			j4.setText( content.get(3)[5]);
 			if (content.get(3)[4] == "Processed") b4.setStyle(b4.getStyle() + "-fx-background-color: #00B512;");
 			contentAnchorPane.getChildren().add(b4);				
 		}
@@ -143,6 +150,7 @@ public class WarehouseManagerController implements Initializable {
 			w5.setText( content.get(4)[2]);
 			d5.setText( content.get(4)[3]);
 			b5.setText( content.get(4)[4]);
+			j5.setText( content.get(4)[5]);
 			if (content.get(4)[4] == "Processed") b5.setStyle(b5.getStyle() + "-fx-background-color: #00B512;");
 			contentAnchorPane.getChildren().add(b5);				
 		}
@@ -152,6 +160,7 @@ public class WarehouseManagerController implements Initializable {
 			w6.setText( content.get(5)[2]);
 			d6.setText( content.get(5)[3]);
 			b6.setText( content.get(5)[4]);
+			j6.setText( content.get(5)[5]);
 			if (content.get(5)[4] == "Processed") b6.setStyle(b6.getStyle() + "-fx-background-color: #00B512;");
 			contentAnchorPane.getChildren().add(b6);				
 		}
@@ -161,6 +170,7 @@ public class WarehouseManagerController implements Initializable {
 			w7.setText( content.get(6)[2]);
 			d7.setText( content.get(6)[3]);
 			b7.setText( content.get(6)[4]);
+			j7.setText( content.get(6)[5]);
 			if (content.get(6)[4] == "Processed") b7.setStyle(b7.getStyle() + "-fx-background-color: #00B512;");
 			contentAnchorPane.getChildren().add(b7);				
 		}

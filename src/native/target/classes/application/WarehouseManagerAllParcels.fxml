@@ -42,17 +42,22 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="397.0" layoutY="13.0" text="Weight">
+                        <Label layoutX="353.0" layoutY="13.0" text="Weight">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="487.0" layoutY="13.0" text="Dimensions">
+                        <Label layoutX="432.0" layoutY="13.0" text="Dimensions">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
                         <Label layoutX="738.0" layoutY="13.0" text="Status">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="572.0" layoutY="13.0" text="Job type">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -69,12 +74,12 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="w1" layoutX="398.0" layoutY="132.0" text="2.53">
+                  <Label fx:id="w1" layoutX="356.0" layoutY="135.0" text="2.53">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="d1" layoutX="487.0" layoutY="132.0" text="12.3 x 10.5 x 5.0">
+                  <Label fx:id="d1" layoutX="434.0" layoutY="135.0" text="12.3 x 10.5 x 5.0">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -89,12 +94,12 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="w2" layoutX="398.0" layoutY="191.0" text="2.53">
+                  <Label fx:id="w2" layoutX="356.0" layoutY="194.0" text="2.53">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="d2" layoutX="487.0" layoutY="191.0" text="12.3 x 10.5 x 5.0">
+                  <Label fx:id="d2" layoutX="434.0" layoutY="194.0" text="12.3 x 10.5 x 5.0">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -109,12 +114,12 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="w3" layoutX="398.0" layoutY="248.0" text="2.53">
+                  <Label fx:id="w3" layoutX="356.0" layoutY="251.0" text="2.53">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="d3" layoutX="487.0" layoutY="248.0" text="12.3 x 10.5 x 5.0">
+                  <Label fx:id="d3" layoutX="434.0" layoutY="251.0" text="12.3 x 10.5 x 5.0">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -129,12 +134,12 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="w4" layoutX="398.0" layoutY="305.0" text="2.53">
+                  <Label fx:id="w4" layoutX="356.0" layoutY="308.0" text="2.53">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="d4" layoutX="487.0" layoutY="305.0" text="12.3 x 10.5 x 5.0">
+                  <Label fx:id="d4" layoutX="434.0" layoutY="308.0" text="12.3 x 10.5 x 5.0">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -150,12 +155,12 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="w5" layoutX="398.0" layoutY="361.0" text="2.53">
+                  <Label fx:id="w5" layoutX="356.0" layoutY="364.0" text="2.53">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="d5" layoutX="487.0" layoutY="361.0" text="12.3 x 10.5 x 5.0">
+                  <Label fx:id="d5" layoutX="434.0" layoutY="364.0" text="12.3 x 10.5 x 5.0">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -170,12 +175,12 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="w6" layoutX="398.0" layoutY="417.0" text="2.53">
+                  <Label fx:id="w6" layoutX="356.0" layoutY="420.0" text="2.53">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="d6" layoutX="487.0" layoutY="417.0" text="12.3 x 10.5 x 5.0">
+                  <Label fx:id="d6" layoutX="434.0" layoutY="420.0" text="12.3 x 10.5 x 5.0">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -190,12 +195,12 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="w7" layoutX="398.0" layoutY="472.0" text="2.53">
+                  <Label fx:id="w7" layoutX="356.0" layoutY="475.0" text="2.53">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="d7" layoutX="487.0" layoutY="472.0" text="12.3 x 10.5 x 5.0">
+                  <Label fx:id="d7" layoutX="434.0" layoutY="475.0" text="12.3 x 10.5 x 5.0">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -246,6 +251,41 @@
                      </font>
                   </Button>
                   <ChoiceBox fx:id="choiceBoxFilter" layoutX="157.0" layoutY="16.0" prefWidth="150.0" visible="false" />
+                  <Label fx:id="j1" layoutX="574.0" layoutY="135.0" text="Handover">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="j2" layoutX="574.0" layoutY="194.0" text="Check in">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="j3" layoutX="574.0" layoutY="251.0" text="Parcel hando.">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="j4" layoutX="574.0" layoutY="308.0" text="Handover">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="j5" layoutX="574.0" layoutY="364.0" text="Handover">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="j6" layoutX="574.0" layoutY="420.0" text="Handover">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="j7" layoutX="574.0" layoutY="475.0" text="Handover">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
                </children></AnchorPane>
          </children>
       </AnchorPane>

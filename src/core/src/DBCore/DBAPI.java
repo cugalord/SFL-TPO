@@ -28,7 +28,7 @@ public class DBAPI {
         this.core = new DBCore();
         this.logger = new Logger();
         this.statements = new PreparedStatement[15];
-        this.callables = new CallableStatement[30];
+        this.callables = new CallableStatement[35];
     }
 
     /**
@@ -111,9 +111,14 @@ public class DBAPI {
             this.callables[20] = this.core.getDbConnection().prepareCall("CALL get_branch_office(?, ?)");
             this.callables[21] = this.core.getDbConnection().prepareCall("CALL get_parcel(?)");
             this.callables[22] = this.core.getDbConnection().prepareCall("CALL branch_lookup(?)");
-            this.callables[23] = this.core.getDbConnection().prepareCall("CALL job_create(?, ?, ?)");
+            this.callables[23] = this.core.getDbConnection().prepareCall("CALL job_create(?, ?, ?, ?)");
             this.callables[24] = this.core.getDbConnection().prepareCall("CALL link_parcel_job(?, ?)");
             this.callables[25] = this.core.getDbConnection().prepareCall("CALL get_job_type(?, ?)");
+            this.callables[26] = this.core.getDbConnection().prepareCall("CALL get_parcel_locations(?)");
+            this.callables[27] = this.core.getDbConnection().prepareCall("CALL get_parcel_sender(?)");
+            this.callables[28] = this.core.getDbConnection().prepareCall("CALL get_parcel_recipient(?)");
+            this.callables[29] = this.core.getDbConnection().prepareCall("CALL get_customer(?)");
+            this.callables[30] = this.core.getDbConnection().prepareCall("CALL track_parcel(?)");
             // ... more callables.
         } catch (SQLException e) {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
@@ -1003,9 +1008,10 @@ public class DBAPI {
         DataCount data = null;
         try {
             this.callables[20].setString("country", countryISO);
-            ResultSet rs = this.callables[20].executeQuery();
-            rs.next();
-            data = new DataCount(0, rs.getInt("branch_id"));
+            this.callables[20].registerOutParameter("branch_id", Types.INTEGER);
+            this.callables[20].executeQuery();
+            //rs.next();
+            data = new DataCount(0, this.callables[20].getInt("branch_id"));
         } catch (SQLException e) {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
@@ -1141,6 +1147,187 @@ public class DBAPI {
             this.callables[25].registerOutParameter("type_id", Types.INTEGER);
             this.callables[25].executeQuery();
             data = new DataCount(0, this.callables[25].getInt("type_id"));
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    public ArrayList<DataCount> getParcelLocations(String parcelID) {
+        ArrayList<DataCount> data = new ArrayList<>();
+        try {
+            this.callables[26].setString("pID", parcelID);
+            ResultSet rs = this.callables[26].executeQuery();
+            while (rs.next()) {
+                data.add(new DataCount(0, rs.getInt("branch_id")));
+            }
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    public ArrayList<DataParcel> getSentParcels(String username) {
+        ArrayList<DataParcel> data = new ArrayList<>();
+        try {
+            this.callables[27].setString("uname", username);
+            ResultSet rs = this.callables[27].executeQuery();
+            while (rs.next()) {
+                DataCustomer sender = new DataCustomer(
+                        0, rs.getString("sender"), "", "", "", "",
+                        new SpecificAddress(
+                                0,
+                                rs.getString("sender_street_name"),
+                                rs.getInt("sender_street_num"),
+                                rs.getString("sender_city_code"),
+                                rs.getString("sender_city_name"),
+                                rs.getString("sender_country_code")
+                        )
+                );
+                // Assemble the recipient data.
+                DataCustomer recipient = new DataCustomer(
+                        0, rs.getString("recipient"), "", "", "", "",
+                        new SpecificAddress(
+                                0,
+                                rs.getString("recipient_street_name"),
+                                rs.getInt("recipient_street_num"),
+                                rs.getString("recipient_city_code"),
+                                rs.getString("recipient_city_name"),
+                                rs.getString("recipient_country_code")
+                        )
+                );
+
+                data.add(new DataParcel(
+                        0,
+                        rs.getString("parcel_id"),
+                        rs.getString("parcel_status"),
+                        sender,
+                        recipient,
+                        rs.getInt("weight"),
+                        new Dimensions(
+                                0,
+                                rs.getInt("height"),
+                                rs.getInt("width"),
+                                rs.getInt("depth")
+                        )
+                ));
+            }
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    public ArrayList<DataParcel> getOrderedParcels(String username) {
+        ArrayList<DataParcel> data = new ArrayList<>();
+        try {
+            this.callables[28].setString("uname", username);
+            ResultSet rs = this.callables[28].executeQuery();
+            while (rs.next()) {
+                DataCustomer sender = new DataCustomer(
+                        0, rs.getString("sender"), "", "", "", "",
+                        new SpecificAddress(
+                                0,
+                                rs.getString("sender_street_name"),
+                                rs.getInt("sender_street_num"),
+                                rs.getString("sender_city_code"),
+                                rs.getString("sender_city_name"),
+                                rs.getString("sender_country_code")
+                        )
+                );
+                // Assemble the recipient data.
+                DataCustomer recipient = new DataCustomer(
+                        0, rs.getString("recipient"), "", "", "", "",
+                        new SpecificAddress(
+                                0,
+                                rs.getString("recipient_street_name"),
+                                rs.getInt("recipient_street_num"),
+                                rs.getString("recipient_city_code"),
+                                rs.getString("recipient_city_name"),
+                                rs.getString("recipient_country_code")
+                        )
+                );
+
+                data.add(new DataParcel(
+                        0,
+                        rs.getString("parcel_id"),
+                        rs.getString("parcel_status"),
+                        sender,
+                        recipient,
+                        rs.getInt("weight"),
+                        new Dimensions(
+                                0,
+                                rs.getInt("height"),
+                                rs.getInt("width"),
+                                rs.getInt("depth")
+                        )
+                ));
+            }
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    public DataCustomer getCustomerData(String username) {
+        DataCustomer data = null;
+        try {
+            this.callables[29].setString("uname", username);
+            ResultSet rs = this.callables[29].executeQuery();
+            rs.next();
+            data = new DataCustomer(
+                    0,
+                    username,
+                    rs.getString("name"),
+                    rs.getString("surname"),
+                    rs.getString("company_name"),
+                    rs.getString("tel_num"),
+                    new SpecificAddress(
+                            0,
+                            rs.getString("street_name"),
+                            rs.getInt("street_num"),
+                            rs.getString("city_code"),
+                            rs.getString("city_name"),
+                            rs.getString("country_code")
+                    )
+            );
+        } catch (SQLException e) {
+            this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    public ArrayList<DataParcelHistory> getParcelHistory(String parcelID) {
+        ArrayList<DataParcelHistory> data = new ArrayList<>();
+        try {
+            this.callables[30].setString("parcel_id", parcelID);
+            ResultSet rs = this.callables[30].executeQuery();
+            while (rs.next()) {
+                String status = switch (rs.getString("type")) {
+                    case "Order processing" -> "Order confirmed";
+                    case "Handover" -> "Parcel handed over to the courier";
+                    case "Check in" -> "Parcel arrived at the parcel center";
+                    case "Cargo departing confirmation" -> "Parcel departed from the parcel center";
+                    case "Cargo arrival confirmation" -> "Parcel arrived at the destination";
+                    case "Delivery cargo confirmation" -> "Parcel in delivery";
+                    case "Parcel handover" -> "Parcel handed over to the recipient";
+                    default -> rs.getString("type");
+                };
+
+                data.add(new DataParcelHistory(
+                        0,
+                        status,
+                        rs.getDate("date").toLocalDate(),
+                        rs.getString("post"),
+                        rs.getString("city"),
+                        rs.getString("country")
+                ));
+            }
         } catch (SQLException e) {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
