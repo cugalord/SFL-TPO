@@ -82,11 +82,33 @@ DELIMITER !!
 CREATE PROCEDURE job_create(
     IN job_type INT,
     IN job_status_id INT,
-    IN staff_username VARCHAR(10)
+    IN staff_username VARCHAR(10),
+    OUT job_id INT
 )
 BEGIN
-	INSERT job
-	VALUES(default,NOW(),NULL, job_type, job_status_id, staff_username);
+    SELECT staff_role_id INTO @role
+    FROM staff
+    WHERE username=staff_username;
+    -- INTERNATIONAL
+    IF @role=5 THEN
+        SELECT job_id INTO @curr_job
+        FROM job j
+        WHERE j.staff_username=staff_username AND j.job_type_id=5;
+    end if;
+    -- DELIVERY
+    IF @role=4 THEN
+        SELECT job_id INTO @curr_job
+        FROM job j
+        WHERE j.staff_username=staff_username AND j.job_type_id=7;
+    end if;
+
+    IF @curr_job IS NOT NULL THEN
+        SELECT LAST_INSERT_ID() INTO job_id;
+    ELSE
+        INSERT job
+        VALUES(default,NOW(),NULL, job_type, job_status_id, staff_username);
+        SELECT LAST_INSERT_ID() INTO job_id;
+	end if;
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
@@ -594,5 +616,122 @@ BEGIN
     INNER JOIN staff_role sr ON s.staff_role_id = sr.id
     INNER JOIN branch b on s.branch_id = b.id
     WHERE sr.id=4 AND b.id=branch_id;
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- parcel lookup
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE parcel_lookup(
+    parcel_id VARCHAR(8)
+)
+BEGIN
+    select j.id as job_id
+    from job j
+    INNER JOIN job_packet jp ON j.id = jp.job_id
+    WHERE jp.parcel_id=parcel_id AND j.job_status_id=1;
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE get_warehouse_employee_info(
+    IN username VARCHAR(10)
+)
+BEGIN
+    SELECT s.name as name, s.surname as surname, sr.role_name as role
+    FROM staff s
+    INNER JOIN staff_role sr on s.staff_role_id = sr.id
+    INNER JOIN branch b on s.branch_id = b.id
+    WHERE b.id IN(
+        SELECT s.branch_id
+        FROM staff
+        WHERE s.username=username
+    );
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- branch_lookup
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE branch_lookup(
+   IN username INT
+)
+BEGIN
+    SELECT branch_id as branch_id, c.latitude as latitude, c.longitude as longitude
+    FROM branch b
+    INNER JOIN staff s ON b.id = s.branch_id
+    INNER JOIN city c ON c.code=b.city_code AND c.name=b.city_name AND c.country_code=b.country_code
+    WHERE s.username=username;
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- branch_drivers_lookup
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE branch_employee_lookup(
+   IN branch_id INT,
+   IN staff_role INT
+)
+BEGIN
+    SELECT s.username
+    FROM branch b
+    INNER JOIN staff s ON b.id = s.branch_id
+    WHERE b.id=branch_id AND s.staff_role_id=staff_role;
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- Get branch address from branch ID.
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE get_branch_address(
+   IN branch_id INT
+)
+BEGIN
+    SELECT b.city_code,b.city_name,b.country_code
+    FROM branch b
+    where id=branch_id;
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- Get branch address from branch ID.
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE get_branch_office(
+   IN country VARCHAR(3),
+   OUT branch_id INT
+)
+BEGIN
+    SELECT id INTO branch_id
+    FROM branch b
+    where b.branch_type_id=3 AND b.country_code=country;
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- Get branch address from branch ID.
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE get_branch_office(
+   IN country VARCHAR(3),
+   OUT branch_id INT
+)
+BEGIN
+    SELECT id INTO branch_id
+    FROM branch b
+    where b.branch_type_id=3 AND b.country_code=country;
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- Get branch address from branch ID.
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE get_job_type(
+   IN jID INT,
+   OUT type_id INT
+)
+BEGIN
+    SELECT job_type_id INTO type_id
+    FROM job
+    where id=jID;
 END !!
 DELIMITER ;
