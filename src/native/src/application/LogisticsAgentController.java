@@ -19,7 +19,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class LogisticsAgentController implements Initializable {
-
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
@@ -35,7 +34,7 @@ public class LogisticsAgentController implements Initializable {
 	@FXML private ImageView warningIcon;
 	@FXML private Label 		userFullName;
 	@FXML private ImageView		userIcon;
-	
+
 	public void hideMainContent() {
 		// hide all data until branch is selected
 		p1.setVisible(false);
@@ -50,7 +49,7 @@ public class LogisticsAgentController implements Initializable {
 		employeeChoiceBox.setVisible(false);
 		employeeNoOfJobsLabel.setVisible(false);
 	}
-	
+
 	public void showMainContent() {
 		p1.setVisible(true);
 		p2.setVisible(true);
@@ -60,7 +59,7 @@ public class LogisticsAgentController implements Initializable {
 		d2.setVisible(true);
 		d3.setVisible(true);
 		employeeChoiceBox.setVisible(true);
-		
+
 	}
 
 	public void setUpBranchChoiceBox() {
@@ -72,18 +71,18 @@ public class LogisticsAgentController implements Initializable {
 		employeeChoiceBox.getItems().addAll(data.getEmployeesByBranchArray(branch));
 		employeeChoiceBox.setOnAction(this::employeeChoiceBoxFunction);
 	}
-	
-	public void employeeChoiceBoxFunction(ActionEvent event) { 
+
+	public void employeeChoiceBoxFunction(ActionEvent event) {
 		String noOfJobsOfEmployee = data.getNoOfJobsOfEmployee(employeeChoiceBox.getValue(), branch);
 		employeeNoOfJobsLabel.setText("⚫ No. of jobs: " + noOfJobsOfEmployee);
 		employeeNoOfJobsLabel.setVisible(true);
 	}
-	
+
 	// fires when branch is selected from the ChoiceBox
 	public void branchChoiceBoxFunction(ActionEvent event) {
-		
+
 		//if (branch == "None") setUpEmployeeChoiceBox();
-		
+
 		branch = branchChoiceBox.getValue();
 		System.out.println("Changed filter! - " + branch);
 		String[] branchData = data.getBranchData(branch);
@@ -94,9 +93,9 @@ public class LogisticsAgentController implements Initializable {
 		d1.setText("⚫ All jobs for drivers: " + branchData[4]);
 		d2.setText("⚫ No. of drivers: " + branchData[5]);
 		d3.setText("⚫ Avg. no. of jobs per driver: " + branchData[6]);
-		
+
 		// if there isnt enough drivers in this branch, show the warning
-		if(!data.isEnoughDriversInThisBranch(branch)) {
+		if (!data.isEnoughDriversInThisBranch(branch)) {
 			warningLabel.setVisible(true);
 			warningIcon.setVisible(true);
 		}
@@ -111,7 +110,7 @@ public class LogisticsAgentController implements Initializable {
 
 	public void signOutAnchorPaneButton(MouseEvent event) throws IOException {
 		Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
@@ -124,5 +123,4 @@ public class LogisticsAgentController implements Initializable {
 		setUpBranchChoiceBox();
 		hideMainContent();
 	}
-
 }

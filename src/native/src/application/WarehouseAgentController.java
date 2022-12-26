@@ -53,9 +53,6 @@ public class WarehouseAgentController implements Initializable {
 	private Scene scene;
 	private Parent root;
 	
-	
-	
-	
 	// delete default values (as set in SceneBuilder)
 	public void resetContent() {
 		id1.setText(""); t1.setText(""); w1.setText(""); d1.setText(""); j1.setText("");
@@ -74,10 +71,9 @@ public class WarehouseAgentController implements Initializable {
 		c6.getItems().removeAll(choices); c6.setOnAction(null);
 		c7.getItems().removeAll(choices); c7.setOnAction(null);
 	}
-	
+
 	// populate the table of parcels with actual data
 	public void populateContent() {
-
 		resetContent();
 		data.reload();
 		// fetch the data
@@ -151,48 +147,62 @@ public class WarehouseAgentController implements Initializable {
 		}
 
 		// add the choices for parcels & set onAction function
-		c1.getItems().addAll(choices); c1.setOnAction(this::c1action);
-		c2.getItems().addAll(choices); c2.setOnAction(this::c2action);
-		c3.getItems().addAll(choices); c3.setOnAction(this::c3action);
-		c4.getItems().addAll(choices); c4.setOnAction(this::c4action);
-		c5.getItems().addAll(choices); c5.setOnAction(this::c5action);
-		c6.getItems().addAll(choices); c6.setOnAction(this::c6action);
-		c7.getItems().addAll(choices); c7.setOnAction(this::c7action);
+		c1.getItems().addAll(choices);
+		c1.setOnAction(this::c1action);
+		c2.getItems().addAll(choices);
+		c2.setOnAction(this::c2action);
+		c3.getItems().addAll(choices);
+		c3.setOnAction(this::c3action);
+		c4.getItems().addAll(choices);
+		c4.setOnAction(this::c4action);
+		c5.getItems().addAll(choices);
+		c5.setOnAction(this::c5action);
+		c6.getItems().addAll(choices);
+		c6.setOnAction(this::c6action);
+		c7.getItems().addAll(choices);
+		c7.setOnAction(this::c7action);
 	}
 
 	public void c1action(ActionEvent event) {
-		if (c1.getValue() != null)
+		if (c1.getValue() != null) {
 			data.statusChanged(parcels.get(0)[1], c1.getValue());
+		}
 	}
 
 	public void c2action(ActionEvent event) {
-		if (c2.getValue() != null)
+		if (c2.getValue() != null) {
 			data.statusChanged(parcels.get(1)[1], c2.getValue());
+		}
 	}
 
 	public void c3action(ActionEvent event) {
-		if (c3.getValue() != null)
+		if (c3.getValue() != null) {
 			data.statusChanged(parcels.get(2)[1], c3.getValue());
+		}
 	}
 
 	public void c4action(ActionEvent event) {
-		if (c4.getValue() != null)
+		if (c4.getValue() != null) {
 			data.statusChanged(parcels.get(3)[1], c4.getValue());
+		}
 	}
 
 	public void c5action(ActionEvent event) {
-		if (c5.getValue() != null)
+		if (c5.getValue() != null) {
 			data.statusChanged(parcels.get(4)[1], c5.getValue());
+		}
 	}
 
 	public void c6action(ActionEvent event) {
-		if (c6.getValue() != null)
+		if (c6.getValue() != null) {
 			data.statusChanged(parcels.get(5)[1], c6.getValue());
+		}
 	}
 
 	public void c7action(ActionEvent event) {
-		if (c7.getValue() != null)
+		if (c7.getValue() != null) {
 			data.statusChanged(parcels.get(6)[1], c7.getValue());
+		}
 	}
 
 	public void settingsButton(MouseEvent event) {
@@ -235,7 +245,6 @@ public class WarehouseAgentController implements Initializable {
 		userIcon.setImage(new Image(getClass().getResourceAsStream("/res/" + data.getUserProfilePicture())));
 		populateContent();
 	}
-
 }
 
 
