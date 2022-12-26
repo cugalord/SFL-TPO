@@ -655,7 +655,7 @@ DELIMITER ;
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE branch_lookup(
-   IN username INT
+   IN username VARCHAR(10)
 )
 BEGIN
     SELECT branch_id as branch_id, c.latitude as latitude, c.longitude as longitude
@@ -733,5 +733,131 @@ BEGIN
     SELECT job_type_id INTO type_id
     FROM job
     where id=jID;
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- Get branch address from branch ID.
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE get_parcel_locations(
+    IN pID VARCHAR(8)
+)
+BEGIN
+    SELECT b.id as branch_id
+    FROM job j
+    INNER JOIN job_packet JOIN job_packet jp on j.id = jp.job_id
+    INNER JOIN staff s on j.staff_username = s.username
+    INNER JOIN branch b on s.branch_id = b.id
+    WHERE jp.parcel_id=pID AND j.job_status_id IN (2,3);
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- Get branch address from branch ID.
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE get_parcel_sender(
+    IN uname VARCHAR(10)
+)
+BEGIN
+    SELECT
+        p.id as parcel_id,
+        ps.name as parcel_status,
+        p.sender as sender,
+        p.recipient as recipient,
+        p.weight as weight,
+        p.height as height,
+        p.width as width,
+        p.depth as depth,
+        p.sender_street_name as sender_street_name,
+        p.sender_street_number as sender_street_num,
+        p.sender_city_code as sender_city_code,
+        p.sender_city_name as sender_city_name,
+        p.sender_country_code as sender_country_code,
+        p.recipient_street_name as recipient_street_name,
+        p.recipient_street_number as recipient_street_num,
+        p.recipient_city_code as recipient_city_code,
+        p.recipient_city_name as recipient_city_name,
+        p.recipient_country_code as recipient_country_code
+    FROM parcel p
+    INNER JOIN parcel_status ps on p.parcel_status_id = ps.id
+    WHERE sender=uname;
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- Get branch address from branch ID.
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE get_parcel_recipient(
+    IN uname VARCHAR(10)
+)
+BEGIN
+    SELECT
+        p.id as parcel_id,
+        ps.name as parcel_status,
+        p.sender as sender,
+        p.recipient as recipient,
+        p.weight as weight,
+        p.height as height,
+        p.width as width,
+        p.depth as depth,
+        p.sender_street_name as sender_street_name,
+        p.sender_street_number as sender_street_num,
+        p.sender_city_code as sender_city_code,
+        p.sender_city_name as sender_city_name,
+        p.sender_country_code as sender_country_code,
+        p.recipient_street_name as recipient_street_name,
+        p.recipient_street_number as recipient_street_num,
+        p.recipient_city_code as recipient_city_code,
+        p.recipient_city_name as recipient_city_name,
+        p.recipient_country_code as recipient_country_code
+    FROM parcel p
+    INNER JOIN parcel_status ps on p.parcel_status_id = ps.id
+    WHERE recipient=uname;
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- Get branch address from branch ID.
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE get_customer(
+    IN uname VARCHAR(10)
+)
+BEGIN
+    SELECT
+        name AS name,
+        surname AS surname,
+        company_name AS company_name,
+        tel_num AS tel_num,
+        street_name AS street_name,
+        street_number AS street_number,
+        city_code AS city_code,
+        city_name AS city_name,
+        country_code AS country_code
+    FROM customer
+    WHERE username=uname;
+END !!
+DELIMITER ;
+-- --------------------------------------------------------------
+-- Get branch address from branch ID.
+-- --------------------------------------------------------------
+DELIMITER !!
+CREATE PROCEDURE track_parcel(
+    IN parcel_id VARCHAR(8)
+)
+BEGIN
+    SELECT
+       jt.name as type,
+       js.name as status,
+       j.date_completed as date,
+       b.city_code as post,
+       b.city_name as city,
+       b.country_code as country
+    FROM job j
+    INNER JOIN job_status js  ON j.job_status_id = js.id
+    INNER JOIN job_type jt on j.job_type_id = jt.id
+    INNER JOIN job_packet ON j.id = job_packet.job_id
+    INNER JOIN staff s ON j.staff_username=s.username
+    INNER JOIN branch b ON s.branch_id = b.id
+    WHERE job_packet.parcel_id=parcel_id AND job_status_id=2;
 END !!
 DELIMITER ;
