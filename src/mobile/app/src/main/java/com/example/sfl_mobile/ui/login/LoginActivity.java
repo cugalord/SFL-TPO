@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sfl_mobile.JobsActivity;
+import com.example.sfl_mobile.ManagerActivity;
 import com.example.sfl_mobile.R;
 import com.example.sfl_mobile.ui.login.LoginViewModel;
 import com.example.sfl_mobile.ui.login.LoginViewModelFactory;
@@ -131,8 +132,16 @@ public class LoginActivity extends AppCompatActivity {
         // TODO : initiate successful logged in experience
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
 
-        Intent i = new Intent(LoginActivity.this, JobsActivity.class);
-        startActivity(i);
+        if (model.getUserName().equals("jeasnuf70")) {
+            Intent i = new Intent(LoginActivity.this, ManagerActivity.class);
+            i.putExtra("displayName", model.getDisplayName());
+            startActivity(i);
+        }
+        else {
+            Intent i = new Intent(LoginActivity.this, JobsActivity.class);
+            i.putExtra("displayName", model.getDisplayName());
+            startActivity(i);
+        }
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {
