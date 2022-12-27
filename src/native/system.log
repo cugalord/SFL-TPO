@@ -716,3 +716,7 @@
 ================================================================================
 2022-12-26 14:00:30 Log: DBCore.DBCore:login: User korharg38 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
 ================================================================================
+2022-12-26 15:07:42 Log: DBCore.DBAPI:login: The user sheshut51 is trying to log in.
+================================================================================
+2022-12-26 15:07:43 Log: DBCore.DBCore:login: User sheshut51 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+================================================================================

@@ -30,9 +30,9 @@ class DBCore {
     /**
      * Constructs a new database core instance.
      */
-    protected DBCore() {
-        this.cfgLoader = new ConfigLoader();
-        this.logger = new Logger();
+    protected DBCore(boolean log) {
+        this.cfgLoader = new ConfigLoader(log);
+        this.logger = new Logger(log);
 
         this.url = "jdbc:mysql://<ip>:<port>/<dbname>";
         this.username = "";

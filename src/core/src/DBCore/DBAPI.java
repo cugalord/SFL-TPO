@@ -24,9 +24,9 @@ public class DBAPI {
     /**
      * Constructs a new database API instance.
      */
-    public DBAPI() {
-        this.core = new DBCore();
-        this.logger = new Logger();
+    public DBAPI(boolean log) {
+        this.core = new DBCore(log);
+        this.logger = new Logger(log);
         this.statements = new PreparedStatement[15];
         this.callables = new CallableStatement[35];
     }
@@ -1154,6 +1154,11 @@ public class DBAPI {
         return data;
     }
 
+    /**
+     * Gets the previous branch ID's of the given parcel.
+     * @param parcelID String - The parcel ID.
+     * @return ArrayList<DataCount> - The branch ID's.
+     */
     public ArrayList<DataCount> getParcelLocations(String parcelID) {
         ArrayList<DataCount> data = new ArrayList<>();
         try {
@@ -1169,6 +1174,11 @@ public class DBAPI {
         return data;
     }
 
+    /**
+     * Gets the list of parcels sent by user.
+     * @param username String - The username.
+     * @return ArrayList<DataParcel> - The list of parcels.
+     */
     public ArrayList<DataParcel> getSentParcels(String username) {
         ArrayList<DataParcel> data = new ArrayList<>();
         try {
@@ -1221,6 +1231,11 @@ public class DBAPI {
         return data;
     }
 
+    /**
+     * Gets the list of parcels ordered by user.
+     * @param username String - The username.
+     * @return ArrayList<DataParcel> - The list of parcels.
+     */
     public ArrayList<DataParcel> getOrderedParcels(String username) {
         ArrayList<DataParcel> data = new ArrayList<>();
         try {
@@ -1273,6 +1288,11 @@ public class DBAPI {
         return data;
     }
 
+    /**
+     * Gets the data of customer with given username.
+     * @param username String - The username.
+     * @return DataCustomer - The customer data.
+     */
     public DataCustomer getCustomerData(String username) {
         DataCustomer data = null;
         try {
@@ -1289,7 +1309,7 @@ public class DBAPI {
                     new SpecificAddress(
                             0,
                             rs.getString("street_name"),
-                            rs.getInt("street_num"),
+                            rs.getInt("street_number"),
                             rs.getString("city_code"),
                             rs.getString("city_name"),
                             rs.getString("country_code")
@@ -1302,6 +1322,11 @@ public class DBAPI {
         return data;
     }
 
+    /**
+     * Gets the parcel history.
+     * @param parcelID String - The parcel ID.
+     * @return ArrayList<DataParcelHistory> - The parcel history.
+     */
     public ArrayList<DataParcelHistory> getParcelHistory(String parcelID) {
         ArrayList<DataParcelHistory> data = new ArrayList<>();
         try {

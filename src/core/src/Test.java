@@ -15,7 +15,7 @@ public class Test {
     public static void main(String[] args) {
         System.out.println("Hello world!");
 
-        DBAPI api = new DBAPI();
+        DBAPI api = new DBAPI(true);
 
         /*Logger log = new Logger("system.log");
 
@@ -99,7 +99,7 @@ public class Test {
      * Tests for the configuration loader.
      */
     static void configLoaderTests() {
-        ConfigLoader cfgldr = new ConfigLoader();
+        ConfigLoader cfgldr = new ConfigLoader(true);
         cfgldr.load();
         DBData data = cfgldr.fetchData();
 
@@ -126,7 +126,7 @@ public class Test {
      * Test for the database api.
      */
     static void DBAPITests() {
-        DBAPI dbapi = new DBAPI();
+        DBAPI dbapi = new DBAPI(true);
 
         System.out.println("DBAPI tests:");
 

@@ -3,6 +3,7 @@ package ConfigLoader;
 import Utils.Logger;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -26,9 +27,9 @@ public class ConfigLoader {
     /**
      * Constructs a ConfigLoader instance.
      */
-    public ConfigLoader() {
+    public ConfigLoader(boolean log) {
         this.data = null;
-        this.logger = new Logger();
+        this.logger = new Logger(log);
     }
 
     /**
@@ -60,6 +61,13 @@ public class ConfigLoader {
                 }
             }
         } catch (Exception e) {
+            if (!this.isWindows()) {
+                this.data = new DBData(
+                        "TPO",
+                        "db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com",
+                        "25060"
+                );
+            }
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
         }
@@ -71,5 +79,14 @@ public class ConfigLoader {
      */
     public DBData fetchData() {
         return this.data;
+    }
+
+    /**
+     * Checks if the current OS is Windows. This is a workaround needed for Android development.
+     * @return Boolean - True if the OS is Windows, false otherwise.
+     */
+    private boolean isWindows() {
+        String os = System.getProperty("os.name").toLowerCase();
+        return (os.contains("win" ));
     }
 }

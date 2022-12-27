@@ -13,6 +13,8 @@ import java.time.format.DateTimeFormatter;
 public class Logger {
     /** The log file path. */
     private String logPath;
+    /** Flag that signifies if logging should be enabled. */
+    private boolean loggingEnabled;
     /** The file writer. */
     private BufferedWriter writer;
     /** The message type. */
@@ -23,8 +25,9 @@ public class Logger {
     /**
      * Constructs a new default Logger instance.
      */
-    public Logger() {
+    public Logger(boolean log) {
         this.logPath  = "system.log";
+        this.loggingEnabled = log;
     }
 
     /**
@@ -40,6 +43,9 @@ public class Logger {
      * @param message String - The message to log.
      */
     public void log(String message, MessageType type) {
+        if (!this.loggingEnabled) {
+            return;
+        }
         try {
             this.writer = new BufferedWriter(new FileWriter(this.logPath, true));
 
