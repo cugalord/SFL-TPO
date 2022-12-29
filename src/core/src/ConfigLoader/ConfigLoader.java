@@ -24,12 +24,15 @@ public class ConfigLoader {
     /** The logger. */
     private final Logger logger;
 
+    private boolean loggingEnabled;
+
     /**
      * Constructs a ConfigLoader instance.
      */
     public ConfigLoader(boolean log) {
         this.data = null;
         this.logger = new Logger(log);
+        this.loggingEnabled = log;
     }
 
     /**
@@ -61,7 +64,7 @@ public class ConfigLoader {
                 }
             }
         } catch (Exception e) {
-            if (!this.isWindows()) {
+            if (!this.isWindows() || !this.loggingEnabled) {
                 this.data = new DBData(
                         "TPO",
                         "db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com",

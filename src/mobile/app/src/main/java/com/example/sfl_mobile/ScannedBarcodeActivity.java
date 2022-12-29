@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
@@ -22,7 +23,15 @@ import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class ScannedBarcodeActivity extends AppCompatActivity {
 
@@ -37,6 +46,12 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
 
     String intentData = "";
 
+    String displayName = "";
+    String username = "";
+    String password = "";
+    String parcelID = "";
+    String jobID = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,14 +61,49 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
         textBarcodeValue = findViewById(R.id.txtBarcodeValue);
         completeButton = findViewById(R.id.btnAction);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            displayName = extras.getString("displayName");
+            username = extras.getString("username");
+            password = extras.getString("password");
+            parcelID = extras.getString("parcelID");
+            jobID = extras.getString("jobID");
+        }
+
         completeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Implement
                 if (intentData.length() > 0) {
-                    // TODO: Complete in DB + verify
-                    Intent i = new Intent(ScannedBarcodeActivity.this, JobsActivity.class);
-                    startActivity(i);
+                    if (!intentData.trim().equals(parcelID)) {
+                        return;
+                    }
+
+                    ExecutorService executorService = Executors.newSingleThreadExecutor();
+                    executorService.submit(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (verifyParcelId()) {
+                                Intent i = new Intent(ScannedBarcodeActivity.this, JobsActivity.class);
+                                i.putExtra("displayName", displayName);
+                                i.putExtra("username", username);
+                                i.putExtra("password", password);
+                                startActivity(i);
+                            }
+                        }
+                    });
+
+                    if (!executorService.isTerminated()) {
+                        try {
+                            if (executorService.awaitTermination(20, TimeUnit.SECONDS)) {
+                                System.out.println("Service terminated successfully");
+                            } else {
+                                System.out.println("Service terminated unsuccessfully");
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
                 }
             }
         });
@@ -139,5 +189,53 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private boolean verifyParcelId() {
+        try {
+            StringBuilder content = new StringBuilder();
+            // Create connection to web api servlet via post
+            URL openUrl = new URL(Common.connectionStringEmployees);
+            HttpURLConnection connection = (HttpURLConnection) openUrl.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setConnectTimeout(1000000);
+            connection.setReadTimeout(5000000);
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+
+            // Send login credentials to servlet
+            DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+            String params = "username=" + username + "&password=" + password +
+                    "&jobID=" + jobID + "&status=2";
+            out.writeBytes(params);
+            out.flush();
+            out.close();
+
+            // Receive success state from login servlet
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+            in.close();
+
+            // Close connection to servlet
+            connection.disconnect();
+
+            // Generate result based on servlet response content
+            String[] result = content.toString().split(";");
+
+            if (result[0].equals("success")) {
+                System.out.println("success!");
+                return true;
+            } else if (result[0].equals("failure")) {
+                System.out.println("failure");
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }

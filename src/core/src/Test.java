@@ -1,6 +1,7 @@
 import ConfigLoader.*;
 import DBCore.DBAPI;
 import Data.DataJob;
+import Data.DataStaff;
 import Data.GeneralAddress;
 import Utils.Logger;
 import Utils.Utils;
@@ -89,6 +90,12 @@ public class Test {
         ));
 
         System.out.println(api.getStaffDataFromUsername("alfperr10"));
+
+
+        ArrayList<DataStaff> dataStaffs = api.getWarehouseManagerEmployeesInfo("augdene34");
+        for (DataStaff dataStaff : dataStaffs) {
+            System.out.println(dataStaff);
+        }
 
         api.logout();
 

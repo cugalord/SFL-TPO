@@ -11,11 +11,17 @@ import com.example.sfl_mobile.data.Result;
 import com.example.sfl_mobile.data.model.LoggedInUser;
 import com.example.sfl_mobile.R;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+
 public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
     private LoginRepository loginRepository;
+    Result<LoggedInUser> result = null;
 
     LoginViewModel(LoginRepository loginRepository) {
         this.loginRepository = loginRepository;
@@ -30,12 +36,31 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void login(String username, String password) {
-        // can be launched in a separate asynchronous job
-        Result<LoggedInUser> result = loginRepository.login(username, password);
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.submit(() -> result = loginRepository.login(username, password));
+        if (!executorService.isTerminated()) {
+            executorService.shutdown();
+            try {
+                if (executorService.awaitTermination(20, TimeUnit.SECONDS)) {
+                    System.out.println("Service terminated successfully");
+                }
+                else {
+                    System.out.println("Service terminated unsuccessfully");
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
         if (result instanceof Result.Success) {
             LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName(), username)));
+            loginResult.setValue(new LoginResult(
+                    new LoggedInUserView(
+                            data.getDisplayName(),
+                            username,
+                            password,
+                            ((Result.Success<LoggedInUser>) result).getData().getRole()
+                    )));
         } else {
             loginResult.setValue(new LoginResult(R.string.login_failed));
         }

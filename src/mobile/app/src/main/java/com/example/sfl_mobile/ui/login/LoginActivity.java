@@ -26,8 +26,6 @@ import android.widget.Toast;
 import com.example.sfl_mobile.JobsActivity;
 import com.example.sfl_mobile.ManagerActivity;
 import com.example.sfl_mobile.R;
-import com.example.sfl_mobile.ui.login.LoginViewModel;
-import com.example.sfl_mobile.ui.login.LoginViewModelFactory;
 import com.example.sfl_mobile.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
@@ -129,19 +127,26 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUiWithUser(LoggedInUserView model) {
         String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
 
-        if (model.getUserName().equals("jeasnuf70")) {
-            Intent i = new Intent(LoginActivity.this, ManagerActivity.class);
-            i.putExtra("displayName", model.getDisplayName());
-            startActivity(i);
+        String role = model.getRole();
+
+        Intent i = null;
+        // Different roles get different activities
+        if (role.equals("Warehouse manager")) {
+            i = new Intent(LoginActivity.this, ManagerActivity.class);
+        }
+        else if (!role.equals("Order confirmation specialist") && !role.equals("Logistics agent")) {
+            i = new Intent(LoginActivity.this, JobsActivity.class);
         }
         else {
-            Intent i = new Intent(LoginActivity.this, JobsActivity.class);
-            i.putExtra("displayName", model.getDisplayName());
-            startActivity(i);
+            Toast.makeText(getApplicationContext(), "Wrong permissions for role", Toast.LENGTH_LONG).show();
+            return;
         }
+        i.putExtra("displayName", model.getDisplayName());
+        i.putExtra("username", model.getUserName());
+        i.putExtra("password", model.getPassword());
+        startActivity(i);
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {

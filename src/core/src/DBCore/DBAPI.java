@@ -613,13 +613,13 @@ public class DBAPI {
     public ArrayList<DataStaff> getWarehouseManagerEmployeesInfo(String username) {
         ArrayList<DataStaff> data = new ArrayList<>();
         try {
-            this.callables[7].setString("username", username);
+            this.callables[7].setString("uname", username);
             ResultSet rs = this.callables[7].executeQuery();
             int i = 0;
             while (rs.next()) {
                 data.add(new DataStaff(
                         i,
-                        username,
+                        rs.getString("username"),
                         rs.getString("name"),
                         rs.getString("surname"),
                         rs.getString("role")

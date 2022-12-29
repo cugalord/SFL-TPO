@@ -13,6 +13,7 @@ public class LoginRepository {
 
     private LoginDataSource dataSource;
 
+
     // If user credentials will be cached in local storage, it is recommended it be encrypted
     // @see https://developer.android.com/training/articles/keystore
     private LoggedInUser user = null;

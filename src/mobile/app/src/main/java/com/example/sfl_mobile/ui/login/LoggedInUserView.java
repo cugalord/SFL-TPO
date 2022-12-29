@@ -5,12 +5,16 @@ package com.example.sfl_mobile.ui.login;
  */
 class LoggedInUserView {
     private String displayName;
-    private String userName;
+    private String username;
+    private String password;
+    private String role;
     //... other data fields that may be accessible to the UI
 
-    LoggedInUserView(String displayName, String userName) {
+    LoggedInUserView(String displayName, String username, String password, String role) {
         this.displayName = displayName;
-        this.userName = userName;
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 
     String getDisplayName() {
@@ -18,6 +22,14 @@ class LoggedInUserView {
     }
 
     String getUserName() {
-        return userName;
+        return username;
+    }
+
+    String getPassword() {
+        return password;
+    }
+
+    String getRole() {
+        return role;
     }
 }

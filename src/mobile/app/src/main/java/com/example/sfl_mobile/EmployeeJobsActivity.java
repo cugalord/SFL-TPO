@@ -1,19 +1,13 @@
 package com.example.sfl_mobile;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,12 +15,8 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.example.sfl_mobile.data.Result;
-import com.example.sfl_mobile.data.model.LoggedInUser;
+import com.example.sfl_mobile.databinding.ActivityEmployeeJobsBinding;
 import com.example.sfl_mobile.databinding.ActivityJobsBinding;
-import com.mysql.cj.core.exceptions.WrongArgumentException;
-
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -39,44 +29,55 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class JobsActivity extends AppCompatActivity {
+public class EmployeeJobsActivity extends AppCompatActivity {
+
     TextView userData;
     ImageView logoView;
 
-    Button pendingButton;
-    Button completedButton;
+    Button backButton;
 
     ScrollView jobsView;
     LinearLayout jobsLayout;
 
-    ActivityJobsBinding binding;
+    ActivityEmployeeJobsBinding binding;
 
-    ArrayList<String> pendingJobsData = new ArrayList<>();
-    ArrayList<String> completedJobsData = new ArrayList<>();
+    ArrayList<String> jobsData = new ArrayList<>();
 
     String displayName;
+    String staffUsername;
     String username;
     String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_jobs);
+        setContentView(R.layout.activity_employee_jobs);
 
-        binding = ActivityJobsBinding.inflate(getLayoutInflater());
+        binding = ActivityEmployeeJobsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getBindingViews();
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String res = "\n" + extras.getString("displayName");
             displayName = extras.getString("displayName");
+            staffUsername = extras.getString("staffUsername");
             username = extras.getString("username");
             password = extras.getString("password");
             userData.setText(extras.getString("displayName"));
             userData.setTextSize(17.5f);
             userData.setTypeface(null, Typeface.BOLD);
         }
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(EmployeeJobsActivity.this, ManagerActivity.class);
+                i.putExtra("displayName", displayName);
+                i.putExtra("username", username);
+                i.putExtra("password", password);
+                startActivity(i);
+            }
+        });
 
         populateTestData();
 
@@ -87,8 +88,7 @@ public class JobsActivity extends AppCompatActivity {
             try {
                 if (executorService.awaitTermination(20, TimeUnit.SECONDS)) {
                     System.out.println("Service terminated successfully");
-                }
-                else {
+                } else {
                     System.out.println("Service terminated unsuccessfully");
                 }
             } catch (InterruptedException e) {
@@ -96,41 +96,26 @@ public class JobsActivity extends AppCompatActivity {
             }
         }
 
-        fillLayout(pendingJobsData);
-
-        pendingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fillLayout(pendingJobsData);
-            }
-        });
-
-        completedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fillLayout(completedJobsData);
-            }
-        });
+        fillLayout();
     }
 
     private void getBindingViews() {
         userData = binding.userTextView;
         logoView = binding.logoImageView;
-        pendingButton = binding.buttonPending;
-        completedButton = binding.buttonDone;
+        backButton = binding.backButton;
         jobsView = binding.jobsView;
         jobsLayout = binding.jobsLayout;
     }
 
-    private void fillLayout(ArrayList<String> data) {
+    private void fillLayout() {
         jobsLayout.removeAllViews();
 
-        RelativeLayout rl = new RelativeLayout(JobsActivity.this);
-        LinearLayout ll = new LinearLayout(JobsActivity.this);
-        TextView id = new TextView(JobsActivity.this);
-        TextView dm = new TextView(JobsActivity.this);
-        TextView wg = new TextView(JobsActivity.this);
-        TextView st = new TextView(JobsActivity.this);
+        RelativeLayout rl = new RelativeLayout(EmployeeJobsActivity.this);
+        LinearLayout ll = new LinearLayout(EmployeeJobsActivity.this);
+        TextView id = new TextView(EmployeeJobsActivity.this);
+        TextView dm = new TextView(EmployeeJobsActivity.this);
+        TextView wg = new TextView(EmployeeJobsActivity.this);
+        TextView st = new TextView(EmployeeJobsActivity.this);
 
         LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         llp.setMargins(40, 0, 0, 0);
@@ -138,9 +123,9 @@ public class JobsActivity extends AppCompatActivity {
 
         rl.setBackgroundColor(Color.LTGRAY);
 
-        id.setText("ParcelID");
-        dm.setText("Dimensions (cm)");
-        wg.setText("Weight (kg)");
+        id.setText("JobID");
+        dm.setText("ParcelID");
+        wg.setText("Status");
 
         id.setPadding(10, 15, 25, 0);
         id.setTextSize(16f);
@@ -172,7 +157,6 @@ public class JobsActivity extends AppCompatActivity {
         st.setTextColor(Color.BLACK);
         st.setGravity(Gravity.CENTER);
 
-
         ll.addView(id);
         ll.addView(dm);
         ll.addView(wg);
@@ -181,36 +165,20 @@ public class JobsActivity extends AppCompatActivity {
 
         jobsLayout.addView(rl);
 
-        for (String jobData : data) {
-            RelativeLayout relativeLayout = new RelativeLayout(JobsActivity.this);
-            LinearLayout textLayout = new LinearLayout(JobsActivity.this);
+        for (String jobData : jobsData) {
+            RelativeLayout relativeLayout = new RelativeLayout(EmployeeJobsActivity.this);
+            LinearLayout textLayout = new LinearLayout(EmployeeJobsActivity.this);
 
-            TextView jobIDView = new TextView(JobsActivity.this);
-            TextView dimensionsView = new TextView(JobsActivity.this);
-            TextView weightView = new TextView(JobsActivity.this);
-
-            Button button = new Button(JobsActivity.this);
+            TextView jobIDView = new TextView(EmployeeJobsActivity.this);
+            TextView parcelIDView = new TextView(EmployeeJobsActivity.this);
+            TextView weightView = new TextView(EmployeeJobsActivity.this);
+            TextView statusView = new TextView(EmployeeJobsActivity.this);
 
             // Set text.
             String[] jobAttributes = jobData.split(" ");
-            jobIDView.setText(jobAttributes[4]);
-            dimensionsView.setText(jobAttributes[1]);
-            weightView.setText(jobAttributes[2]);
-
-            // Implement button functionality.
-            button.setText("SCAN");
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(JobsActivity.this, ScannedBarcodeActivity.class);
-                    i.putExtra("displayName", displayName);
-                    i.putExtra("username", username);
-                    i.putExtra("password", password);
-                    i.putExtra("jobID", jobAttributes[0]);
-                    i.putExtra("parcelID", jobAttributes[4]);
-                    startActivity(i);
-                }
-            });
+            jobIDView.setText(jobAttributes[0]);
+            parcelIDView.setText(jobAttributes[4]);
+            statusView.setText(jobAttributes[3]);
 
             // Style text.
             jobIDView.setPadding(10, 45, 25, 0);
@@ -219,21 +187,26 @@ public class JobsActivity extends AppCompatActivity {
             jobIDView.setWidth(250);
             jobIDView.setGravity(Gravity.CENTER);
 
-            dimensionsView.setPadding(10, 15, 25, 0);
-            dimensionsView.setTextSize(15f);
-            dimensionsView.setTypeface(null, Typeface.BOLD);
-            dimensionsView.setWidth(400);
-            dimensionsView.setGravity(Gravity.CENTER);
+            parcelIDView.setPadding(10, 15, 25, 0);
+            parcelIDView.setTextSize(15f);
+            parcelIDView.setTypeface(null, Typeface.BOLD);
+            parcelIDView.setWidth(400);
+            parcelIDView.setGravity(Gravity.CENTER);
 
-            weightView.setPadding(10, 15, 25, 0);
-            weightView.setTextSize(15f);
-            weightView.setTypeface(null, Typeface.BOLD);
-            weightView.setGravity(Gravity.CENTER);
+            statusView.setPadding(10, 15, 25, 0);
+            statusView.setTextSize(15f);
+            statusView.setTypeface(null, Typeface.BOLD);
+
+            if (jobAttributes[3].toLowerCase(Locale.ROOT).equals("pending")) {
+                statusView.setTextColor(Color.GREEN);
+            } else {
+                statusView.setTextColor(Color.RED);
+            }
 
             // Add text views to text layout.
             textLayout.addView(jobIDView);
-            textLayout.addView(dimensionsView);
-            textLayout.addView(weightView);
+            textLayout.addView(parcelIDView);
+            textLayout.addView(statusView);
 
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             lp.setMargins(40, 0, 0, 0);
@@ -241,15 +214,6 @@ public class JobsActivity extends AppCompatActivity {
 
             // Add text layout and button to relative layout.
             relativeLayout.addView(textLayout);
-            // Only add button if job is pending.
-            if (jobAttributes[3].toLowerCase(Locale.ROOT).equals("pending")) {
-                relativeLayout.addView(button);
-                // Align button to the right side of page.
-                RelativeLayout.LayoutParams buttonParams =
-                        (RelativeLayout.LayoutParams) button.getLayoutParams();
-                buttonParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-                buttonParams.rightMargin = 40;
-            }
 
             // Align text to the left side of page.
             RelativeLayout.LayoutParams textViewLayoutParams =
@@ -261,35 +225,34 @@ public class JobsActivity extends AppCompatActivity {
     }
 
     private void populateTestData() {
-        pendingJobsData.add("13 4x3x2 23.6 Pending");
-        pendingJobsData.add("13 4x3x2 23.6 Pending");
-        pendingJobsData.add("13 4x3x2 23.6 Pending");
-        pendingJobsData.add("13 4x3x2 23.6 Pending");
-        pendingJobsData.add("13 4x3x2 23.6 Pending");
-        pendingJobsData.add("13 4x3x2 23.6 Pending");
-        pendingJobsData.add("13 4x3x2 23.6 Pending");
-        pendingJobsData.add("13 4x3x2 23.6 Pending");
-        pendingJobsData.add("13 4x3x2 23.6 Pending");
-        pendingJobsData.add("13 4x3x2 23.6 Pending");
-        pendingJobsData.add("13 4x3x2 23.6 Pending");
-        pendingJobsData.add("13 4x3x2 23.6 Pending");
-        pendingJobsData.add("13 4x3x2 23.6 Pending");
-        pendingJobsData.add("13 4x3x2 23.6 Pending");
-        pendingJobsData.add("13 4x3x2 23.6 Pending");
-        pendingJobsData.add("13 4x3x2 23.6 Pending");
-        pendingJobsData.add("13 4x3x2 23.6 Pending");
-        pendingJobsData.add("13 4x3x2 23.6 Pending");
-        pendingJobsData.add("13 4x3x2 23.6 Pending");
-        pendingJobsData.add("13 4x3x2 23.6 Pending");
-        pendingJobsData.add("13 4x3x2 23.6 Pending");
-
-        completedJobsData.add("13 4x3x2 23.6 Completed");
-        completedJobsData.add("13 4x3x2 23.6 Completed");
-        completedJobsData.add("13 4x3x2 23.6 Completed");
-        completedJobsData.add("13 4x3x2 23.6 Completed");
-        completedJobsData.add("13 4x3x2 23.6 Completed");
-        completedJobsData.add("13 4x3x2 23.6 Completed");
-        completedJobsData.add("13 4x3x2 23.6 Completed");
+        jobsData.add("13 4x3x2 23.6 Pending");
+        jobsData.add("13 4x3x2 23.6 Pending");
+        jobsData.add("13 4x3x2 23.6 Pending");
+        jobsData.add("13 4x3x2 23.6 Completed");
+        jobsData.add("13 4x3x2 23.6 Completed");
+        jobsData.add("13 4x3x2 23.6 Pending");
+        jobsData.add("13 4x3x2 23.6 Pending");
+        jobsData.add("13 4x3x2 23.6 Pending");
+        jobsData.add("13 4x3x2 23.6 Completed");
+        jobsData.add("13 4x3x2 23.6 Completed");
+        jobsData.add("13 4x3x2 23.6 Pending");
+        jobsData.add("13 4x3x2 23.6 Pending");
+        jobsData.add("13 4x3x2 23.6 Pending");
+        jobsData.add("13 4x3x2 23.6 Pending");
+        jobsData.add("13 4x3x2 23.6 Pending");
+        jobsData.add("13 4x3x2 23.6 Completed");
+        jobsData.add("13 4x3x2 23.6 Completed");
+        jobsData.add("13 4x3x2 23.6 Pending");
+        jobsData.add("13 4x3x2 23.6 Pending");
+        jobsData.add("13 4x3x2 23.6 Pending");
+        jobsData.add("13 4x3x2 23.6 Pending");
+        jobsData.add("13 4x3x2 23.6 Pending");
+        jobsData.add("13 4x3x2 23.6 Pending");
+        jobsData.add("13 4x3x2 23.6 Pending");
+        jobsData.add("13 4x3x2 23.6 Pending");
+        jobsData.add("13 4x3x2 23.6 Pending");
+        jobsData.add("13 4x3x2 23.6 Pending");
+        jobsData.add("13 4x3x2 23.6 Completed");
     }
 
     private void populateData() {
@@ -306,7 +269,7 @@ public class JobsActivity extends AppCompatActivity {
 
             // Send login credentials to servlet
             DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-            String params = "username=" + username + "&password=" + password;
+            String params = "username=" + staffUsername + "&password=" + password;
             out.writeBytes(params);
             out.flush();
             out.close();
@@ -324,14 +287,12 @@ public class JobsActivity extends AppCompatActivity {
 
             // Generate result based on servlet response content
             String[] jobs = content.toString().split(";");
-            pendingJobsData.clear();
-            completedJobsData.clear();
+            jobsData.clear();
 
             for (String job : jobs) {
                 if (job.equals("success")) {
                     continue;
-                }
-                else if (job.equals("failure")) {
+                } else if (job.equals("failure")) {
                     return;
                 }
 
@@ -339,21 +300,16 @@ public class JobsActivity extends AppCompatActivity {
 
                 String result =
                         jobComponents[0] +
-                        " " +
-                        jobComponents[5] +
-                        " " +
-                        jobComponents[4] +
-                        " " +
-                        jobComponents[2].substring(0, 1).toUpperCase(Locale.ROOT) + jobComponents[2].substring(1) +
-                        " " +
-                        jobComponents[3];
+                                " " +
+                                jobComponents[5] +
+                                " " +
+                                jobComponents[4] +
+                                " " +
+                                jobComponents[2].substring(0, 1).toUpperCase(Locale.ROOT) + jobComponents[2].substring(1) +
+                                " " +
+                                jobComponents[3];
 
-                if (jobComponents[2].equals("pending")) {
-                    pendingJobsData.add(result);
-                }
-                else {
-                    completedJobsData.add(result);
-                }
+                jobsData.add(result);
             }
 
         } catch (Exception e) {
