@@ -327,6 +327,40 @@ BEGIN
     UPDATE job
     SET job_status_id=new_status
     WHERE id=job_ID;
+
+    -- date completed
+    IF new_status = 3 OR new_status=2 THEN
+        UPDATE job
+        SET date_completed=NOW()
+        WHERE id=job_ID;
+    END IF;
+
+    -- get type
+    SELECT job_type_id INTO @typeid
+    FROM job
+    WHERE id = job_ID;
+
+    -- handover
+    IF @typeid = 2 AND new_status=2 THEN
+        UPDATE parcel
+        SET parcel_status_id=2
+        WHERE id IN(
+            SELECT parcel_id
+            FROM job_packet
+            WHERE job_id=job_ID
+        );
+    END IF;
+
+    -- delivered
+    IF @typeid AND new_status=2 THEN
+        UPDATE parcel
+        SET parcel_status_id=4
+        WHERE id IN(
+            SELECT parcel_id
+            FROM job_packet
+            WHERE job_id=job_ID
+        );
+    END IF;
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
@@ -368,9 +402,9 @@ BEGIN
         FROM staff s
         INNER JOIN branch b on s.branch_id = b.id
         WHERE b.id IN(
-            SELECT s.branch_id
-            FROM staff
-            WHERE s.username=username
+            SELECT s2.branch_id
+            FROM staff s2
+            WHERE s2.username=username
         )
     );
 
@@ -383,9 +417,9 @@ BEGIN
         FROM staff s
         INNER JOIN branch b on s.branch_id = b.id
         WHERE b.id IN(
-            SELECT s.branch_id
-            FROM staff
-            WHERE s.username=username
+            SELECT s2.branch_id
+            FROM staff s2
+            WHERE s2.username=username
         )
     );
 
@@ -398,9 +432,9 @@ BEGIN
         FROM staff s
         INNER JOIN branch b on s.branch_id = b.id
         WHERE b.id IN(
-            SELECT s.branch_id
-            FROM staff
-            WHERE s.username=username
+            SELECT s2.branch_id
+            FROM staff s2
+            WHERE s2.username=username
         )
     );
 END !!
@@ -411,17 +445,17 @@ DELIMITER ;
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE get_warehouse_employee_info(
-    IN username VARCHAR(10)
+    IN uname VARCHAR(10)
 )
 BEGIN
-    SELECT s.name as name, s.surname as surname, sr.role_name as role
+    SELECT s.username as username, s.name as name, s.surname as surname, sr.role_name as role
     FROM staff s
     INNER JOIN staff_role sr on s.staff_role_id = sr.id
     INNER JOIN branch b on s.branch_id = b.id
     WHERE b.id IN(
-        SELECT s.branch_id
-        FROM staff
-        WHERE s.username=username
+        SELECT s2.branch_id
+        FROM staff s2
+        WHERE s2.username=uname
     );
 END !!
 DELIMITER ;
@@ -462,9 +496,9 @@ BEGIN
         FROM staff s
         INNER JOIN branch b on s.branch_id = b.id
         WHERE b.id IN(
-            SELECT s.branch_id
-            FROM staff
-            WHERE s.username=username
+            SELECT s2.branch_id
+            FROM staff s2
+            WHERE s2.username=username
         )
     );
 END !!
