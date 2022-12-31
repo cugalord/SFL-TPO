@@ -86,29 +86,12 @@ CREATE PROCEDURE job_create(
     OUT job_id INT
 )
 BEGIN
-    SELECT staff_role_id INTO @role
-    FROM staff
-    WHERE username=staff_username;
-    -- INTERNATIONAL
-    IF @role=5 THEN
-        SELECT job_id INTO @curr_job
-        FROM job j
-        WHERE j.staff_username=staff_username AND j.job_type_id=5;
-    end if;
-    -- DELIVERY
-    IF @role=4 THEN
-        SELECT job_id INTO @curr_job
-        FROM job j
-        WHERE j.staff_username=staff_username AND j.job_type_id=7;
-    end if;
+    INSERT job
+    VALUES(default,NOW(),NULL, job_type, job_status_id, staff_username);
 
-    IF @curr_job IS NOT NULL THEN
-        SELECT LAST_INSERT_ID() INTO job_id;
-    ELSE
-        INSERT job
-        VALUES(default,NOW(),NULL, job_type, job_status_id, staff_username);
-        SELECT LAST_INSERT_ID() INTO job_id;
-	end if;
+    -- get job_id
+    SELECT LAST_INSERT_ID() INTO job_id;
+
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
@@ -203,8 +186,29 @@ CREATE PROCEDURE link_parcel_job(
     IN job_id INT
 )
 BEGIN
+    -- link parcel
 	INSERT job_packet
 	VALUES(job_id,parcel_id);
+
+    -- get vars for parcel status check
+    SELECT job_type_id, job_status_id INTO @jtid, @jsid
+    FROM job
+	where id=job_id;
+
+	-- at the final parcel center
+    IF @jtid=7 AND @jsid=1 THEN
+        UPDATE parcel
+        SET parcel.parcel_status_id=3
+        WHERE parcel.id=parcel_id;
+    END IF;
+
+    -- in delivery
+    IF @jtid=8 AND @jsid=1 THEN
+        UPDATE parcel
+        SET parcel.parcel_status_id=4
+        WHERE parcel.id=parcel_id;
+    END IF;
+
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
@@ -352,9 +356,9 @@ BEGIN
     END IF;
 
     -- delivered
-    IF @typeid AND new_status=2 THEN
+    IF @typeid=8 AND new_status=2 THEN
         UPDATE parcel
-        SET parcel_status_id=4
+        SET parcel_status_id=5
         WHERE id IN(
             SELECT parcel_id
             FROM job_packet
