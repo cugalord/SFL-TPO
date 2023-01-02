@@ -71,12 +71,12 @@ public class DBAPI {
                             "    INNER JOIN job_packet jp on j.id = jp.job_id\n" +
                             "    WHERE j.job_status_id=2 AND j.job_type_id=3\n" +
                             "    GROUP BY b.id;");
-            this.statements[11] = this.core.getDbConnection()
+            /*this.statements[11] = this.core.getDbConnection()
                     .prepareStatement("CREATE USER '?'@'%' IDENTIFIED BY 'password;");
             this.statements[12] = this.core.getDbConnection()
                     .prepareStatement("GRANT SELECT, INSERT, UPDATE ON *.* TO '?'@'%';");
             this.statements[13] = this.core.getDbConnection()
-                    .prepareStatement("FLUSH PRIVILEGES;");
+                    .prepareStatement("FLUSH PRIVILEGES;");*/
             // ... more statements.
         } catch (SQLException e) {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
@@ -414,11 +414,22 @@ public class DBAPI {
      */
     public void createCustomerInDatabase(String username) {
         try {
-            this.statements[11].setString(1, username);
+            /*this.statements[11].setString(1, username);
             this.statements[11].executeQuery();
             this.statements[12].setString(1, username);
             this.statements[12].executeQuery();
-            this.statements[13].executeQuery();
+            this.statements[13].executeQuery();*/
+
+            /*this.statements[11] = this.core.getDbConnection()
+                    .prepareStatement("CREATE USER '?'@'%' IDENTIFIED BY 'password;");
+            this.statements[12] = this.core.getDbConnection()
+                    .prepareStatement("GRANT SELECT, INSERT, UPDATE ON *.* TO '?'@'%';");
+            this.statements[13] = this.core.getDbConnection()
+                    .prepareStatement("FLUSH PRIVILEGES;");*/
+
+            core.getDbConnection().createStatement().execute("CREATE USER '" + username + "'@'%' IDENTIFIED BY 'password;");
+            core.getDbConnection().createStatement().execute("GRANT SELECT, INSERT, UPDATE ON *.* TO '" + username + "'@'%';");
+            core.getDbConnection().createStatement().execute("FLUSH PRIVILEGES;");
         } catch (SQLException e) {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
             e.printStackTrace();
