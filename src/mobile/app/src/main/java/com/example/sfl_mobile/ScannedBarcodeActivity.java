@@ -2,12 +2,16 @@ package com.example.sfl_mobile;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.ImageAnalysis;
+import androidx.camera.core.ImageProxy;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
@@ -22,6 +26,8 @@ import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.mlkit.vision.barcode.*;
+import com.google.mlkit.vision.common.InputImage;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -40,6 +46,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
     Button completeButton;
 
     private BarcodeDetector barcodeDetector;
+    private BarcodeScanner barcodeScanner;
     private CameraSource cameraSource;
 
     private static final int REQUEST_CAMERA_PERMISSION = 201;
@@ -51,6 +58,8 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
     String password = "";
     String parcelID = "";
     String jobID = "";
+
+    boolean succesfull = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,16 +87,14 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                         return;
                     }
 
+                    System.out.println("Intent Data: " + intentData);
+
                     ExecutorService executorService = Executors.newSingleThreadExecutor();
                     executorService.submit(new Runnable() {
                         @Override
                         public void run() {
                             if (verifyParcelId()) {
-                                Intent i = new Intent(ScannedBarcodeActivity.this, JobsActivity.class);
-                                i.putExtra("displayName", displayName);
-                                i.putExtra("username", username);
-                                i.putExtra("password", password);
-                                startActivity(i);
+                                succesfull = true;
                             }
                         }
                     });
@@ -102,7 +109,14 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+                    }
 
+                    if (succesfull) {
+                        Intent i = new Intent(ScannedBarcodeActivity.this, JobsActivity.class);
+                        i.putExtra("displayName", displayName);
+                        i.putExtra("username", username);
+                        i.putExtra("password", password);
+                        startActivity(i);
                     }
                 }
             }
@@ -124,7 +138,16 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
     private void initialiseDetectorsAndSources() {
         Toast.makeText(getApplicationContext(), "Barcode scanner started", Toast.LENGTH_SHORT).show();
 
-        barcodeDetector = new BarcodeDetector.Builder(this)
+        BarcodeScannerOptions options = new BarcodeScannerOptions.Builder()
+                .setBarcodeFormats(Barcode.ALL_FORMATS)
+                .build();
+        barcodeScanner = BarcodeScanning.getClient(options);
+        /*BarcodeScannerOptions options = new BarcodeScannerOptions.Builder()
+                .setBarcodeFormats(Barcode.ALL_FORMATS)
+                .build();
+        barcodeDetector = BarcodeScanning.getClient();*/
+
+        /*barcodeDetector = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.ALL_FORMATS)
                 .build();
 
@@ -188,7 +211,18 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                     });
                 }
             }
-        });
+        });*/
+    }
+
+    private class BarcodeAnalyzer implements ImageAnalysis.Analyzer {
+        @Override
+        public void analyze(ImageProxy imageProxy) {
+            @SuppressLint("UnsafeOptInUsageError") Image mediaImage = imageProxy.getImage();
+            if (mediaImage != null) {
+                InputImage image = InputImage.fromMediaImage(mediaImage, imageProxy.getImageInfo().getRotationDegrees());
+            }
+
+        }
     }
 
     private boolean verifyParcelId() {
@@ -206,7 +240,8 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
             // Send login credentials to servlet
             DataOutputStream out = new DataOutputStream(connection.getOutputStream());
             String params = "username=" + username + "&password=" + password +
-                    "&jobID=" + jobID + "&status=2";
+                    //"&jobID=" + jobID + "&newStatus=2";
+                    "&jobID=37&newStatus=2";
             out.writeBytes(params);
             out.flush();
             out.close();

@@ -69,7 +69,7 @@ public class DBAPI {
                             "    INNER JOIN staff s on b.id = s.branch_id\n" +
                             "    INNER JOIN job j on s.username = j.staff_username\n" +
                             "    INNER JOIN job_packet jp on j.id = jp.job_id\n" +
-                            "    WHERE j.job_status_id=2 AND j.job_type_id=4\n" +
+                            "    WHERE j.job_status_id=2 AND j.job_type_id=3\n" +
                             "    GROUP BY b.id;");
             this.statements[11] = this.core.getDbConnection()
                     .prepareStatement("CREATE USER '?'@'%' IDENTIFIED BY 'password;");
@@ -104,7 +104,7 @@ public class DBAPI {
             this.callables[11] = this.core.getDbConnection().prepareCall("CALL get_branches()");
             this.callables[12] = this.core.getDbConnection().prepareCall("CALL get_parcel(?)");
             this.callables[13] = this.core.getDbConnection().prepareCall("CALL get_warehouse_parcel_data(?)");
-            this.callables[14] = this.core.getDbConnection().prepareCall("CALL get_branch_stats(?)");
+            this.callables[14] = this.core.getDbConnection().prepareCall("CALL get_branch_stats(?, ?, ?, ?, ?)");
             this.callables[15] = this.core.getDbConnection().prepareCall("CALL parcel_create(?, ?, ?, ?, ?, " +
                     "?, ?, ?, ?, ?, " +
                     "?, ?, ?, ?, ?, " +
@@ -507,7 +507,6 @@ public class DBAPI {
                             username
                     ));
                     data.get(data.size() - 1).parcelIDs.add(rs.getString("parcel_id"));
-                    System.out.println("Added job " + currentJobID);
                 }
                 // If the job already exists, add parcel to its list.
                 else {

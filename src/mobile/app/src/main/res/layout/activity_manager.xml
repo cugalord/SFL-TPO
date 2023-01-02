@@ -139,12 +139,12 @@
                     <TextView
                         android:id="@+id/completedTextView"
                         android:layout_width="match_parent"
-                        android:layout_height="113dp"
+                        android:layout_height="100dp"
                         android:layout_weight="1"
                         android:text="TextView"
                         android:gravity="center"
-                        android:paddingTop="35dp"
                         android:textStyle="bold"
+                        android:paddingTop="10dp"
                         android:textSize="40dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"/>
@@ -152,7 +152,7 @@
                     <ImageView
                         android:id="@+id/completedImageView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="150dp"
                         android:layout_weight="1"
                         android:src="@raw/ticklogo"
                         tools:srcCompat="@tools:sample/avatars" />

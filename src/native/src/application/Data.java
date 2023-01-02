@@ -28,6 +28,8 @@ public class Data {
     private static final HashMap<String, Integer> staffRoleToId = new HashMap<>();
     /** Maps job type names to their database identifiers. */
     private static final HashMap<String, Integer> jobNameToId = new HashMap<>();
+    /** Maps staff full names to their usernames. */
+    private static final HashMap<String, String> fullNameToUsername = new HashMap<>();
 
     /**
      * Constructs a new Data object.
@@ -66,19 +68,30 @@ public class Data {
      */
     void setupParcelData() {
         if (Data.userRole.equals("Warehouse manager")) {
-            System.out.println("Loading data for warehouse manager");
-            ArrayList<DataParcel> data = Common.dbapi.getWarehouseManagerParcelData(Data.user);
-            System.out.println("Data size: " + data.size());
-            for (DataParcel parcel : data) {
-                String[] parcelString = {
-                        parcel.parcelID,
-                        parcel.parcelID,
-                        Double.toString(parcel.weight),
-                        parcel.dimensions.height + "x" + parcel.dimensions.width + "x" + parcel.dimensions.depth,
-                        parcel.statusID,
-                        ""
-                };
-                this.content.add(parcelString);
+            ArrayList<DataStaff> staff = Common.dbapi.getWarehouseManagerEmployeesInfo(Data.user);
+            for (DataStaff s : staff) {
+                ArrayList<DataJob> data = Common.dbapi.getJobsOfStaff(s.username);
+                for (DataJob job : data) {
+                    for (String parcelID : job.parcelIDs) {
+                        if (Common.parcelToJob.containsKey(parcelID)) {
+                            Common.parcelToJob.get(parcelID).add(Integer.toString(job.jobID));
+                        } else {
+                            ArrayList<String> jobs = new ArrayList<>();
+                            jobs.add(Integer.toString(job.jobID));
+                            Common.parcelToJob.put(parcelID, jobs);
+                        }
+                        DataParcel parcel = Common.dbapi.getParcelData(parcelID);
+                        String[] parcelString = {
+                                Integer.toString(job.jobID),
+                                parcel.parcelID,
+                                Double.toString(parcel.weight),
+                                parcel.dimensions.height + "x" + parcel.dimensions.width + "x" + parcel.dimensions.depth,
+                                job.jobStatusID,
+                                job.jobTypeID
+                        };
+                        this.content.add(parcelString);
+                    }
+                }
             }
         } else {
             ArrayList<DataJob> data = Common.dbapi.getJobsOfStaff(Data.user);
@@ -412,6 +425,33 @@ public class Data {
      * @return List<String [ ]> - The list of parcels on specific page.
      */
     public List<String[]> getParcelDataByPageByEmployee(String employee, int page) {
+        String username = Data.fullNameToUsername.get(employee);
+
+        this.content.clear();
+
+        ArrayList<DataJob> data = Common.dbapi.getJobsOfStaff(username);
+        for (DataJob job : data) {
+            for (String parcelID : job.parcelIDs) {
+                if (Common.parcelToJob.containsKey(parcelID)) {
+                    Common.parcelToJob.get(parcelID).add(Integer.toString(job.jobID));
+                } else {
+                    ArrayList<String> jobs = new ArrayList<>();
+                    jobs.add(Integer.toString(job.jobID));
+                    Common.parcelToJob.put(parcelID, jobs);
+                }
+                DataParcel parcel = Common.dbapi.getParcelData(parcelID);
+                String[] parcelString = {
+                        Integer.toString(job.jobID),
+                        parcel.parcelID,
+                        Double.toString(parcel.weight),
+                        parcel.dimensions.height + "x" + parcel.dimensions.width + "x" + parcel.dimensions.depth,
+                        job.jobStatusID,
+                        job.jobTypeID
+                };
+                this.content.add(parcelString);
+            }
+        }
+
         int from = page * this.contentPerPage;
         int to = Math.min(this.content.size(), page * this.contentPerPage + this.contentPerPage);
         // If we're on the last page.
@@ -425,7 +465,11 @@ public class Data {
      */
     public String[] getEmployeesArray() {
         ArrayList<DataStaff> data = Common.dbapi.getWarehouseManagerEmployeesInfo(user);
-        return data.stream().map(DataStaff::getFullName).toArray(String[]::new);
+        return data.stream().map(d -> {
+            Data.fullNameToUsername.put(d.getFullName(), d.username);
+            return d.getFullName();
+        }).toArray(String[]::new);
+        //return data.stream().map(DataStaff::getFullName).toArray(String[]::new);
     }
 
     /**
@@ -488,8 +532,8 @@ public class Data {
         return new String[] {
                 Integer.toString(data[0].value), // Inbound.
                 Integer.toString(data[1].value), // Outbound.
-                Double.toString((double) data[0].value / data[1].value), // Branch load.
-                Double.toString((double) dataInbound[0].value / dataOutbound[0].value), // Average load.
+                String.format("%.2f", (double) data[0].value / data[1].value), // Branch load.
+                String.format("%.2f", (double) dataInbound[0].value / dataOutbound[0].value), // Average load.
                 Integer.toString(data[2].value), // All jobs for drivers.
                 Integer.toString(data[3].value), // No. of drivers.
                 Double.toString((double) data[2].value / data[3].value) // Avg. no. of jobs per driver.
@@ -546,7 +590,8 @@ public class Data {
     public List<String[]> getEmployees() {
         ArrayList<DataStaff> data = Common.dbapi.getWarehouseManagerEmployeesInfo(Data.user);
         for (DataStaff staff : data) {
-            this.employees.add(new String[] {staff.username, staff.getFullName(), "", staff.role, ""});
+            Data.fullNameToUsername.put(staff.getFullName(), staff.username);
+            this.employees.add(new String[] {staff.username, staff.getFullName(), "", staff.role, "", ""});
         }
         return this.employees;
     }

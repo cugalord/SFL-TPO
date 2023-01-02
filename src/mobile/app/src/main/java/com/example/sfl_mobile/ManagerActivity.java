@@ -106,6 +106,7 @@ public class ManagerActivity extends AppCompatActivity {
                 i.putExtra("username", username);
                 i.putExtra("password", password);
                 startActivity(i);
+                ManagerActivity.this.finish();
             }
         });
 
@@ -118,6 +119,7 @@ public class ManagerActivity extends AppCompatActivity {
                 i.putExtra("username", username);
                 i.putExtra("password", password);
                 startActivity(i);
+                ManagerActivity.this.finish();
             }
         });
 
@@ -126,6 +128,7 @@ public class ManagerActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(ManagerActivity.this, LoginActivity.class);
                 startActivity(i);
+                ManagerActivity.this.finish();
             }
         });
 

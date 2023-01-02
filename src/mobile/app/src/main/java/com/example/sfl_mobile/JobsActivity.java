@@ -57,6 +57,7 @@ public class JobsActivity extends AppCompatActivity {
     String displayName;
     String username;
     String password;
+    String role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,7 @@ public class JobsActivity extends AppCompatActivity {
             displayName = extras.getString("displayName");
             username = extras.getString("username");
             password = extras.getString("password");
+            role = extras.getString("role");
             userData.setText(extras.getString("displayName"));
             userData.setTextSize(17.5f);
             userData.setTypeface(null, Typeface.BOLD);
@@ -202,12 +204,13 @@ public class JobsActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(JobsActivity.this, ScannedBarcodeActivity.class);
+                    Intent i = new Intent(JobsActivity.this, PictureBarcodeActivity.class);
                     i.putExtra("displayName", displayName);
                     i.putExtra("username", username);
                     i.putExtra("password", password);
                     i.putExtra("jobID", jobAttributes[0]);
                     i.putExtra("parcelID", jobAttributes[4]);
+                    i.putExtra("role", role);
                     startActivity(i);
                 }
             });

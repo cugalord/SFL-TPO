@@ -10,7 +10,7 @@ import java.util.HashMap;
  */
 public class Common {
     /** The database API. */
-    public static DBAPI dbapi = new DBAPI();
+    public static DBAPI dbapi = new DBAPI(true);
     /** The current staff username. */
     public static String username = "";
     /** Maps parcels to their jobs. */
