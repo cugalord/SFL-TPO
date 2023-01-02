@@ -430,7 +430,7 @@ public class DBAPI {
             String statement = "CREATE USER '" + username + "' IDENTIFIED BY 'password';";
             System.out.println(statement);
             core.getDbConnection().createStatement().execute(statement);
-            statement = "GRANT SELECT, INSERT, UPDATE ON *.* TO '" + username + "';";
+            statement = "GRANT EXECUTE, SELECT, INSERT, UPDATE ON *.* TO '" + username + "';";
             System.out.println(statement);
             core.getDbConnection().createStatement().execute(statement);
             core.getDbConnection().createStatement().execute("FLUSH PRIVILEGES;");
