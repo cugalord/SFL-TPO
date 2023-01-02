@@ -16,6 +16,7 @@ END !!
 DELIMITER ;
 -- --------------------------------------------------------------
 -- Inserts a branch
+-- adss a new adress if it does not exist
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE branch_add(
@@ -53,6 +54,7 @@ END !!
 DELIMITER ;
 -- --------------------------------------------------------------
 -- Inserts a new customer
+-- adds a new adress if it does not exist
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE customer_add(
@@ -86,34 +88,18 @@ CREATE PROCEDURE job_create(
     OUT job_id INT
 )
 BEGIN
-    SELECT staff_role_id INTO @role
-    FROM staff
-    WHERE username=staff_username;
-    -- INTERNATIONAL
-    IF @role=5 THEN
-        SELECT job_id INTO @curr_job
-        FROM job j
-        WHERE j.staff_username=staff_username AND j.job_type_id=5;
-    end if;
-    -- DELIVERY
-    IF @role=4 THEN
-        SELECT job_id INTO @curr_job
-        FROM job j
-        WHERE j.staff_username=staff_username AND j.job_type_id=7;
-    end if;
+    INSERT job
+    VALUES(default,NOW(),NULL, job_type, job_status_id, staff_username);
 
-    IF @curr_job IS NOT NULL THEN
-        SELECT LAST_INSERT_ID() INTO job_id;
-    ELSE
-        INSERT job
-        VALUES(default,NOW(),NULL, job_type, job_status_id, staff_username);
-        SELECT LAST_INSERT_ID() INTO job_id;
-	end if;
+    -- get job_id
+    SELECT LAST_INSERT_ID() INTO job_id;
+
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
 -- Creates a new parcel
 -- parcel_status_id == 1 == In IT system
+-- creates new addres if not exists
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE parcel_create(
@@ -196,6 +182,7 @@ END !!
 DELIMITER ;
 -- --------------------------------------------------------------
 -- links parcel to a job
+-- also updates parcel status accordingly
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE link_parcel_job(
@@ -203,8 +190,29 @@ CREATE PROCEDURE link_parcel_job(
     IN job_id INT
 )
 BEGIN
+    -- link parcel
 	INSERT job_packet
 	VALUES(job_id,parcel_id);
+
+    -- get vars for parcel status check
+    SELECT job_type_id, job_status_id INTO @jtid, @jsid
+    FROM job
+	where id=job_id;
+
+	-- at the final parcel center
+    IF @jtid=7 AND @jsid=1 THEN
+        UPDATE parcel
+        SET parcel.parcel_status_id=3
+        WHERE parcel.id=parcel_id;
+    END IF;
+
+    -- in delivery
+    IF @jtid=8 AND @jsid=1 THEN
+        UPDATE parcel
+        SET parcel.parcel_status_id=4
+        WHERE parcel.id=parcel_id;
+    END IF;
+
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
@@ -232,42 +240,42 @@ CREATE PROCEDURE get_jobs(
     IN username VARCHAR(10)
 )
 BEGIN
-    SELECT
-        j.id as job_id,
-        jt.name as job_type,
-        js.name as job_status,
-        p.id as parcel_id,
-        p.weight as weight,
-        p.height as height,
-        p.width as width,
-        p.depth as depth,
-        j.date_created as date_created,
-        j.date_completed as date_completed
-    FROM job j
-    INNER JOIN job_packet jp on j.id = jp.job_id
-    INNER JOIN job_status js on j.job_status_id = js.id
-    INNER JOIN job_type jt on j.job_type_id = jt.id
-    INNER JOIN parcel p ON jp.parcel_id = p.id
-    WHERE j.staff_username=username AND j.job_status_id=1
+        SELECT
+            j.id as job_id,
+            jt.name as job_type,
+            js.name as job_status,
+            p.id as parcel_id,
+            p.weight as weight,
+            p.height as height,
+            p.width as width,
+            p.depth as depth,
+            j.date_created as date_created,
+            j.date_completed as date_completed
+        FROM job j
+        INNER JOIN job_packet jp on j.id = jp.job_id
+        INNER JOIN job_status js on j.job_status_id = js.id
+        INNER JOIN job_type jt on j.job_type_id = jt.id
+        INNER JOIN parcel p ON jp.parcel_id = p.id
+        WHERE j.staff_username=username AND j.job_status_id=1
     UNION
-    SELECT
-        j.id as job_id,
-        jt.name as job_type,
-        js.name as job_status,
-        p.id as parcel_id,
-        p.weight as weight,
-        p.height as height,
-        p.width as width,
-        p.depth as depth,
-        j.date_created as date_created,
-        j.date_completed as date_completed
-    FROM job j
-    INNER JOIN job_packet jp on j.id = jp.job_id
-    INNER JOIN job_status js on j.job_status_id = js.id
-    INNER JOIN job_type jt on j.job_type_id = jt.id
-    INNER JOIN parcel p ON jp.parcel_id = p.id
-    WHERE j.staff_username=username AND j.job_status_id IN (2,3)
-    ORDER BY date_created DESC;
+        SELECT
+            j.id as job_id,
+            jt.name as job_type,
+            js.name as job_status,
+            p.id as parcel_id,
+            p.weight as weight,
+            p.height as height,
+            p.width as width,
+            p.depth as depth,
+            j.date_created as date_created,
+            j.date_completed as date_completed
+        FROM job j
+        INNER JOIN job_packet jp on j.id = jp.job_id
+        INNER JOIN job_status js on j.job_status_id = js.id
+        INNER JOIN job_type jt on j.job_type_id = jt.id
+        INNER JOIN parcel p ON jp.parcel_id = p.id
+        WHERE j.staff_username=username AND j.job_status_id IN (2,3)
+        ORDER BY date_created DESC;
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
@@ -302,7 +310,7 @@ BEGIN
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
--- no_of_jobs
+-- returns number of pending jobs that user with uname has
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE get_no_jobs(
@@ -316,7 +324,9 @@ BEGIN
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
--- change job status
+-- update job status
+-- also sets date completed if job is completed
+-- changes parcel status accordingly
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE update_job_status(
@@ -352,9 +362,9 @@ BEGIN
     END IF;
 
     -- delivered
-    IF @typeid AND new_status=2 THEN
+    IF @typeid=8 AND new_status=2 THEN
         UPDATE parcel
-        SET parcel_status_id=4
+        SET parcel_status_id=5
         WHERE id IN(
             SELECT parcel_id
             FROM job_packet
@@ -505,7 +515,7 @@ END !!
 DELIMITER ;
 -- --------------------------------------------------------------
 -- get_user_parcel_data
--- gets all parcel data of user (user's jobs)
+-- gets all parcel data on user's pending jobs
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE get_user_parcel_data(
@@ -584,8 +594,7 @@ BEGIN
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
--- returns branches
--- gets all branches
+-- returns branches where branch type id is 1
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE get_branches(
@@ -599,7 +608,6 @@ END !!
 DELIMITER ;
 -- --------------------------------------------------------------
 -- returns branch statistics
--- gets all branches
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE get_branch_stats(
@@ -653,7 +661,7 @@ BEGIN
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
--- parcel lookup
+-- returns all pending jobs of parcel with ID
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE parcel_lookup(
@@ -667,25 +675,7 @@ BEGIN
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
--- --------------------------------------------------------------
-DELIMITER !!
-CREATE PROCEDURE get_warehouse_employee_info(
-    IN username VARCHAR(10)
-)
-BEGIN
-    SELECT s.name as name, s.surname as surname, sr.role_name as role
-    FROM staff s
-    INNER JOIN staff_role sr on s.staff_role_id = sr.id
-    INNER JOIN branch b on s.branch_id = b.id
-    WHERE b.id IN(
-        SELECT s.branch_id
-        FROM staff
-        WHERE s.username=username
-    );
-END !!
-DELIMITER ;
--- --------------------------------------------------------------
--- branch_lookup
+-- returns branch id and coordinates where staff with uname works
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE branch_lookup(
@@ -700,7 +690,8 @@ BEGIN
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
--- branch_drivers_lookup
+-- returns usernames of employees that
+-- work at branch with id and have a role with id
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE branch_employee_lookup(
@@ -728,7 +719,7 @@ BEGIN
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
--- Get branch address from branch ID.
+-- Returns the branch office id of country
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE get_branch_office(
@@ -742,21 +733,7 @@ BEGIN
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
--- Get branch address from branch ID.
--- --------------------------------------------------------------
-DELIMITER !!
-CREATE PROCEDURE get_branch_office(
-   IN country VARCHAR(3),
-   OUT branch_id INT
-)
-BEGIN
-    SELECT id INTO branch_id
-    FROM branch b
-    where b.branch_type_id=3 AND b.country_code=country;
-END !!
-DELIMITER ;
--- --------------------------------------------------------------
--- Get branch address from branch ID.
+-- Returns job type of job with ID
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE get_job_type(
@@ -770,23 +747,22 @@ BEGIN
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
--- Get branch address from branch ID.
+-- Gets all branches where the parcel has been in
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE get_parcel_locations(
     IN pID VARCHAR(8)
 )
 BEGIN
-    SELECT b.id as branch_id
+    SELECT s.branch_id as branch_id
     FROM job j
-    INNER JOIN job_packet JOIN job_packet jp on j.id = jp.job_id
+    INNER JOIN job_packet jp on j.id = jp.job_id
     INNER JOIN staff s on j.staff_username = s.username
-    INNER JOIN branch b on s.branch_id = b.id
     WHERE jp.parcel_id=pID AND j.job_status_id IN (2,3);
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
--- Get branch address from branch ID.
+-- returns all parcels where customer was a sender
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE get_parcel_sender(
@@ -818,7 +794,7 @@ BEGIN
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
--- Get branch address from branch ID.
+-- returns all parcels where customer was a recipient
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE get_parcel_recipient(
@@ -850,7 +826,7 @@ BEGIN
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
--- Get branch address from branch ID.
+-- Returns customer info on username
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE get_customer(
@@ -872,7 +848,7 @@ BEGIN
 END !!
 DELIMITER ;
 -- --------------------------------------------------------------
--- Get branch address from branch ID.
+-- Returns all the jobs that the parcel was on
 -- --------------------------------------------------------------
 DELIMITER !!
 CREATE PROCEDURE track_parcel(
