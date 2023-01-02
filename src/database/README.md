@@ -8,7 +8,7 @@
 
 ## 1. Description
 
-The module SFL-Database contains the whole database structure. The database is MySQL 8 and hosted at [Digital Ocean](https://www.digitalocean.com/). 
+The module SFL-Database contains the whole database structure. The database is implemented in MySQL 8 and hosted at [Digital Ocean](https://www.digitalocean.com/). 
 
 ## 2. Schema
 
