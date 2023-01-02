@@ -3,7 +3,7 @@
 ## Table of contents:
 1. [Description](#1-description)
 2. [Schema](#2-Schema)
-3. [Procedures](#2-structure)
+3. [Procedures](#3-Procedures)
 
 
 ## 1. Description
