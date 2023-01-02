@@ -1,4 +1,4 @@
-# SFL-DATABASE
+# SFL-Database
 
 ## Table of contents:
 1. [Description](#1-description)
