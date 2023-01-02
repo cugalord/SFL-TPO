@@ -427,8 +427,12 @@ public class DBAPI {
             this.statements[13] = this.core.getDbConnection()
                     .prepareStatement("FLUSH PRIVILEGES;");*/
 
-            core.getDbConnection().createStatement().execute("CREATE USER '" + username + "'@'%' IDENTIFIED BY 'password;");
-            core.getDbConnection().createStatement().execute("GRANT SELECT, INSERT, UPDATE ON *.* TO '" + username + "'@'%';");
+            String statement = "CREATE USER '" + username + "' IDENTIFIED BY 'password';";
+            System.out.println(statement);
+            core.getDbConnection().createStatement().execute(statement);
+            statement = "GRANT SELECT, INSERT, UPDATE ON *.* TO '" + username + "';";
+            System.out.println(statement);
+            core.getDbConnection().createStatement().execute(statement);
             core.getDbConnection().createStatement().execute("FLUSH PRIVILEGES;");
         } catch (SQLException e) {
             this.logger.log(e.getMessage(), Logger.MessageType.ERROR);
