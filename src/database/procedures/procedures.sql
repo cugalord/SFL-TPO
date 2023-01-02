@@ -634,7 +634,7 @@ BEGIN
     SELECT COUNT(jp.parcel_id) INTO outbound_parcels
     FROM job j
     INNER JOIN job_packet jp on j.id = jp.job_id
-    WHERE j.job_status_id=2 AND j.job_type_id=4 AND j.staff_username IN (
+    WHERE j.job_status_id=2 AND j.job_type_id=3 AND j.staff_username IN (
         SELECT s.username
         FROM staff s
         INNER JOIN branch b on s.branch_id = b.id
