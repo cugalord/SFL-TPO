@@ -1,4 +1,4 @@
-# SFL-Core
+# SFL-Mobile
 
 ## Table of contents:
 1. [Description](#1-description)
