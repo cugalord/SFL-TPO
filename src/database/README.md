@@ -1,1 +1,34 @@
-# SFL-TPO
+# SFL-DATABASE
+
+## Table of contents:
+1. [Description](#1-description)
+2. [Schema](#2-Schema)
+3. [Procedures](#2-structure)
+
+
+## 1. Description
+
+The module SFL-Database contains the whole database schema.
+
+## 2. Schema
+
+The Database consists of 14 tables:
+- `job`
+- `job_packet`
+- `job_status`
+- `job_type`
+- `parcel`
+- `parcel_status`
+- `staff`
+- `staff_role`
+- `branch`
+- `branch_type`
+- `customer`
+- `city`
+- `country`
+- `street`
+
+![image](https://github.com/cugalord/SFL-TPO/blob/main/docs/database/SFl_er_model.png)
+
+## 3. Procedures
+Procedures are located in `procedures.sql` and are almost exclusively used when other modules are accessing the database. Because of the route algorithm the majority of the logic is baked in the core(https://github.com/cugalord/SFL-TPO/tree/main/src/core) module.
