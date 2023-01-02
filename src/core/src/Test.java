@@ -1,5 +1,7 @@
 import ConfigLoader.*;
 import DBCore.DBAPI;
+import Data.Data;
+import Data.DataParcel;
 import Data.DataJob;
 import Data.DataStaff;
 import Data.GeneralAddress;
@@ -96,6 +98,10 @@ public class Test {
         for (DataStaff dataStaff : dataStaffs) {
             System.out.println(dataStaff);
         }
+
+        System.out.println(api.getStaffDataFromUsername("augdene34"));
+
+        ArrayList<DataParcel> dataSomething = api.getSentParcels("aarmatt59");
 
         api.logout();
 

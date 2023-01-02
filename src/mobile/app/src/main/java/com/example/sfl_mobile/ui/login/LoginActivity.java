@@ -146,6 +146,7 @@ public class LoginActivity extends AppCompatActivity {
         i.putExtra("displayName", model.getDisplayName());
         i.putExtra("username", model.getUserName());
         i.putExtra("password", model.getPassword());
+        i.putExtra("role", role);
         startActivity(i);
     }
 

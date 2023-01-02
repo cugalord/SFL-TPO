@@ -76,6 +76,7 @@ public class EmployeesActivity extends AppCompatActivity {
                 i.putExtra("username", username);
                 i.putExtra("password", password);
                 startActivity(i);
+                EmployeesActivity.this.finish();
             }
         });
 

@@ -93,11 +93,21 @@ public class WarehouseManagerController implements Initializable {
 		data.reload();
 
 		// fetch the data
-		if (Objects.equals(view, "All Parcels") || Objects.equals(view, "Filter Parcels") || Objects.equals(view,
+		if (Objects.equals(view, "All Parcels") || Objects.equals(view,
 																											"Stats")) {
-			content = data.getParcelDataByPageByEmployee(choiceBoxFilter.getSelectionModel().getSelectedItem(), page);
+			//content = data.getParcelDataByPageByEmployee(choiceBoxFilter.getSelectionModel().getSelectedItem(), page);
+			content = data.getParcelDataByPage(page);
 
-		} else if (Objects.equals(view, "Employees")) {
+		}
+		else if ( Objects.equals(view, "Filter Parcels")) {
+			if (choiceBoxFilter.getSelectionModel().getSelectedItem().equals("All")) {
+				content = data.getParcelDataByPage(page);
+			}
+			else {
+				content = data.getParcelDataByPageByEmployee(choiceBoxFilter.getSelectionModel().getSelectedItem(), page);
+			}
+		}
+		else if (Objects.equals(view, "Employees")) {
 			content = data.getEmployees();
 		}
 		int size = content.size();
@@ -257,6 +267,8 @@ public class WarehouseManagerController implements Initializable {
 
 	// Function fires when new filter is selected
 	public void choiceBoxFilterAction(ActionEvent event) {
+		content = data.getParcelDataByPageByEmployee(choiceBoxFilter.getValue(), page);
+		populateContent();
 		System.out.println("Changed filter! - " + choiceBoxFilter.getValue());
 	}
 

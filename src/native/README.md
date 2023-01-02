@@ -9,8 +9,7 @@
 ## 1. Description
 
 The module SFL-Native contains the implementation of the native part of 
-the SFL project. It contains the implementation of the native part of the 
-project, which is the part that is responsible for the communication with 
+the SFL project, which is the part that is responsible for the communication with 
 the database and the user. It contains the implementation of 
 the GUI, which is used to communicate with the user and the database.
 
@@ -26,4 +25,4 @@ The module structure is as follows:
 
 The module SFL-Native should be build via an IDE, and output classes
 should be placed into the target directory. The module can be run via
-the `main.java` file.
+the `Main.java` file.

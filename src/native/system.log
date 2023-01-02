@@ -720,3 +720,93 @@
 ================================================================================
 2022-12-26 15:07:43 Log: DBCore.DBCore:login: User sheshut51 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
 ================================================================================
+2023-01-02 11:22:09 Log: DBCore.DBAPI:login: The user augdene34 is trying to log in.
+================================================================================
+2023-01-02 11:22:11 Log: DBCore.DBCore:login: User augdene34 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+================================================================================
+2023-01-02 11:22:12 Error: DBCore.DBAPI:getWarehouseManagerEmployeesInfo: No parameter named 'username'
+================================================================================
+2023-01-02 11:35:21 Log: DBCore.DBAPI:login: The user augdene34 is trying to log in.
+================================================================================
+2023-01-02 11:35:21 Error: DBCore.DBCore:init: No suitable driver found for jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO
+================================================================================
+2023-01-02 11:36:10 Log: DBCore.DBAPI:login: The user augdene34 is trying to log in.
+================================================================================
+2023-01-02 11:36:10 Error: DBCore.DBCore:init: No suitable driver found for jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO
+================================================================================
+2023-01-02 11:36:54 Log: DBCore.DBAPI:login: The user augdene34 is trying to log in.
+================================================================================
+2023-01-02 11:36:55 Log: DBCore.DBCore:login: User augdene34 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+================================================================================
+2023-01-02 11:36:56 Error: DBCore.DBAPI:getWarehouseManagerEmployeesInfo: Column 'uname' not found.
+================================================================================
+2023-01-02 11:38:44 Log: DBCore.DBAPI:login: The user augdene34 is trying to log in.
+================================================================================
+2023-01-02 11:38:45 Log: DBCore.DBCore:login: User augdene34 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+================================================================================
+2023-01-02 11:40:10 Log: DBCore.DBAPI:login: The user augdene34 is trying to log in.
+================================================================================
+2023-01-02 11:40:10 Log: DBCore.DBCore:login: User augdene34 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+================================================================================
+2023-01-02 11:52:09 Log: DBCore.DBAPI:login: The user augdene34 is trying to log in.
+================================================================================
+2023-01-02 11:52:09 Log: DBCore.DBCore:login: User augdene34 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+================================================================================
+2023-01-02 11:53:29 Log: DBCore.DBAPI:login: The user augdene34 is trying to log in.
+================================================================================
+2023-01-02 11:53:30 Log: DBCore.DBCore:login: User augdene34 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+================================================================================
+2023-01-02 11:54:09 Log: DBCore.DBAPI:login: The user augdene34 is trying to log in.
+================================================================================
+2023-01-02 11:54:10 Log: DBCore.DBCore:login: User augdene34 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+================================================================================
+2023-01-02 11:55:24 Log: DBCore.DBAPI:login: The user augdene34 is trying to log in.
+================================================================================
+2023-01-02 11:55:24 Log: DBCore.DBCore:login: User augdene34 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+================================================================================
+2023-01-02 11:58:19 Log: DBCore.DBAPI:login: The user augdene34 is trying to log in.
+================================================================================
+2023-01-02 11:58:20 Log: DBCore.DBCore:login: User augdene34 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+================================================================================
+2023-01-02 11:59:03 Log: DBCore.DBAPI:login: The user augdene34 is trying to log in.
+================================================================================
+2023-01-02 11:59:04 Log: DBCore.DBCore:login: User augdene34 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+================================================================================
+2023-01-02 12:00:39 Log: DBCore.DBAPI:login: The user augdene34 is trying to log in.
+================================================================================
+2023-01-02 12:00:40 Log: DBCore.DBCore:login: User augdene34 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+================================================================================
+2023-01-02 12:02:31 Log: DBCore.DBAPI:login: The user fideinc27 is trying to log in.
+================================================================================
+2023-01-02 12:02:32 Log: DBCore.DBCore:login: User fideinc27 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+================================================================================
+2023-01-02 12:02:40 Error: DBCore.DBAPI:getBranchStats: Can't find local placeholder mapping for parameter named 'inbound_parcels'.
+================================================================================
+2023-01-02 12:05:57 Log: DBCore.DBAPI:login: The user fideinc27 is trying to log in.
+================================================================================
+2023-01-02 12:05:58 Log: DBCore.DBCore:login: User fideinc27 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+================================================================================
+2023-01-02 12:07:05 Log: DBCore.DBAPI:login: The user augdene34 is trying to log in.
+================================================================================
+2023-01-02 12:07:05 Log: DBCore.DBCore:login: User augdene34 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+================================================================================
+2023-01-02 12:08:18 Log: DBCore.DBAPI:login: The user fideinc27 is trying to log in.
+================================================================================
+2023-01-02 12:08:19 Log: DBCore.DBCore:login: User fideinc27 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+================================================================================
+2023-01-02 12:09:26 Log: DBCore.DBAPI:login: The user fideinc27 is trying to log in.
+================================================================================
+2023-01-02 12:09:27 Log: DBCore.DBCore:login: User fideinc27 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+================================================================================
+2023-01-02 12:11:34 Log: DBCore.DBAPI:login: The user fideinc27 is trying to log in.
+================================================================================
+2023-01-02 12:11:35 Log: DBCore.DBCore:login: User fideinc27 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+================================================================================
+2023-01-02 12:14:15 Log: DBCore.DBAPI:login: The user fideinc27 is trying to log in.
+================================================================================
+2023-01-02 12:14:15 Log: DBCore.DBCore:login: User fideinc27 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+================================================================================
+2023-01-02 12:15:43 Log: DBCore.DBAPI:login: The user fideinc27 is trying to log in.
+================================================================================
+2023-01-02 12:15:44 Log: DBCore.DBCore:login: User fideinc27 successfully logged into the database at url jdbc:mysql://db-mysql-fra1-30802-do-user-12793213-0.b.db.ondigitalocean.com:25060/TPO.
+================================================================================

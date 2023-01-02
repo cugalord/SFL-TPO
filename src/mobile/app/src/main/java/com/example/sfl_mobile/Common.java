@@ -9,6 +9,7 @@ public class Common {
     public static final String connectionStringJobs = "http://164.90.163.179:8080/SFL-API/jobs";
     public static final String connectionStringEmployees = "http://164.90.163.179:8080/SFL-API/employees";
     public static final String connectionStringStatistics = "http://164.90.163.179:8080/SFL-API/statistics";
+    public static final String connectionStringJobsUpdate = "http://164.90.163.179:8080/SFL-API/jobsupdate";
 
     public static final String debugConnectionStringLogin = "http://10.0.2.2:17076/api/login";
     public static final String debugConnectionStringJobs = "http://10.0.2.2:17076/api/jobs";

@@ -1,0 +1,34 @@
+[
+    {
+        "merged": "C:\\Users\\Luka\\.gradle\\daemon\\7.4\\com.example.sfl_mobile.app-mergeDebugResources-48:\\layout\\activity_jobs.xml",
+        "source": "C:\\Users\\Luka\\.gradle\\daemon\\7.4\\com.example.sfl_mobile.app-main-51:\\layout\\activity_jobs.xml"
+    },
+    {
+        "merged": "C:\\Users\\Luka\\.gradle\\daemon\\7.4\\com.example.sfl_mobile.app-mergeDebugResources-48:\\layout\\activity_scanned_barcode.xml",
+        "source": "C:\\Users\\Luka\\.gradle\\daemon\\7.4\\com.example.sfl_mobile.app-main-51:\\layout\\activity_scanned_barcode.xml"
+    },
+    {
+        "merged": "C:\\Users\\Luka\\.gradle\\daemon\\7.4\\com.example.sfl_mobile.app-mergeDebugResources-48:\\layout\\activity_login.xml",
+        "source": "C:\\Users\\Luka\\.gradle\\daemon\\7.4\\com.example.sfl_mobile.app-main-51:\\layout\\activity_login.xml"
+    },
+    {
+        "merged": "C:\\Users\\Luka\\.gradle\\daemon\\7.4\\com.example.sfl_mobile.app-mergeDebugResources-48:\\layout\\activity_picture_barcode.xml",
+        "source": "C:\\Users\\Luka\\.gradle\\daemon\\7.4\\com.example.sfl_mobile.app-main-51:\\layout\\activity_picture_barcode.xml"
+    },
+    {
+        "merged": "C:\\Users\\Luka\\.gradle\\daemon\\7.4\\com.example.sfl_mobile.app-mergeDebugResources-48:\\layout\\activity_employees.xml",
+        "source": "C:\\Users\\Luka\\.gradle\\daemon\\7.4\\com.example.sfl_mobile.app-main-51:\\layout\\activity_employees.xml"
+    },
+    {
+        "merged": "C:\\Users\\Luka\\.gradle\\daemon\\7.4\\com.example.sfl_mobile.app-mergeDebugResources-48:\\layout\\activity_manager.xml",
+        "source": "C:\\Users\\Luka\\.gradle\\daemon\\7.4\\com.example.sfl_mobile.app-main-51:\\layout\\activity_manager.xml"
+    },
+    {
+        "merged": "com.example.sfl_mobile.app-mergeDebugResources-48:/layout/activity_manager.xml",
+        "source": "com.example.sfl_mobile.app-main-51:/layout/activity_manager.xml"
+    },
+    {
+        "merged": "C:\\Users\\Luka\\.gradle\\daemon\\7.4\\com.example.sfl_mobile.app-mergeDebugResources-48:\\layout\\activity_employee_jobs.xml",
+        "source": "C:\\Users\\Luka\\.gradle\\daemon\\7.4\\com.example.sfl_mobile.app-main-51:\\layout\\activity_employee_jobs.xml"
+    }
+]
