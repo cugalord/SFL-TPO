@@ -4,6 +4,7 @@
 1. [Description](#1-description)
 2. [Structure](#2-structure)
 3. [Building](#3-building)
+4. [Appearance](#4-appearance)
 
 
 ## 1. Description
@@ -31,5 +32,9 @@ The module structure is as follows:
 
 The module `SFL-Mobile` should be built into an `.apk` file using Android Studio.
 A working apk file is provided in the `app/build/outputs/apk/debug` directory.
+
+## 4. Appearance
+[UI screenshots](https://github.com/cugalord/SFL-TPO/tree/main/docs/mobile)
+![activity](https://github.com/cugalord/SFL-TPO/blob/main/docs/mobile/SFL_mobile_activity.png)
 
 
