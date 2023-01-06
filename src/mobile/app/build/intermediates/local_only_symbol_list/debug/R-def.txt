@@ -65,11 +65,6 @@ layout activity_scanned_barcode
 mipmap ic_launcher
 mipmap ic_launcher_round
 navigation mobile_navigation
-raw _clocklogo
-raw _hardhatlogo
-raw _parcellogo
-raw _ticklogo
-raw _trucklogo
 raw clocklogo
 raw hardhatlogo
 raw logo

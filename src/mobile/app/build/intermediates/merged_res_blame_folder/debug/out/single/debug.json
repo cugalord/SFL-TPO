@@ -168,10 +168,6 @@
         "source": "C:\\Users\\Luka\\.gradle\\daemon\\7.4\\com.example.sfl_mobile.app-main-51:\\xml\\backup_rules.xml"
     },
     {
-        "merged": "com.example.sfl_mobile.app-merged_res-49:/raw_trucklogo.png.flat",
-        "source": "com.example.sfl_mobile.app-main-51:/raw/trucklogo.png"
-    },
-    {
         "merged": "C:\\Users\\Luka\\.gradle\\daemon\\7.4\\com.example.sfl_mobile.app-merged_res-49:\\raw__trucklogo.png.flat",
         "source": "C:\\Users\\Luka\\.gradle\\daemon\\7.4\\com.example.sfl_mobile.app-main-51:\\raw\\_trucklogo.png"
     },

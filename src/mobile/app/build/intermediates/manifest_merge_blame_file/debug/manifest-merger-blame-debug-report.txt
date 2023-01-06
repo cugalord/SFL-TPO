@@ -54,268 +54,269 @@
 31-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:23:9-54
 32        android:supportsRtl="true"
 32-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:24:9-35
-33        android:theme="@style/Theme.SFLMobile"
-33-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:25:9-47
-34        android:usesCleartextTraffic="true" >
-34-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:26:9-44
-35        <activity
-35-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:28:9-34:20
-36            android:name="com.example.sfl_mobile.EmployeeJobsActivity"
-36-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:29:13-49
-37            android:exported="false" >
-37-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:30:13-37
-38            <meta-data
-38-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:31:13-33:36
-39                android:name="android.app.lib_name"
-39-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:32:17-52
-40                android:value="" />
-40-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:33:17-33
-41        </activity>
-42        <activity
-42-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:35:9-41:20
-43            android:name="com.example.sfl_mobile.EmployeesActivity"
-43-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:36:13-46
-44            android:exported="false" >
-44-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:37:13-37
-45            <meta-data
-45-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:31:13-33:36
-46                android:name="android.app.lib_name"
-46-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:32:17-52
-47                android:value="" />
-47-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:33:17-33
-48        </activity>
-49        <activity
-49-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:42:9-48:20
-50            android:name="com.example.sfl_mobile.ManagerActivity"
-50-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:43:13-44
-51            android:exported="false" >
-51-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:44:13-37
-52            <meta-data
-52-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:31:13-33:36
-53                android:name="android.app.lib_name"
-53-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:32:17-52
-54                android:value="" />
-54-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:33:17-33
-55        </activity>
-56
-57        <provider
-58            android:name="androidx.core.content.FileProvider"
-58-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:51:13-62
-59            android:authorities="com.example.sfl_mobile.provider"
-59-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:52:13-60
-60            android:exported="false"
-60-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:53:13-37
-61            android:grantUriPermissions="true" >
-61-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:54:13-47
-62            <meta-data
-62-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:55:13-57:58
-63                android:name="android.support.FILE_PROVIDER_PATHS"
-63-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:56:17-67
-64                android:resource="@xml/provider_paths" />
-64-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:57:17-55
-65        </provider>
-66
-67        <activity
-67-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:60:9-66:20
-68            android:name="com.example.sfl_mobile.ScannedBarcodeActivity"
-68-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:61:13-51
-69            android:exported="false" >
-69-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:62:13-37
-70            <meta-data
-70-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:31:13-33:36
-71                android:name="android.app.lib_name"
-71-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:32:17-52
-72                android:value="" />
-72-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:33:17-33
-73        </activity>
-74        <activity
-74-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:67:9-73:20
-75            android:name="com.example.sfl_mobile.PictureBarcodeActivity"
-75-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:68:13-51
-76            android:exported="false" >
-76-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:69:13-37
-77            <meta-data
-77-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:31:13-33:36
-78                android:name="android.app.lib_name"
-78-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:32:17-52
-79                android:value="" />
-79-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:33:17-33
-80        </activity>
-81
-82        <meta-data
-82-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:75:9-77:39
-83            android:name="com.google.android.gms.vision.DEPENDENCIES"
-83-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:76:13-70
-84            android:value="barcode" />
-84-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:77:13-36
-85
-86        <activity
-86-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:80:9-86:20
-87            android:name="com.example.sfl_mobile.JobsActivity"
-87-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:81:13-41
-88            android:exported="false" >
-88-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:82:13-37
-89            <meta-data
-89-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:31:13-33:36
-90                android:name="android.app.lib_name"
-90-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:32:17-52
-91                android:value="" />
-91-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:33:17-33
-92        </activity>
-93        <activity
-93-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:87:9-96:20
-94            android:name="com.example.sfl_mobile.ui.login.LoginActivity"
-94-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:88:13-51
-95            android:exported="true"
-95-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:89:13-36
-96            android:label="@string/app_name" >
-96-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:90:13-45
-97            <intent-filter>
-97-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:91:13-95:29
-98                <action android:name="android.intent.action.MAIN" />
-98-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:92:17-69
-98-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:92:25-66
-99
-100                <category android:name="android.intent.category.LAUNCHER" />
-100-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:94:17-77
-100-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:94:27-74
-101            </intent-filter>
-102        </activity>
-103
-104        <service
-104-->[com.google.android.gms:play-services-mlkit-barcode-scanning:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\37ee0b4de65fcf3377e14651994a205c\transformed\play-services-mlkit-barcode-scanning-18.1.0\AndroidManifest.xml:9:9-15:19
-105            android:name="com.google.mlkit.common.internal.MlKitComponentDiscoveryService"
-105-->[com.google.android.gms:play-services-mlkit-barcode-scanning:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\37ee0b4de65fcf3377e14651994a205c\transformed\play-services-mlkit-barcode-scanning-18.1.0\AndroidManifest.xml:10:13-91
-106            android:directBootAware="true"
-106-->[com.google.mlkit:common:18.6.0] C:\Users\Luka\.gradle\caches\transforms-3\1501eb73b08720aa91e5a6771fdb3339\transformed\common-18.6.0\AndroidManifest.xml:17:13-43
-107            android:exported="false" >
-107-->[com.google.android.gms:play-services-mlkit-barcode-scanning:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\37ee0b4de65fcf3377e14651994a205c\transformed\play-services-mlkit-barcode-scanning-18.1.0\AndroidManifest.xml:11:13-37
-108            <meta-data
-108-->[com.google.android.gms:play-services-mlkit-barcode-scanning:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\37ee0b4de65fcf3377e14651994a205c\transformed\play-services-mlkit-barcode-scanning-18.1.0\AndroidManifest.xml:12:13-14:85
-109                android:name="com.google.firebase.components:com.google.mlkit.vision.barcode.internal.BarcodeRegistrar"
-109-->[com.google.android.gms:play-services-mlkit-barcode-scanning:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\37ee0b4de65fcf3377e14651994a205c\transformed\play-services-mlkit-barcode-scanning-18.1.0\AndroidManifest.xml:13:17-120
-110                android:value="com.google.firebase.components.ComponentRegistrar" />
-110-->[com.google.android.gms:play-services-mlkit-barcode-scanning:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\37ee0b4de65fcf3377e14651994a205c\transformed\play-services-mlkit-barcode-scanning-18.1.0\AndroidManifest.xml:14:17-82
-111            <meta-data
-111-->[com.google.mlkit:vision-common:17.3.0] C:\Users\Luka\.gradle\caches\transforms-3\9a5f2234b4ef517ba50692a50d062446\transformed\vision-common-17.3.0\AndroidManifest.xml:12:13-14:85
-112                android:name="com.google.firebase.components:com.google.mlkit.vision.common.internal.VisionCommonRegistrar"
-112-->[com.google.mlkit:vision-common:17.3.0] C:\Users\Luka\.gradle\caches\transforms-3\9a5f2234b4ef517ba50692a50d062446\transformed\vision-common-17.3.0\AndroidManifest.xml:13:17-124
-113                android:value="com.google.firebase.components.ComponentRegistrar" />
-113-->[com.google.mlkit:vision-common:17.3.0] C:\Users\Luka\.gradle\caches\transforms-3\9a5f2234b4ef517ba50692a50d062446\transformed\vision-common-17.3.0\AndroidManifest.xml:14:17-82
-114            <meta-data
-114-->[com.google.mlkit:common:18.6.0] C:\Users\Luka\.gradle\caches\transforms-3\1501eb73b08720aa91e5a6771fdb3339\transformed\common-18.6.0\AndroidManifest.xml:20:13-22:85
-115                android:name="com.google.firebase.components:com.google.mlkit.common.internal.CommonComponentRegistrar"
-115-->[com.google.mlkit:common:18.6.0] C:\Users\Luka\.gradle\caches\transforms-3\1501eb73b08720aa91e5a6771fdb3339\transformed\common-18.6.0\AndroidManifest.xml:21:17-120
-116                android:value="com.google.firebase.components.ComponentRegistrar" />
-116-->[com.google.mlkit:common:18.6.0] C:\Users\Luka\.gradle\caches\transforms-3\1501eb73b08720aa91e5a6771fdb3339\transformed\common-18.6.0\AndroidManifest.xml:22:17-82
-117        </service>
-118        <service
-118-->[androidx.camera:camera-camera2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\e26dd164b04ef4c900740fd98e556d29\transformed\camera-camera2-1.2.0\AndroidManifest.xml:24:9-33:19
-119            android:name="androidx.camera.core.impl.MetadataHolderService"
-119-->[androidx.camera:camera-camera2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\e26dd164b04ef4c900740fd98e556d29\transformed\camera-camera2-1.2.0\AndroidManifest.xml:25:13-75
-120            android:enabled="false"
-120-->[androidx.camera:camera-camera2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\e26dd164b04ef4c900740fd98e556d29\transformed\camera-camera2-1.2.0\AndroidManifest.xml:26:13-36
-121            android:exported="false" >
-121-->[androidx.camera:camera-camera2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\e26dd164b04ef4c900740fd98e556d29\transformed\camera-camera2-1.2.0\AndroidManifest.xml:27:13-37
-122            <meta-data
-122-->[androidx.camera:camera-camera2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\e26dd164b04ef4c900740fd98e556d29\transformed\camera-camera2-1.2.0\AndroidManifest.xml:30:13-32:89
-123                android:name="androidx.camera.core.impl.MetadataHolderService.DEFAULT_CONFIG_PROVIDER"
-123-->[androidx.camera:camera-camera2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\e26dd164b04ef4c900740fd98e556d29\transformed\camera-camera2-1.2.0\AndroidManifest.xml:31:17-103
-124                android:value="androidx.camera.camera2.Camera2Config$DefaultProvider" />
-124-->[androidx.camera:camera-camera2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\e26dd164b04ef4c900740fd98e556d29\transformed\camera-camera2-1.2.0\AndroidManifest.xml:32:17-86
-125        </service>
-126
-127        <provider
-127-->[com.google.mlkit:common:18.6.0] C:\Users\Luka\.gradle\caches\transforms-3\1501eb73b08720aa91e5a6771fdb3339\transformed\common-18.6.0\AndroidManifest.xml:9:9-13:38
-128            android:name="com.google.mlkit.common.internal.MlKitInitProvider"
-128-->[com.google.mlkit:common:18.6.0] C:\Users\Luka\.gradle\caches\transforms-3\1501eb73b08720aa91e5a6771fdb3339\transformed\common-18.6.0\AndroidManifest.xml:10:13-78
-129            android:authorities="com.example.sfl_mobile.mlkitinitprovider"
-129-->[com.google.mlkit:common:18.6.0] C:\Users\Luka\.gradle\caches\transforms-3\1501eb73b08720aa91e5a6771fdb3339\transformed\common-18.6.0\AndroidManifest.xml:11:13-69
-130            android:exported="false"
-130-->[com.google.mlkit:common:18.6.0] C:\Users\Luka\.gradle\caches\transforms-3\1501eb73b08720aa91e5a6771fdb3339\transformed\common-18.6.0\AndroidManifest.xml:12:13-37
-131            android:initOrder="99" />
-131-->[com.google.mlkit:common:18.6.0] C:\Users\Luka\.gradle\caches\transforms-3\1501eb73b08720aa91e5a6771fdb3339\transformed\common-18.6.0\AndroidManifest.xml:13:13-35
-132
-133        <service
-133-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Luka\.gradle\caches\transforms-3\5e939e43f9fb3b37eed2777122c97229\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:29:9-35:19
-134            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
-134-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Luka\.gradle\caches\transforms-3\5e939e43f9fb3b37eed2777122c97229\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:30:13-103
-135            android:exported="false" >
-135-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Luka\.gradle\caches\transforms-3\5e939e43f9fb3b37eed2777122c97229\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:31:13-37
-136            <meta-data
-136-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Luka\.gradle\caches\transforms-3\5e939e43f9fb3b37eed2777122c97229\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:32:13-34:39
-137                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
-137-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Luka\.gradle\caches\transforms-3\5e939e43f9fb3b37eed2777122c97229\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:33:17-94
-138                android:value="cct" />
-138-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Luka\.gradle\caches\transforms-3\5e939e43f9fb3b37eed2777122c97229\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:34:17-36
-139        </service>
-140        <service
-140-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Luka\.gradle\caches\transforms-3\5dd318eb742e82081cb9554078901618\transformed\transport-runtime-2.2.6\AndroidManifest.xml:26:9-30:19
-141            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
-141-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Luka\.gradle\caches\transforms-3\5dd318eb742e82081cb9554078901618\transformed\transport-runtime-2.2.6\AndroidManifest.xml:27:13-117
-142            android:exported="false"
-142-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Luka\.gradle\caches\transforms-3\5dd318eb742e82081cb9554078901618\transformed\transport-runtime-2.2.6\AndroidManifest.xml:28:13-37
-143            android:permission="android.permission.BIND_JOB_SERVICE" >
-143-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Luka\.gradle\caches\transforms-3\5dd318eb742e82081cb9554078901618\transformed\transport-runtime-2.2.6\AndroidManifest.xml:29:13-69
-144        </service>
-145
-146        <receiver
-146-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Luka\.gradle\caches\transforms-3\5dd318eb742e82081cb9554078901618\transformed\transport-runtime-2.2.6\AndroidManifest.xml:32:9-34:40
-147            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
-147-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Luka\.gradle\caches\transforms-3\5dd318eb742e82081cb9554078901618\transformed\transport-runtime-2.2.6\AndroidManifest.xml:33:13-132
-148            android:exported="false" />
-148-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Luka\.gradle\caches\transforms-3\5dd318eb742e82081cb9554078901618\transformed\transport-runtime-2.2.6\AndroidManifest.xml:34:13-37
-149
-150        <activity
-150-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\75e11374b42ba83fd12d55e4ccb129ba\transformed\play-services-base-18.1.0\AndroidManifest.xml:20:9-22:45
-151            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-151-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\75e11374b42ba83fd12d55e4ccb129ba\transformed\play-services-base-18.1.0\AndroidManifest.xml:20:19-85
-152            android:exported="false"
-152-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\75e11374b42ba83fd12d55e4ccb129ba\transformed\play-services-base-18.1.0\AndroidManifest.xml:22:19-43
-153            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-153-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\75e11374b42ba83fd12d55e4ccb129ba\transformed\play-services-base-18.1.0\AndroidManifest.xml:21:19-78
-154
-155        <meta-data
-155-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\22101baaa08a513511d2fe6a33f29de4\transformed\play-services-basement-18.1.0\AndroidManifest.xml:21:9-23:69
-156            android:name="com.google.android.gms.version"
-156-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\22101baaa08a513511d2fe6a33f29de4\transformed\play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
-157            android:value="@integer/google_play_services_version" />
-157-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\22101baaa08a513511d2fe6a33f29de4\transformed\play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
-158
-159        <provider
-159-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\c03fa7bc00a04a375204b573f0966d9f\transformed\emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
-160            android:name="androidx.startup.InitializationProvider"
-160-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\c03fa7bc00a04a375204b573f0966d9f\transformed\emoji2-1.2.0\AndroidManifest.xml:25:13-67
-161            android:authorities="com.example.sfl_mobile.androidx-startup"
-161-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\c03fa7bc00a04a375204b573f0966d9f\transformed\emoji2-1.2.0\AndroidManifest.xml:26:13-68
-162            android:exported="false" >
-162-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\c03fa7bc00a04a375204b573f0966d9f\transformed\emoji2-1.2.0\AndroidManifest.xml:27:13-37
-163            <meta-data
-163-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\c03fa7bc00a04a375204b573f0966d9f\transformed\emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
-164                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-164-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\c03fa7bc00a04a375204b573f0966d9f\transformed\emoji2-1.2.0\AndroidManifest.xml:30:17-75
-165                android:value="androidx.startup" />
-165-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\c03fa7bc00a04a375204b573f0966d9f\transformed\emoji2-1.2.0\AndroidManifest.xml:31:17-49
-166            <meta-data
-166-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Luka\.gradle\caches\transforms-3\0ce9e5f033589fdf0ab757f82f7808ec\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
-167                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-167-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Luka\.gradle\caches\transforms-3\0ce9e5f033589fdf0ab757f82f7808ec\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
-168                android:value="androidx.startup" />
-168-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Luka\.gradle\caches\transforms-3\0ce9e5f033589fdf0ab757f82f7808ec\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
-169        </provider>
-170
-171        <uses-library
-171-->[androidx.window:window:1.0.0] C:\Users\Luka\.gradle\caches\transforms-3\073f10b23065a04cd4c659168bad23fb\transformed\window-1.0.0\AndroidManifest.xml:25:9-27:40
-172            android:name="androidx.window.extensions"
-172-->[androidx.window:window:1.0.0] C:\Users\Luka\.gradle\caches\transforms-3\073f10b23065a04cd4c659168bad23fb\transformed\window-1.0.0\AndroidManifest.xml:26:13-54
-173            android:required="false" />
-173-->[androidx.window:window:1.0.0] C:\Users\Luka\.gradle\caches\transforms-3\073f10b23065a04cd4c659168bad23fb\transformed\window-1.0.0\AndroidManifest.xml:27:13-37
-174        <uses-library
-174-->[androidx.window:window:1.0.0] C:\Users\Luka\.gradle\caches\transforms-3\073f10b23065a04cd4c659168bad23fb\transformed\window-1.0.0\AndroidManifest.xml:28:9-30:40
-175            android:name="androidx.window.sidecar"
-175-->[androidx.window:window:1.0.0] C:\Users\Luka\.gradle\caches\transforms-3\073f10b23065a04cd4c659168bad23fb\transformed\window-1.0.0\AndroidManifest.xml:29:13-51
-176            android:required="false" />
-176-->[androidx.window:window:1.0.0] C:\Users\Luka\.gradle\caches\transforms-3\073f10b23065a04cd4c659168bad23fb\transformed\window-1.0.0\AndroidManifest.xml:30:13-37
-177    </application>
-178
-179</manifest>
+33        android:testOnly="true"
+34        android:theme="@style/Theme.SFLMobile"
+34-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:25:9-47
+35        android:usesCleartextTraffic="true" >
+35-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:26:9-44
+36        <activity
+36-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:28:9-34:20
+37            android:name="com.example.sfl_mobile.EmployeeJobsActivity"
+37-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:29:13-49
+38            android:exported="false" >
+38-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:30:13-37
+39            <meta-data
+39-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:31:13-33:36
+40                android:name="android.app.lib_name"
+40-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:32:17-52
+41                android:value="" />
+41-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:33:17-33
+42        </activity>
+43        <activity
+43-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:35:9-41:20
+44            android:name="com.example.sfl_mobile.EmployeesActivity"
+44-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:36:13-46
+45            android:exported="false" >
+45-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:37:13-37
+46            <meta-data
+46-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:31:13-33:36
+47                android:name="android.app.lib_name"
+47-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:32:17-52
+48                android:value="" />
+48-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:33:17-33
+49        </activity>
+50        <activity
+50-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:42:9-48:20
+51            android:name="com.example.sfl_mobile.ManagerActivity"
+51-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:43:13-44
+52            android:exported="false" >
+52-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:44:13-37
+53            <meta-data
+53-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:31:13-33:36
+54                android:name="android.app.lib_name"
+54-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:32:17-52
+55                android:value="" />
+55-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:33:17-33
+56        </activity>
+57
+58        <provider
+59            android:name="androidx.core.content.FileProvider"
+59-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:51:13-62
+60            android:authorities="com.example.sfl_mobile.provider"
+60-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:52:13-60
+61            android:exported="false"
+61-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:53:13-37
+62            android:grantUriPermissions="true" >
+62-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:54:13-47
+63            <meta-data
+63-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:55:13-57:58
+64                android:name="android.support.FILE_PROVIDER_PATHS"
+64-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:56:17-67
+65                android:resource="@xml/provider_paths" />
+65-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:57:17-55
+66        </provider>
+67
+68        <activity
+68-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:60:9-66:20
+69            android:name="com.example.sfl_mobile.ScannedBarcodeActivity"
+69-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:61:13-51
+70            android:exported="false" >
+70-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:62:13-37
+71            <meta-data
+71-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:31:13-33:36
+72                android:name="android.app.lib_name"
+72-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:32:17-52
+73                android:value="" />
+73-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:33:17-33
+74        </activity>
+75        <activity
+75-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:67:9-73:20
+76            android:name="com.example.sfl_mobile.PictureBarcodeActivity"
+76-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:68:13-51
+77            android:exported="false" >
+77-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:69:13-37
+78            <meta-data
+78-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:31:13-33:36
+79                android:name="android.app.lib_name"
+79-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:32:17-52
+80                android:value="" />
+80-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:33:17-33
+81        </activity>
+82
+83        <meta-data
+83-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:75:9-77:39
+84            android:name="com.google.android.gms.vision.DEPENDENCIES"
+84-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:76:13-70
+85            android:value="barcode" />
+85-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:77:13-36
+86
+87        <activity
+87-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:80:9-86:20
+88            android:name="com.example.sfl_mobile.JobsActivity"
+88-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:81:13-41
+89            android:exported="false" >
+89-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:82:13-37
+90            <meta-data
+90-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:31:13-33:36
+91                android:name="android.app.lib_name"
+91-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:32:17-52
+92                android:value="" />
+92-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:33:17-33
+93        </activity>
+94        <activity
+94-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:87:9-96:20
+95            android:name="com.example.sfl_mobile.ui.login.LoginActivity"
+95-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:88:13-51
+96            android:exported="true"
+96-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:89:13-36
+97            android:label="@string/app_name" >
+97-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:90:13-45
+98            <intent-filter>
+98-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:91:13-95:29
+99                <action android:name="android.intent.action.MAIN" />
+99-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:92:17-69
+99-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:92:25-66
+100
+101                <category android:name="android.intent.category.LAUNCHER" />
+101-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:94:17-77
+101-->G:\Documents\FRI\3. letnik\Interdisciplinary_projects\SFL-TPO\src\mobile\app\src\main\AndroidManifest.xml:94:27-74
+102            </intent-filter>
+103        </activity>
+104
+105        <service
+105-->[com.google.android.gms:play-services-mlkit-barcode-scanning:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\37ee0b4de65fcf3377e14651994a205c\transformed\play-services-mlkit-barcode-scanning-18.1.0\AndroidManifest.xml:9:9-15:19
+106            android:name="com.google.mlkit.common.internal.MlKitComponentDiscoveryService"
+106-->[com.google.android.gms:play-services-mlkit-barcode-scanning:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\37ee0b4de65fcf3377e14651994a205c\transformed\play-services-mlkit-barcode-scanning-18.1.0\AndroidManifest.xml:10:13-91
+107            android:directBootAware="true"
+107-->[com.google.mlkit:common:18.6.0] C:\Users\Luka\.gradle\caches\transforms-3\1501eb73b08720aa91e5a6771fdb3339\transformed\common-18.6.0\AndroidManifest.xml:17:13-43
+108            android:exported="false" >
+108-->[com.google.android.gms:play-services-mlkit-barcode-scanning:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\37ee0b4de65fcf3377e14651994a205c\transformed\play-services-mlkit-barcode-scanning-18.1.0\AndroidManifest.xml:11:13-37
+109            <meta-data
+109-->[com.google.android.gms:play-services-mlkit-barcode-scanning:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\37ee0b4de65fcf3377e14651994a205c\transformed\play-services-mlkit-barcode-scanning-18.1.0\AndroidManifest.xml:12:13-14:85
+110                android:name="com.google.firebase.components:com.google.mlkit.vision.barcode.internal.BarcodeRegistrar"
+110-->[com.google.android.gms:play-services-mlkit-barcode-scanning:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\37ee0b4de65fcf3377e14651994a205c\transformed\play-services-mlkit-barcode-scanning-18.1.0\AndroidManifest.xml:13:17-120
+111                android:value="com.google.firebase.components.ComponentRegistrar" />
+111-->[com.google.android.gms:play-services-mlkit-barcode-scanning:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\37ee0b4de65fcf3377e14651994a205c\transformed\play-services-mlkit-barcode-scanning-18.1.0\AndroidManifest.xml:14:17-82
+112            <meta-data
+112-->[com.google.mlkit:vision-common:17.3.0] C:\Users\Luka\.gradle\caches\transforms-3\9a5f2234b4ef517ba50692a50d062446\transformed\vision-common-17.3.0\AndroidManifest.xml:12:13-14:85
+113                android:name="com.google.firebase.components:com.google.mlkit.vision.common.internal.VisionCommonRegistrar"
+113-->[com.google.mlkit:vision-common:17.3.0] C:\Users\Luka\.gradle\caches\transforms-3\9a5f2234b4ef517ba50692a50d062446\transformed\vision-common-17.3.0\AndroidManifest.xml:13:17-124
+114                android:value="com.google.firebase.components.ComponentRegistrar" />
+114-->[com.google.mlkit:vision-common:17.3.0] C:\Users\Luka\.gradle\caches\transforms-3\9a5f2234b4ef517ba50692a50d062446\transformed\vision-common-17.3.0\AndroidManifest.xml:14:17-82
+115            <meta-data
+115-->[com.google.mlkit:common:18.6.0] C:\Users\Luka\.gradle\caches\transforms-3\1501eb73b08720aa91e5a6771fdb3339\transformed\common-18.6.0\AndroidManifest.xml:20:13-22:85
+116                android:name="com.google.firebase.components:com.google.mlkit.common.internal.CommonComponentRegistrar"
+116-->[com.google.mlkit:common:18.6.0] C:\Users\Luka\.gradle\caches\transforms-3\1501eb73b08720aa91e5a6771fdb3339\transformed\common-18.6.0\AndroidManifest.xml:21:17-120
+117                android:value="com.google.firebase.components.ComponentRegistrar" />
+117-->[com.google.mlkit:common:18.6.0] C:\Users\Luka\.gradle\caches\transforms-3\1501eb73b08720aa91e5a6771fdb3339\transformed\common-18.6.0\AndroidManifest.xml:22:17-82
+118        </service>
+119        <service
+119-->[androidx.camera:camera-camera2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\e26dd164b04ef4c900740fd98e556d29\transformed\camera-camera2-1.2.0\AndroidManifest.xml:24:9-33:19
+120            android:name="androidx.camera.core.impl.MetadataHolderService"
+120-->[androidx.camera:camera-camera2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\e26dd164b04ef4c900740fd98e556d29\transformed\camera-camera2-1.2.0\AndroidManifest.xml:25:13-75
+121            android:enabled="false"
+121-->[androidx.camera:camera-camera2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\e26dd164b04ef4c900740fd98e556d29\transformed\camera-camera2-1.2.0\AndroidManifest.xml:26:13-36
+122            android:exported="false" >
+122-->[androidx.camera:camera-camera2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\e26dd164b04ef4c900740fd98e556d29\transformed\camera-camera2-1.2.0\AndroidManifest.xml:27:13-37
+123            <meta-data
+123-->[androidx.camera:camera-camera2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\e26dd164b04ef4c900740fd98e556d29\transformed\camera-camera2-1.2.0\AndroidManifest.xml:30:13-32:89
+124                android:name="androidx.camera.core.impl.MetadataHolderService.DEFAULT_CONFIG_PROVIDER"
+124-->[androidx.camera:camera-camera2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\e26dd164b04ef4c900740fd98e556d29\transformed\camera-camera2-1.2.0\AndroidManifest.xml:31:17-103
+125                android:value="androidx.camera.camera2.Camera2Config$DefaultProvider" />
+125-->[androidx.camera:camera-camera2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\e26dd164b04ef4c900740fd98e556d29\transformed\camera-camera2-1.2.0\AndroidManifest.xml:32:17-86
+126        </service>
+127
+128        <provider
+128-->[com.google.mlkit:common:18.6.0] C:\Users\Luka\.gradle\caches\transforms-3\1501eb73b08720aa91e5a6771fdb3339\transformed\common-18.6.0\AndroidManifest.xml:9:9-13:38
+129            android:name="com.google.mlkit.common.internal.MlKitInitProvider"
+129-->[com.google.mlkit:common:18.6.0] C:\Users\Luka\.gradle\caches\transforms-3\1501eb73b08720aa91e5a6771fdb3339\transformed\common-18.6.0\AndroidManifest.xml:10:13-78
+130            android:authorities="com.example.sfl_mobile.mlkitinitprovider"
+130-->[com.google.mlkit:common:18.6.0] C:\Users\Luka\.gradle\caches\transforms-3\1501eb73b08720aa91e5a6771fdb3339\transformed\common-18.6.0\AndroidManifest.xml:11:13-69
+131            android:exported="false"
+131-->[com.google.mlkit:common:18.6.0] C:\Users\Luka\.gradle\caches\transforms-3\1501eb73b08720aa91e5a6771fdb3339\transformed\common-18.6.0\AndroidManifest.xml:12:13-37
+132            android:initOrder="99" />
+132-->[com.google.mlkit:common:18.6.0] C:\Users\Luka\.gradle\caches\transforms-3\1501eb73b08720aa91e5a6771fdb3339\transformed\common-18.6.0\AndroidManifest.xml:13:13-35
+133
+134        <service
+134-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Luka\.gradle\caches\transforms-3\5e939e43f9fb3b37eed2777122c97229\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:29:9-35:19
+135            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+135-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Luka\.gradle\caches\transforms-3\5e939e43f9fb3b37eed2777122c97229\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:30:13-103
+136            android:exported="false" >
+136-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Luka\.gradle\caches\transforms-3\5e939e43f9fb3b37eed2777122c97229\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:31:13-37
+137            <meta-data
+137-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Luka\.gradle\caches\transforms-3\5e939e43f9fb3b37eed2777122c97229\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:32:13-34:39
+138                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+138-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Luka\.gradle\caches\transforms-3\5e939e43f9fb3b37eed2777122c97229\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:33:17-94
+139                android:value="cct" />
+139-->[com.google.android.datatransport:transport-backend-cct:2.3.3] C:\Users\Luka\.gradle\caches\transforms-3\5e939e43f9fb3b37eed2777122c97229\transformed\transport-backend-cct-2.3.3\AndroidManifest.xml:34:17-36
+140        </service>
+141        <service
+141-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Luka\.gradle\caches\transforms-3\5dd318eb742e82081cb9554078901618\transformed\transport-runtime-2.2.6\AndroidManifest.xml:26:9-30:19
+142            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+142-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Luka\.gradle\caches\transforms-3\5dd318eb742e82081cb9554078901618\transformed\transport-runtime-2.2.6\AndroidManifest.xml:27:13-117
+143            android:exported="false"
+143-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Luka\.gradle\caches\transforms-3\5dd318eb742e82081cb9554078901618\transformed\transport-runtime-2.2.6\AndroidManifest.xml:28:13-37
+144            android:permission="android.permission.BIND_JOB_SERVICE" >
+144-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Luka\.gradle\caches\transforms-3\5dd318eb742e82081cb9554078901618\transformed\transport-runtime-2.2.6\AndroidManifest.xml:29:13-69
+145        </service>
+146
+147        <receiver
+147-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Luka\.gradle\caches\transforms-3\5dd318eb742e82081cb9554078901618\transformed\transport-runtime-2.2.6\AndroidManifest.xml:32:9-34:40
+148            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+148-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Luka\.gradle\caches\transforms-3\5dd318eb742e82081cb9554078901618\transformed\transport-runtime-2.2.6\AndroidManifest.xml:33:13-132
+149            android:exported="false" />
+149-->[com.google.android.datatransport:transport-runtime:2.2.6] C:\Users\Luka\.gradle\caches\transforms-3\5dd318eb742e82081cb9554078901618\transformed\transport-runtime-2.2.6\AndroidManifest.xml:34:13-37
+150
+151        <activity
+151-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\75e11374b42ba83fd12d55e4ccb129ba\transformed\play-services-base-18.1.0\AndroidManifest.xml:20:9-22:45
+152            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+152-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\75e11374b42ba83fd12d55e4ccb129ba\transformed\play-services-base-18.1.0\AndroidManifest.xml:20:19-85
+153            android:exported="false"
+153-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\75e11374b42ba83fd12d55e4ccb129ba\transformed\play-services-base-18.1.0\AndroidManifest.xml:22:19-43
+154            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+154-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\75e11374b42ba83fd12d55e4ccb129ba\transformed\play-services-base-18.1.0\AndroidManifest.xml:21:19-78
+155
+156        <meta-data
+156-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\22101baaa08a513511d2fe6a33f29de4\transformed\play-services-basement-18.1.0\AndroidManifest.xml:21:9-23:69
+157            android:name="com.google.android.gms.version"
+157-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\22101baaa08a513511d2fe6a33f29de4\transformed\play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
+158            android:value="@integer/google_play_services_version" />
+158-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\Luka\.gradle\caches\transforms-3\22101baaa08a513511d2fe6a33f29de4\transformed\play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
+159
+160        <provider
+160-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\c03fa7bc00a04a375204b573f0966d9f\transformed\emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+161            android:name="androidx.startup.InitializationProvider"
+161-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\c03fa7bc00a04a375204b573f0966d9f\transformed\emoji2-1.2.0\AndroidManifest.xml:25:13-67
+162            android:authorities="com.example.sfl_mobile.androidx-startup"
+162-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\c03fa7bc00a04a375204b573f0966d9f\transformed\emoji2-1.2.0\AndroidManifest.xml:26:13-68
+163            android:exported="false" >
+163-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\c03fa7bc00a04a375204b573f0966d9f\transformed\emoji2-1.2.0\AndroidManifest.xml:27:13-37
+164            <meta-data
+164-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\c03fa7bc00a04a375204b573f0966d9f\transformed\emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+165                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+165-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\c03fa7bc00a04a375204b573f0966d9f\transformed\emoji2-1.2.0\AndroidManifest.xml:30:17-75
+166                android:value="androidx.startup" />
+166-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Luka\.gradle\caches\transforms-3\c03fa7bc00a04a375204b573f0966d9f\transformed\emoji2-1.2.0\AndroidManifest.xml:31:17-49
+167            <meta-data
+167-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Luka\.gradle\caches\transforms-3\0ce9e5f033589fdf0ab757f82f7808ec\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
+168                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+168-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Luka\.gradle\caches\transforms-3\0ce9e5f033589fdf0ab757f82f7808ec\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
+169                android:value="androidx.startup" />
+169-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Luka\.gradle\caches\transforms-3\0ce9e5f033589fdf0ab757f82f7808ec\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
+170        </provider>
+171
+172        <uses-library
+172-->[androidx.window:window:1.0.0] C:\Users\Luka\.gradle\caches\transforms-3\073f10b23065a04cd4c659168bad23fb\transformed\window-1.0.0\AndroidManifest.xml:25:9-27:40
+173            android:name="androidx.window.extensions"
+173-->[androidx.window:window:1.0.0] C:\Users\Luka\.gradle\caches\transforms-3\073f10b23065a04cd4c659168bad23fb\transformed\window-1.0.0\AndroidManifest.xml:26:13-54
+174            android:required="false" />
+174-->[androidx.window:window:1.0.0] C:\Users\Luka\.gradle\caches\transforms-3\073f10b23065a04cd4c659168bad23fb\transformed\window-1.0.0\AndroidManifest.xml:27:13-37
+175        <uses-library
+175-->[androidx.window:window:1.0.0] C:\Users\Luka\.gradle\caches\transforms-3\073f10b23065a04cd4c659168bad23fb\transformed\window-1.0.0\AndroidManifest.xml:28:9-30:40
+176            android:name="androidx.window.sidecar"
+176-->[androidx.window:window:1.0.0] C:\Users\Luka\.gradle\caches\transforms-3\073f10b23065a04cd4c659168bad23fb\transformed\window-1.0.0\AndroidManifest.xml:29:13-51
+177            android:required="false" />
+177-->[androidx.window:window:1.0.0] C:\Users\Luka\.gradle\caches\transforms-3\073f10b23065a04cd4c659168bad23fb\transformed\window-1.0.0\AndroidManifest.xml:30:13-37
+178    </application>
+179
+180</manifest>

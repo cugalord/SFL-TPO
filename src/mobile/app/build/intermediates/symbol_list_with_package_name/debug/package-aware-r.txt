@@ -3474,11 +3474,6 @@ mipmap ic_launcher
 mipmap ic_launcher_round
 navigation mobile_navigation
 plurals mtrl_badge_content_description
-raw _clocklogo
-raw _hardhatlogo
-raw _parcellogo
-raw _ticklogo
-raw _trucklogo
 raw clocklogo
 raw hardhatlogo
 raw logo
