@@ -28,7 +28,7 @@ The Database consists of 14 tables:
 - `country`
 - `street`
 
-![image](https://github.com/cugalord/SFL-TPO/blob/main/docs/database/SFl_er_model.png)
+![image](https://github.com/cugalord/SFL-TPO/blob/main/docs/database/SFL_er_model.png)
 
 ## 3. Procedures
 Procedures are located in `procedures.sql` and are almost exclusively used when other modules are accessing the database. Because of the route algorithm the majority of the logic is baked in the [core](https://github.com/cugalord/SFL-TPO/tree/main/src/core) module.
