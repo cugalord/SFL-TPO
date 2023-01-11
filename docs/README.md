@@ -61,6 +61,7 @@ Zaposlenemu se glede na njegovo vlogo v podjetju (uporabniška hierarhija) odpre
 - Skladiščniki in vozniki vidijo svoja opravila, ki jih morajo opraviti (to naredijo z skeniranjem QR kode paketa).
 - Vodja skladišča lahko vidi pregled nad celotnim skladiščem (kjer je zaposlen).
 
+![mobile](mobile/SFL_mobile_activity.png)
 Zaslonske slike so dostopne na [povezavi](https://github.com/cugalord/SFL-TPO/tree/main/docs/mobile).
 
 ## Možne nadgradnje
