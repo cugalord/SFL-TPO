@@ -14,6 +14,9 @@ Informacijski sistem za logistično podporo kurirski službi
 ## Uvod:
 Z informacijskim sistemom smo podprli delo v kurirski službi. Sistem omogoča check in paketov v skladišča, pregled nad paketi v skladišču, potrjevanje tovora med premikanjem iz skladišč in pred dostavo, potrjevanje dostave paketa za podjetje in sledenje paketa, ter spremembo naslova dostave za stranke podjetja. Uporabniki sistema so zaposleni in stranke podjetja.
 
+Sistem podpira dostavo v 33 držav.
+![area](general/SFL_area.png)
+
 Opravila opravljajo uporabniki glede na njihove vloge:
 - Warehouse manager
 - Warehouse agent
@@ -65,12 +68,12 @@ Zaposlenemu se glede na njegovo vlogo v podjetju (uporabniška hierarhija) odpre
 Zaslonske slike so dostopne na [povezavi](https://github.com/cugalord/SFL-TPO/tree/main/docs/mobile).
 
 ## Možne nadgradnje
-Zaposlenemu se glede na njegovo vlogo v podjetju (uporabniška hierarhija) odprejo različna opravila:
+Možne nadgradnje za $$$:
 - optimizacija routing algoritma
 - lepši izgled mobilne aplikacije za zaposlene
 - lepši izgled spletne aplikacije
 - spletna aplikacija za zaposlene
 - mobilna aplikacija za stranke
-- OLAP storitve az logistike (grafana, olap kocka...)
+- OLAP storitve ZA logistike (grafana, olap kocka...)
 
 ![rich_nibbas](https://img.nftically.com/mainnets-assets/assets/0d397b45-e761-429d-bf0a-973c288117d7/57dee7db7cae4f8e9f342f5d3dd9a140/E-h8j20XMAMco5d.jpg?tr=n-item_page_preview,q-80)
